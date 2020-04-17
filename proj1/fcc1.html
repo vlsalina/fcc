@@ -1,74 +1,23 @@
+<script src="https://cdn.freecodecamp.org/testable-projects-fcc/v1/bundle.js"></script>
+
 <!DOCTYPE html>
 <html>
 <head>
 <title>FCC: Tribute Page</title>
-<style>
-
-* {
-  box-sizing: border-box;
-}
-
-#title { grid-area: header; }
-#img_div {grid-area: image; }
-#tribute-info {grid-area: info; }
-#conclusion { grid-area: conclusion; }
-#footer {grid-area: footer; }
-
-.grid-container {
-  display: grid;
-  grid-template-areas:
-    'header header header header'
-    'image image image image'
-    '. info info .'
-    '. conclusion conclusion .'
-    'footer footer footer footer';
-  padding: 10px;
-  grid-template-columns: 25% 25% 25% 25%;
-}
-
-.grid-container {
-  background-color: lightgrey;
-}
-
-#title, #img_div, #conclusion, #footer {
-  text-align: center;
-}
-
-#tribute-info #info ul li {
-  padding-bottom: 20px;
-  line-height: 20px;
-  
-}
-
-#tribute-info {
-  padding-top: 20px;
-}
-
-
-#img_div {
-  background-color: white;
-}
-
-img {
-  padding: 20px;
-  width: 100%;
-  height: auto;
-}
-
-</style>
+<link rel="stylesheet" href="https://yourwebsite.com/style.css">
 
 </head>
 
 <body>
 
-<div class="grid-container">
+<div id="main">
   <div id="title">
     <h1>Dr.Norman Borlaug</h1>
     <p>The man who saved a billion lives</p>
   </div>
 
-  <div id="img_div">
-    <img src="pic1.jpg">
+  <div id="img-div">
+    <img src="https://www.npofocus.nl/thumbs/i/14000/mod_media_image/14105.w1913.0.c9cc1fa.png" id="image">
     <div id="img-caption">
       <p>Dr.Norman Borlaug, third from the left, trains biologists in Mexico on
          how to increase wheat yields - part of his life-long war on hunger.</p>
@@ -111,9 +60,11 @@ img {
   </div>
 
   <div id="footer">
-	<h2>If you have time, you should read more about this incredible human being on his <a href="https://en.wikipedia.org/wiki/Norman_Borlaug" target="_blank">Wikipedia entry.</a></h2>
+	<h2>If you have time, you should read more about this incredible human being on his <a href="https://en.wikipedia.org/wiki/Norman_Borlaug" target="_blank" id="tribute-link">Wikipedia entry.</a></h2>
   </div>
 </div>
 
 </body>
 </html>
+
+
