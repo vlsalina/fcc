@@ -1,0 +1,33 @@
+* {
+	box-sizing: border-box;
+}
+
+#header { grid-area: header; }
+#survey { grid-area: survey; }
+
+body {
+	background: url("https://www.ecopetit.cat/wpic/mpic/28-283523_amsterdam-high-definition-wallpapers-10-most-beautiful-cities.jpg") no-repeat center fixed;
+	background-size: cover;
+
+}
+
+
+.grid-container {
+	display: grid;
+	grid-template-areas:
+		'. header .'
+		'. survey .';
+	grid-template-columns: 33.33% 33.33% 33.33%;
+}
+
+#header {
+	text-align: center;
+	color: white;
+}
+
+#survey {
+	background-color: darkblue;
+	color: white;
+	padding: 20px;
+}
+

@@ -1,0 +1,31 @@
+function whatIsInAName(collection, source) {
+  var arr = [];
+  // Only change code below this line
+  let collection_len = collection.length;
+  for (let i = 0; i < collection_len; i++) { 
+	let so_far = false;
+	for (var x in source) {
+		if (!collection[i].hasOwnProperty(x)) {
+			so_far = false;
+			break;
+		 } else {
+			if (collection[i][x] == source[x]) {
+				so_far = true;;	
+			} else {
+				so_far = false;
+				break;
+			}
+			
+		}
+
+	}
+	if (so_far == true) {
+		arr.push(collection[i]);
+	}
+
+  }
+  // Only change code above this line
+  return arr;
+}
+
+whatIsInAName([{ first: "Romeo", last: "Montague" }, { first: "Mercutio", last: null }, { first: "Tybalt", last: "Capulet" }], { last: "Capulet" });

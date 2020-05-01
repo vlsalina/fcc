@@ -1,0 +1,13 @@
+function destroyer(arr) {
+	let [ra, ...args] = arguments;
+	let len = ra.length;
+	let newArr = [];
+	for (let i = 0; i < len; i++) {
+		if (!args.includes(ra[i])) {
+			newArr.push(ra[i]);	
+		}
+	}
+	return newArr;
+}
+
+destroyer([1, 2, 3, 1, 2, 3], 2, 3);

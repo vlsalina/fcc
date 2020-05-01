@@ -1,0 +1,16 @@
+function dropElements(arr, func) {
+
+  let index = -1;
+  let len = arr.length;
+  for (let i = 0; i < len; i++) {
+    if (func(arr[i])) {
+      index = i;
+      break;
+    }
+  } 
+  let ra = (index >= 0) ? arr.slice(index) : [];
+
+  return ra;
+}
+
+dropElements([1, 2, 3], function(n) {return n < 3; });

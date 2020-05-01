@@ -1,0 +1,89 @@
+function checkCashRegister(price, cash, cid) {
+  let change = cash - price;
+  let cents = change % 1;
+  cents = parseFloat(cents.toFixed(2));
+  let dollars = change - cents; 
+
+ let curr_dollars = 0;
+  let ra = [];
+
+  let total_in_register = 0; 
+  cid.forEach(function(e) {
+    total_in_register += e[1];
+  });
+  
+  if (total_in_register < change) {
+    return {status: "INSUFFICIENT_FUNDS", change: ra};
+  } else if (total_in_register == change) {
+    return {status: "CLOSED", change: cid}; 
+  } 
+
+
+  for (let i = 8; i >= 4; i--) {
+
+    if (dollars >= cid[i][1]) {
+      let took_out = cid[i][1]; 
+      ra.push([cid[i][0], took_out]);
+      dollars = dollars - cid[i][1];
+    } else {
+      let denomination;
+      switch (cid[i][0]) {
+         case "ONE HUNDRED": denomination = 100; break;
+         case "TWENTY": denomination = 20; break;
+         case "TEN": denomination = 10; break;
+         case "FIVE": denomination = 5; break;
+         case "ONE": denomination = 1; break;
+         case "QUARTER": denomination = 0.25; break;
+         case "DIME": denomination = .10; break;
+         case "NICKEL": denomination = .05; break;
+         case "PENNY": denomination = 0.01; break;
+      }
+
+      if ((dollars / denomination) >= 1) {
+        let took_out = Math.floor(dollars / denomination) * denomination; 
+        ra.push([cid[i][0], took_out]);
+	dollars = dollars - took_out;
+      } 
+    } 
+
+  }
+
+  for (let i = 3; i >= 0; i--) {
+
+    if (cents >= cid[i][1]) {
+      let took_out = cid[i][1]; 
+      ra.push([cid[i][0], took_out]);
+      dollars = dollars - cid[i][1];
+    } else {
+      let denomination;
+      switch (cid[i][0]) {
+         case "ONE HUNDRED": denomination = 100; break;
+         case "TWENTY": denomination = 20; break;
+         case "TEN": denomination = 10; break;
+         case "FIVE": denomination = 5; break;
+         case "ONE": denomination = 1; break;
+         case "QUARTER": denomination = 0.25; break;
+         case "DIME": denomination = .10; break;
+         case "NICKEL": denomination = .05; break;
+         case "PENNY": denomination = 0.01; break;
+      }
+      cents = parseFloat(cents.toFixed(2))
+      if ((cents / denomination) >= 1) {
+        let took_out = Math.floor(cents / denomination) * denomination; 
+        ra.push([cid[i][0], took_out]);
+	cents = cents - took_out;
+      } 
+    } 
+
+  }
+  
+  if (dollars != 0 && cents != 0) {
+   return {status: "INSUFFICIENT_FUNDS", change: []};
+  }
+
+  return {status: "OPEN", change: ra}; 
+  
+}
+
+
+checkCashRegister(19.5, 20, [["PENNY", 1.01], ["NICKEL", 2.05], ["DIME", 3.1], ["QUARTER", 4.25], ["ONE", 90], ["FIVE", 55], ["TEN", 20], ["TWENTY", 60], ["ONE HUNDRED", 100]]);

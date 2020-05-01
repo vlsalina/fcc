@@ -1,0 +1,21 @@
+function pairElement(str) {
+
+  let pairs = [];
+  let ra = str.split("");
+  ra.forEach(function(e) {
+    if (e == 'A') {
+      pairs.push(["A","T"]);
+    } else if (e == 'T') {
+      pairs.push(["T","A"]); 
+    } else if (e == 'C') {
+      pairs.push(["C","G"]);
+    } else if (e == 'G') {
+      pairs.push(["G","C"]);
+    } 
+   
+  });
+
+  return pairs;
+}
+
+pairElement("GCG");
