@@ -11,6 +11,7 @@ class App extends React.Component {
       bgColor: ''
     }
     this.handleClick = this.handleClick.bind(this);
+    this.changeColors = this.changeColors.bind(this);
   }
 
   handleClick() {
@@ -19,6 +20,18 @@ class App extends React.Component {
     this.setState({
       idx: id
     })
+  }
+
+  changeColors() {
+    let len = quotes.length;
+
+    let red = Math.floor(Math.random() * len); 
+    let green = Math.floor(Math.random() * len); 
+    let blue = Math.floor(Math.random() * len); 
+
+    let bg = document.getElementsByClassName("App");
+    bg.style.background = "green";
+
   }
 
   
@@ -35,7 +48,7 @@ class App extends React.Component {
           <h4>--{quotes[this.state.idx].author}</h4>
           </div>
 
-          <button onClick={() => this.handleClick()}>New Quote</button>
+          <button onClick={() => { this.handleClick(); this.changeColors(); }}>New Quote</button>
 
         </div>
       </div>
