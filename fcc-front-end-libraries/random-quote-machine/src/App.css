@@ -1,3 +1,28 @@
+html {
+  background: blue;
+}
+
+.container {
+  width: 1000px;
+  border: 10px solid white;
+  background: white;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);  
+  box-sizing: border-box;
+  padding: 50px; 
+  height: 400px;
+  border-radius: 15px;
+}
+
+.author {
+  display: flex;
+  justify-content: flex-end;
+  padding-right: 150px;
+  
+}
+
 .App {
   text-align: center;
 }
@@ -5,6 +30,10 @@
 .App-logo {
   height: 40vmin;
   pointer-events: none;
+}
+
+.container {
+  background: ;
 }
 
 @media (prefers-reduced-motion: no-preference) {
