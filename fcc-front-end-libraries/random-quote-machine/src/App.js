@@ -2,16 +2,21 @@ import React from 'react';
 import logo from './logo.svg';
 import './App.css';
 import { quotes } from './quotes';
+import { hex } from './hex';
+
+const LEN = hex.length;
+
+var randomColor = require('randomcolor');
 
 class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      idx: 0,
-      bgColor: ''
+      idx: Math.floor(Math.random() * quotes.length),
+      newColor: "#4F0AD1"
     }
     this.handleClick = this.handleClick.bind(this);
-    this.changeColors = this.changeColors.bind(this);
+    this.getNewColor = this.getNewColor.bind(this);
   }
 
   handleClick() {
@@ -22,33 +27,28 @@ class App extends React.Component {
     })
   }
 
-  changeColors() {
-    let len = quotes.length;
-
-    let red = Math.floor(Math.random() * len); 
-    let green = Math.floor(Math.random() * len); 
-    let blue = Math.floor(Math.random() * len); 
-
-    let bg = document.getElementsByClassName("App");
-    bg.style.background = "green";
-
+  getNewColor() {
+    let c = randomColor();
+    this.setState({
+      newColor: c
+    }) 
   }
 
-  
   render() {
+   
     return (
-      <div className="App">
+      <div style={{backgroundColor: this.state.newColor }} className="App transition">
         <div className="container">
 
-          <div className="quote">
+          <div style={{color: this.state.newColor}} className="quote trans_txt">
           <h1>"{quotes[this.state.idx].quote}"</h1>
           </div>
 
-          <div className="author">
+          <div style={{color: this.state.newColor}} className="author trans_txt">
           <h4>--{quotes[this.state.idx].author}</h4>
           </div>
 
-          <button onClick={() => { this.handleClick(); this.changeColors(); }}>New Quote</button>
+          <button style={{background: this.state.newColor}} onClick={() => { this.handleClick(); this.getNewColor();} }>New Quote</button>
 
         </div>
       </div>
