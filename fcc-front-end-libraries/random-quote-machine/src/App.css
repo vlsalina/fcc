@@ -37,6 +37,7 @@ button {
 .quote {
   width: 800px;
   height: 150px;
+  
 }
 
 .author {
@@ -44,6 +45,17 @@ button {
   justify-content: flex-end;
   padding-right: 150px;
 }
+
+.trans_opac {
+  animation: mymove 1.5s;
+}
+
+@keyframes mymove {
+  0% { opacity: 1; }
+  50% { opacity: 0; }
+  100% { opacity: 1; }
+}
+
 
 .App {
   text-align: center;
