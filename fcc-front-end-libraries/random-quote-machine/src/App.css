@@ -12,7 +12,7 @@
   border-radius: 15px;
 }
 
-button {
+#newQuote {
   border: none;
   color: white;
   padding: 15px 32px;
@@ -24,8 +24,27 @@ button {
   border-radius: 10px;
   outline: none;
   transition: background 1.5s;
+  position: absolute;
+  top: 75%;
+  transform: translate(-50%);
 }
 
+.button-pos {
+  width: 5%;
+  position: absolute;
+  top: 75%;
+  border-radius: 10px;
+}
+
+
+#tumblr-quote {
+  left: 11%;
+}
+
+img {
+  width: 100%;
+}
+  
 .trans_bg {
   transition: background 1.5s;
 }
@@ -34,16 +53,19 @@ button {
   transition: color 1.5s;
 }
 
-.quote {
-  width: 800px;
-  height: 150px;
-  
+.quote h1 {
+  width: 75%;
+  height: 50%;
+  position: absolute;
+  left: 50%;
+  top: 40%;
+  transform: translate(-50%, -50%);
 }
 
 .author {
-  display: flex;
-  justify-content: flex-end;
-  padding-right: 150px;
+  position: absolute;
+  top: 60%;
+  left: 70%;
 }
 
 .trans_opac {
