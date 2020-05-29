@@ -41,6 +41,7 @@ class App extends React.Component {
     $("button").click(function() {
       $("h1, h4").addClass("trans_opac");
       $("tweet-quote").addClass("trans_opac");
+      $("tumblr-quote").addClass("trans_opac");
       setTimeout(function() {
         $("h1, h4").removeClass("trans_opac");
       }, 1500);
@@ -62,13 +63,13 @@ class App extends React.Component {
           </div>
   
           <div id="tweet-quote" className="button-pos trans_bg" style={{backgroundColor: this.state.newColor}} >     
-            <a href="twitter.com/intent/tweet">
+            <a href="https://twitter.com/" target="_blank" >
               <img src={twitter} alt="Twitter.com" />
             </a>
           </div>
 
           <div id="tumblr-quote" className="button-pos trans_bg" style={{backgroundColor: this.state.newColor}} >     
-            <a href="twitter.com/intent/tweet">
+            <a href="https://tumblr.com/" target="_blank" >
               <img src={tumblr} alt="Tumblr.com" />
             </a>
           </div>
