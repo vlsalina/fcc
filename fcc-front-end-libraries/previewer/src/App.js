@@ -60,6 +60,7 @@ class App extends React.Component {
     this.state = {
       input: "",
       placeholder: placeholder
+      
     };
     this.handleEvent = this.handleEvent.bind(this);
   }

@@ -5,6 +5,7 @@
   "keywords": [],
   "main": "src/index.js",
   "dependencies": {
+    "innerhtml": "^1.0.2",
     "jquery": "3.5.1",
     "marked": "1.1.0",
     "react": "16.12.0",
