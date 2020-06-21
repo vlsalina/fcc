@@ -58,16 +58,16 @@ class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      input: "",
-      placeholder: placeholder
-      
+      input: placeholder 
     };
     this.handleEvent = this.handleEvent.bind(this);
   }
 
-  handleEvent() {
+  handleEvent(e) {
     let outputText = $("textarea").val();
-    document.getElementById("myFrame").innerHTML = marked(outputText);
+    this.setState({
+      input: outputText
+    });
   }
 
   render() {
@@ -81,13 +81,16 @@ class App extends React.Component {
         <div className="flex-container">
           <div className="col">
             <textarea
-              placeholder="Type HTML or text here..."
+              value={this.state.input}
               onChange={() => this.handleEvent()}
             />
           </div>
 
           <div className="col display">
-            <div id="myFrame" />
+            <div
+              id="myFrame"
+              dangerouslySetInnerHTML={{ __html: marked(this.state.input) }}
+            />
           </div>
         </div>
       </div>
