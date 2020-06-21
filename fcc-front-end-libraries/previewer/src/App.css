@@ -10,7 +10,7 @@ body {
   height: 100%;
 }
 
-a {
+.topnav a {
   text-decoration: none;
   color: white;
   background-color: black;
