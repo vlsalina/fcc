@@ -24,7 +24,7 @@
   background-color: dodgerblue;
   display: flex;
   flex-direction: column;
-  justify-content: space-evenly;
+  justify-content: space-around;
 }
 
 #controls {
@@ -35,7 +35,7 @@
 
 .row {
   display: flex;
-  justify-content: space-evenly;
+  justify-content: space-around;
 }
 
 .App-logo {
