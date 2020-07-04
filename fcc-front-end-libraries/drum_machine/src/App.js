@@ -14,62 +14,131 @@ import sound9 from "./sounds/203466__tesabob2001__c-3.mp3";
 
 import sound10 from "./sounds/203467__tesabob2001__b5.mp3";
 import sound11 from "./sounds/203468__tesabob2001__f3.mp3";
-import sound12 from "./sounds/203469__tesabob2001__f4.mp3";
+import sound12 from "./sounds/203476__tesabob2001__e5.mp3";
 import sound13 from "./sounds/203470__tesabob2001__e3.mp3";
 import sound14 from "./sounds/203471__tesabob2001__e4.mp3";
 import sound15 from "./sounds/203472__tesabob2001__d4.mp3";
 import sound16 from "./sounds/203473__tesabob2001__d5.mp3";
-import sound17 from "./sounds/203474__tesabob2001__f-4.mp3";
-import sound18 from "./sounds/203475__tesabob2001__f-5.mp3";
-
-const note = (e) => {
-  switch(e) {
-    case 81: return sound1;
-    case 87: return sound2;
-    case 69: return sound3;
-    case 65: return sound4;
-    case 83: return sound5;
-    case 68: return sound6;
-    case 90: return sound7;
-    case 88: return sound8;
-    case 67: return sound9;
-    default: return;
-  }  
-}
+import sound17 from "./sounds/203479__tesabob2001__c3.mp3";
+import sound18 from "./sounds/203478__tesabob2001__c4-middle-c.mp3";
 
 class App extends React.Component {
   constructor(props) {
     super(props);
-    this.handleClick = this.handleClick.bind(this);
+    this.state = {
+      power: true,
+      notes: true
+    };
+    this.notes = this.notes.bind(this);
+    this.handleKeyPress = this.handleKeyPress.bind(this);
+    this.handleClick1 = this.handleClick1.bind(this);
+    this.handleClick2 = this.handleClick2.bind(this);
   }
 
-
-  handleClick(e) {
-    const audio = new Audio(note(e.keyCode));
+  handleKeyPress(e) {
+    const audio = new Audio(this.notes(e.keyCode));
     if (!audio) return;
 
     audio.currentTime = 0;
     audio.play();
   }
 
+  handleClick1() {
+    if (this.state.power == true) {
+      document.getElementById("s1").style.transform = "translate(-95%, -50%)";
+      this.setState({
+        power: false
+      });
+    } else {
+      document.getElementById("s1").style.transform = "translate(-5%, -50%)";
+      this.setState({
+        power: true
+      });
+    }
+  }
+
+  notes(e) {
+    if (this.state.notes == true) {
+      switch (e) {
+        case 81:
+          return sound10;
+        case 87:
+          return sound11;
+        case 69:
+          return sound12;
+        case 65:
+          return sound13;
+        case 83:
+          return sound14;
+        case 68:
+          return sound15;
+        case 90:
+          return sound16;
+        case 88:
+          return sound17;
+        case 67:
+          return sound18;
+        default:
+          return;
+      }
+    } else {
+      switch (e) {
+        case 81:
+          return sound1;
+        case 87:
+          return sound2;
+        case 69:
+          return sound3;
+        case 65:
+          return sound4;
+        case 83:
+          return sound5;
+        case 68:
+          return sound6;
+        case 90:
+          return sound7;
+        case 88:
+          return sound8;
+        case 67:
+          return sound9;
+        default:
+          return;
+      }
+    }
+  }
+
+  handleClick2() {
+    if (this.state.notes == true) {
+      document.getElementById("s2").style.transform = "translate(-95%, -50%)";
+      this.setState({
+        notes: false
+      });
+    } else {
+      document.getElementById("s2").style.transform = "translate(-5%, -50%)";
+      this.setState({
+        notes: true
+      });
+    }
+  }
+
   componentWillMount() {
-    document.addEventListener("keydown", this.handleClick);
+    document.addEventListener("keydown", this.handleKeyPress);
   }
 
   componentWillUnmount() {
-    document.removeEventListener("keydown", this.handleClick);
-  } 
+    document.removeEventListener("keydown", this.handleKeyPress);
+  }
 
   render() {
     return (
       <div className="App">
-        <div id="demo"></div>
+        <div id="demo" />
         <div id="drum-machine">
           <div id="buttons" className="">
             <div className="row">
               <button id="Q" type="button">
                 Q
-              </button> 
+              </button>
               <button id="W" type="button">
                 W
               </button>
@@ -102,10 +171,33 @@ class App extends React.Component {
               </button>
             </div>
           </div>
-          <div id="controls" className="" />
+
+          <div className="controls">
+            <div class="inner" onClick={() => this.handleClick1()}>
+              <h3>Power</h3>
+              <div class="switch">
+                <div class="black">
+                  <div id="s1" class="blue" />
+                </div>
+              </div>
+            </div>
+
+            <div class="inner" />
+
+            <div class="inner" />
+
+            <div class="inner" onClick={() => this.handleClick2()}>
+              <h3>Notes</h3>
+              <div class="switch">
+                <div class="black">
+                  <div id="s2" class="blue" />
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
-    )
+    );
   }
 }
 
