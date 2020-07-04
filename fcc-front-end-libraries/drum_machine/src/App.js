@@ -27,7 +27,7 @@ class App extends React.Component {
     super(props);
     this.state = {
       power: true,
-      notes: true
+      notes: true,
     };
     this.notes = this.notes.bind(this);
     this.handleKeyPress = this.handleKeyPress.bind(this);
@@ -39,9 +39,17 @@ class App extends React.Component {
     const audio = new Audio(this.notes(e.keyCode));
     if (!audio) return;
 
+    if (this.state.power == false) {
+      return;
+    }
+
+    audio.volume = document.getElementById("vol").value / 100;
     audio.currentTime = 0;
     audio.play();
+
   }
+
+
 
   handleClick1() {
     if (this.state.power == true) {
@@ -182,9 +190,16 @@ class App extends React.Component {
               </div>
             </div>
 
-            <div class="inner" />
+            <div class="inner white" />
 
-            <div class="inner" />
+            <div class="">
+              <form>
+                <label for="vol">
+                  <h3>Volume:</h3>
+                </label>
+                <input type="range" id="vol" name="vol" min="0" max="100" />
+              </form>
+            </div>
 
             <div class="inner" onClick={() => this.handleClick2()}>
               <h3>Notes</h3>

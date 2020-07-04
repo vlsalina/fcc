@@ -14,6 +14,10 @@ body {
   height: 100%;
 }
 
+.white {
+  background-color: white;
+}
+
 #drum-machine {
   position: absolute;
   width: 50%;
