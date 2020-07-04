@@ -2,6 +2,40 @@ import React from "react";
 import logo from "./logo.svg";
 import "./App.css";
 
+const sounds = [
+  ["a3", "b5"],
+  ["a-5", "f3"],
+  ["a-4", "e5"],
+  ["e5", "e3"],
+  ["b4", "e4"],
+  ["b3", "d4"],
+  ["a5", "d5"],
+  ["a4", "c3"],
+  ["c-3", "c4-middle-c"]
+];
+
+function forDisplay(key,notes) {
+  if (key == 81) {
+    return (notes) ? sounds[0][0] : sounds[0][1];
+  } else if (key == 87) {
+    return (notes) ? sounds[1][0] : sounds[1][1];
+  } else if (key == 69) {
+    return (notes) ? sounds[2][0] : sounds[2][1];
+  } else if (key == 65) {
+    return (notes) ? sounds[3][0] : sounds[3][1];
+  } else if (key == 83) {
+    return (notes) ? sounds[4][0] : sounds[4][1];
+  } else if (key == 68) {
+    return (notes) ? sounds[5][0] : sounds[5][1];
+  } else if (key == 90) {
+    return (notes) ? sounds[6][0] : sounds[6][1];
+  } else if (key == 88) {
+    return (notes) ? sounds[7][0] : sounds[7][1];
+  } else if (key == 67) {
+    return (notes) ? sounds[8][0] : sounds[8][1];
+  }
+}
+
 import sound1 from "./sounds/203458__tesabob2001__a3.mp3";
 import sound2 from "./sounds/203459__tesabob2001__a-5.mp3";
 import sound3 from "./sounds/203460__tesabob2001__a-4.mp3";
@@ -33,6 +67,7 @@ class App extends React.Component {
     this.handleKeyPress = this.handleKeyPress.bind(this);
     this.handleClick1 = this.handleClick1.bind(this);
     this.handleClick2 = this.handleClick2.bind(this);
+    this.handleClick3 = this.handleClick3.bind(this);
   }
 
   handleKeyPress(e) {
@@ -46,7 +81,7 @@ class App extends React.Component {
     audio.volume = document.getElementById("vol").value / 100;
     audio.currentTime = 0;
     audio.play();
-
+    document.getElementById("display").innerHTML = forDisplay(e.keyCode, this.state.notes);
   }
 
 
@@ -129,6 +164,21 @@ class App extends React.Component {
     }
   }
 
+  handleClick3(e) {
+    const audio = new Audio(this.notes(e));
+    if (!audio) return;
+
+    if (this.state.power == false) {
+      return;
+    }
+
+    audio.volume = document.getElementById("vol").value / 100;
+    audio.currentTime = 0;
+    audio.play();
+
+    document.getElementById("display").innerHTML = forDisplay(e, this.state.notes);
+  }
+
   componentWillMount() {
     document.addEventListener("keydown", this.handleKeyPress);
   }
@@ -137,6 +187,8 @@ class App extends React.Component {
     document.removeEventListener("keydown", this.handleKeyPress);
   }
 
+
+
   render() {
     return (
       <div className="App">
@@ -144,37 +196,37 @@ class App extends React.Component {
         <div id="drum-machine">
           <div id="buttons" className="">
             <div className="row">
-              <button id="Q" type="button">
+              <button id="Q" type="button" onClick={() => this.handleClick3(81)}>
                 Q
               </button>
-              <button id="W" type="button">
+              <button id="W" type="button" onClick={() => this.handleClick3(87)}>
                 W
               </button>
-              <button id="E" type="button">
+              <button id="E" type="button" onClick={() => this.handleClick3(69)}>
                 E
               </button>
             </div>
 
             <div className="row">
-              <button id="A" type="button">
+              <button id="A" type="button" onClick={() => this.handleClick3(65)}>
                 A
               </button>
-              <button id="S" type="button">
+              <button id="S" type="button" onClick={() => this.handleClick3(83)}>
                 S
               </button>
-              <button id="D" type="button">
+              <button id="D" type="button" onClick={() => this.handleClick3(68)}>
                 D
               </button>
             </div>
 
             <div className="row">
-              <button id="Z" type="button">
+              <button id="Z" type="button" onClick={() => this.handleClick3(90)}>
                 Z
               </button>
-              <button id="X" type="button">
+              <button id="X" type="button" onClick={() => this.handleClick3(88)}>
                 X
               </button>
-              <button id="C" type="button">
+              <button id="C" type="button" onClick={() => this.handleClick3(67)}>
                 C
               </button>
             </div>
@@ -190,7 +242,7 @@ class App extends React.Component {
               </div>
             </div>
 
-            <div class="inner white" />
+            <div id="display" class="white" />
 
             <div class="">
               <form>

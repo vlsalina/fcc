@@ -1,44 +1,13 @@
-export const sounds = [
-  "./sounds/203475__tesabob2001__f-5.mp3",
-  "./sounds/203476__tesabob2001__e5.mp3",
-  "./sounds/203477__tesabob2001__f-3.mp3",
-  "./sounds/203478__tesabob2001__c4-middle-c.mp3",
-  "./sounds/203479__tesabob2001__c3.mp3",
-  "./sounds/203480__tesabob2001__c-5.mp3",
-  "./sounds/203481__tesabob2001__c-4.mp3",
-  "./sounds/203482__tesabob2001__d-4.mp3",
-  "./sounds/203483__tesabob2001__d-3.mp3",
-  "./sounds/203484__tesabob2001__c6.mp3",
-  "./sounds/203485__tesabob2001__c5.mp3",
-  "./sounds/203486__tesabob2001__d3.mp3",
-  "./sounds/203487__tesabob2001__d-5.mp3",
-  "./sounds/203488__tesabob2001__g-3.mp3",
-  "./sounds/203489__tesabob2001__f5.mp3",
-  "./sounds/203490__tesabob2001__g-5.mp3",
-  "./sounds/203491__tesabob2001__g-4.mp3",
-  "./sounds/203492__tesabob2001__g4.mp3",
-  "./sounds/203493__tesabob2001__g3.mp3",
-  "./sounds/203494__tesabob2001__piano-chromatic-scale.mp3",
-  "./sounds/203495__tesabob2001__g5.mp3",
-  "./sounds/203499__tesabob2001__f-5.mp3",
-  "./sounds/203500__tesabob2001__f-4.mp3",
-  "./sounds/203501__tesabob2001__f-3.mp3",
-  "./sounds/203502__tesabob2001__a-3.mp3",
-  "./sounds/203458__tesabob2001__a3.mp3",
-  "./sounds/203459__tesabob2001__a-5.mp3",
-  "./sounds/203460__tesabob2001__a-4.mp3",
-  "./sounds/203461__tesabob2001__a-3.mp3",
-  "./sounds/203462__tesabob2001__b4.mp3",
-  "./sounds/203463__tesabob2001__b3.mp3",
-  "./sounds/203464__tesabob2001__a5.mp3",
-  "./sounds/203465__tesabob2001__a4.mp3",
-  "./sounds/203466__tesabob2001__c-3.mp3",
-  "./sounds/203467__tesabob2001__b5.mp3",
-  "./sounds/203468__tesabob2001__f3.mp3",
-  "./sounds/203469__tesabob2001__f4.mp3",
-  "./sounds/203470__tesabob2001__e3.mp3",
-  "./sounds/203471__tesabob2001__e4.mp3",
-  "./sounds/203472__tesabob2001__d4.mp3",
-  "./sounds/203473__tesabob2001__d5.mp3",
-  "./sounds/203474__tesabob2001__f-4.mp3"
-];
+const sounds = {}
+
+sounds[81] = "a3";
+sounds[87] = "a-5";
+sounds[69] = "a-4";
+
+sounds[65] = "e5";
+sounds[83] = "b4";
+sounds[68] = "b3";
+
+sounds[90] = "a5";
+sounds[88] = "a4";
+sounds[67] = "c-3";

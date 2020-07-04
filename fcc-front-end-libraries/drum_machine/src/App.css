@@ -16,6 +16,7 @@ body {
 
 .white {
   background-color: white;
+  width: 50%;
 }
 
 #drum-machine {
@@ -27,7 +28,6 @@ body {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-
   display: flex;
   justify-content: space-between;
 }
@@ -51,13 +51,11 @@ body {
   pointer-events: none;
 }
 
-.display {
-  position: relative;
-  left: 50%;
-  transform: translate(-50%, 0%);
-  background-color: green;
-  width: 20%;
-  height: 10%;
+#display {
+  overflow: hidden;
+  font-weight: bold;
+  font-family: Brush Script MT;
+  font-size: 200%;
 }
 
 .volume {
