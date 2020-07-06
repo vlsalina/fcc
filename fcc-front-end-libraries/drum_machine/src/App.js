@@ -14,25 +14,25 @@ const sounds = [
   ["c-3", "c4-middle-c"]
 ];
 
-function forDisplay(key,notes) {
+function forDisplay(key, notes) {
   if (key == 81) {
-    return (notes) ? sounds[0][0] : sounds[0][1];
+    return notes ? sounds[0][0] : sounds[0][1];
   } else if (key == 87) {
-    return (notes) ? sounds[1][0] : sounds[1][1];
+    return notes ? sounds[1][0] : sounds[1][1];
   } else if (key == 69) {
-    return (notes) ? sounds[2][0] : sounds[2][1];
+    return notes ? sounds[2][0] : sounds[2][1];
   } else if (key == 65) {
-    return (notes) ? sounds[3][0] : sounds[3][1];
+    return notes ? sounds[3][0] : sounds[3][1];
   } else if (key == 83) {
-    return (notes) ? sounds[4][0] : sounds[4][1];
+    return notes ? sounds[4][0] : sounds[4][1];
   } else if (key == 68) {
-    return (notes) ? sounds[5][0] : sounds[5][1];
+    return notes ? sounds[5][0] : sounds[5][1];
   } else if (key == 90) {
-    return (notes) ? sounds[6][0] : sounds[6][1];
+    return notes ? sounds[6][0] : sounds[6][1];
   } else if (key == 88) {
-    return (notes) ? sounds[7][0] : sounds[7][1];
+    return notes ? sounds[7][0] : sounds[7][1];
   } else if (key == 67) {
-    return (notes) ? sounds[8][0] : sounds[8][1];
+    return notes ? sounds[8][0] : sounds[8][1];
   }
 }
 
@@ -61,16 +61,19 @@ class App extends React.Component {
     super(props);
     this.state = {
       power: true,
-      notes: true,
+      notes: true
     };
     this.notes = this.notes.bind(this);
     this.handleKeyPress = this.handleKeyPress.bind(this);
     this.handleClick1 = this.handleClick1.bind(this);
     this.handleClick2 = this.handleClick2.bind(this);
     this.handleClick3 = this.handleClick3.bind(this);
+    this.pressed = this.pressed.bind(this);
   }
 
   handleKeyPress(e) {
+    this.pressed(String.fromCharCode(e.keyCode));
+
     const audio = new Audio(this.notes(e.keyCode));
     if (!audio) return;
 
@@ -81,10 +84,11 @@ class App extends React.Component {
     audio.volume = document.getElementById("vol").value / 100;
     audio.currentTime = 0;
     audio.play();
-    document.getElementById("display").innerHTML = forDisplay(e.keyCode, this.state.notes);
+    document.getElementById("display").innerHTML = forDisplay(
+      e.keyCode,
+      this.state.notes
+    );
   }
-
-
 
   handleClick1() {
     if (this.state.power == true) {
@@ -165,18 +169,32 @@ class App extends React.Component {
   }
 
   handleClick3(e) {
-    const audio = new Audio(this.notes(e));
-    if (!audio) return;
+    this.pressed(String.fromCharCode(e));
 
     if (this.state.power == false) {
       return;
     }
 
+    const audio = new Audio(this.notes(e));
+    if (!audio) return;
+
     audio.volume = document.getElementById("vol").value / 100;
     audio.currentTime = 0;
     audio.play();
 
-    document.getElementById("display").innerHTML = forDisplay(e, this.state.notes);
+    document.getElementById("display").innerHTML = forDisplay(
+      e,
+      this.state.notes
+    );
+  }
+
+  pressed(e) {
+    const key = document.getElementById(e);
+    key.classList.add("playing");
+
+    setTimeout(function() {
+      key.classList.remove("playing");
+    }, 100);
   }
 
   componentWillMount() {
@@ -187,8 +205,6 @@ class App extends React.Component {
     document.removeEventListener("keydown", this.handleKeyPress);
   }
 
-
-
   render() {
     return (
       <div className="App">
@@ -196,37 +212,73 @@ class App extends React.Component {
         <div id="drum-machine">
           <div id="buttons" className="">
             <div className="row">
-              <button id="Q" type="button" onClick={() => this.handleClick3(81)}>
+              <button
+                id="Q"
+                type="button"
+                onClick={() => this.handleClick3(81, "Q")}
+              >
                 Q
               </button>
-              <button id="W" type="button" onClick={() => this.handleClick3(87)}>
+              <button
+                id="W"
+                type="button"
+                onClick={() => this.handleClick3(87, "W")}
+              >
                 W
               </button>
-              <button id="E" type="button" onClick={() => this.handleClick3(69)}>
+              <button
+                id="E"
+                type="button"
+                onClick={() => this.handleClick3(69, "E")}
+              >
                 E
               </button>
             </div>
 
             <div className="row">
-              <button id="A" type="button" onClick={() => this.handleClick3(65)}>
+              <button
+                id="A"
+                type="button"
+                onClick={() => this.handleClick3(65, "A")}
+              >
                 A
               </button>
-              <button id="S" type="button" onClick={() => this.handleClick3(83)}>
+              <button
+                id="S"
+                type="button"
+                onClick={() => this.handleClick3(83, "S")}
+              >
                 S
               </button>
-              <button id="D" type="button" onClick={() => this.handleClick3(68)}>
+              <button
+                id="D"
+                type="button"
+                onClick={() => this.handleClick3(68, "D")}
+              >
                 D
               </button>
             </div>
 
             <div className="row">
-              <button id="Z" type="button" onClick={() => this.handleClick3(90)}>
+              <button
+                id="Z"
+                type="button"
+                onClick={() => this.handleClick3(90, "Z")}
+              >
                 Z
               </button>
-              <button id="X" type="button" onClick={() => this.handleClick3(88)}>
+              <button
+                id="X"
+                type="button"
+                onClick={() => this.handleClick3(88, "X")}
+              >
                 X
               </button>
-              <button id="C" type="button" onClick={() => this.handleClick3(67)}>
+              <button
+                id="C"
+                type="button"
+                onClick={() => this.handleClick3(67, "C")}
+              >
                 C
               </button>
             </div>
