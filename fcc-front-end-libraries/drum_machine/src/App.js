@@ -1,6 +1,7 @@
 import React from "react";
 import logo from "./logo.svg";
 import "./App.css";
+import image from "./images/pianist.jpg";
 
 const sounds = [
   ["a3", "b5"],
@@ -33,6 +34,8 @@ function forDisplay(key, notes) {
     return notes ? sounds[7][0] : sounds[7][1];
   } else if (key == 67) {
     return notes ? sounds[8][0] : sounds[8][1];
+  } else {
+    return "";
   }
 }
 
@@ -84,7 +87,7 @@ class App extends React.Component {
     audio.volume = document.getElementById("vol").value / 100;
     audio.currentTime = 0;
     audio.play();
-    document.getElementById("display").innerHTML = forDisplay(
+    document.getElementById("txt").innerHTML = forDisplay(
       e.keyCode,
       this.state.notes
     );
@@ -182,14 +185,12 @@ class App extends React.Component {
     audio.currentTime = 0;
     audio.play();
 
-    document.getElementById("display").innerHTML = forDisplay(
-      e,
-      this.state.notes
-    );
+    document.getElementById("txt").innerHTML = forDisplay(e, this.state.notes);
   }
 
   pressed(e) {
     const key = document.getElementById(e);
+    if (!key) return;
     key.classList.add("playing");
 
     setTimeout(function() {
@@ -208,7 +209,6 @@ class App extends React.Component {
   render() {
     return (
       <div className="App">
-        <div id="demo" />
         <div id="drum-machine">
           <div id="buttons" className="">
             <div className="row">
@@ -285,31 +285,33 @@ class App extends React.Component {
           </div>
 
           <div className="controls">
-            <div class="inner" onClick={() => this.handleClick1()}>
+            <div className="inner" onClick={() => this.handleClick1()}>
               <h3>Power</h3>
-              <div class="switch">
-                <div class="black">
-                  <div id="s1" class="blue" />
+              <div className="switch">
+                <div className="black">
+                  <div id="s1" className="blue" />
                 </div>
               </div>
             </div>
 
-            <div id="display" class="white" />
+            <div id="display" className="white">
+              <div id="txt" />
+            </div>
 
-            <div class="">
+            <div className="volume">
               <form>
-                <label for="vol">
+                <label htmlFor="vol">
                   <h3>Volume:</h3>
                 </label>
                 <input type="range" id="vol" name="vol" min="0" max="100" />
               </form>
             </div>
 
-            <div class="inner" onClick={() => this.handleClick2()}>
+            <div className="inner" onClick={() => this.handleClick2()}>
               <h3>Notes</h3>
-              <div class="switch">
-                <div class="black">
-                  <div id="s2" class="blue" />
+              <div className="switch">
+                <div className="black">
+                  <div id="s2" className="blue" />
                 </div>
               </div>
             </div>
