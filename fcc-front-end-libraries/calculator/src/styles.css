@@ -1,0 +1,105 @@
+.item1 {
+  grid-area: ac;
+}
+.item2 {
+  grid-area: add;
+}
+.item3 {
+  grid-area: sub;
+}
+.item4 {
+  grid-area: div;
+}
+.item5 {
+  grid-area: mult;
+}
+.item6 {
+  grid-area: eq;
+}
+.item7 {
+  grid-area: on;
+}
+.item8 {
+  grid-area: tw;
+}
+.item9 {
+  grid-area: th;
+}
+.item10 {
+  grid-area: fo;
+}
+.item11 {
+  grid-area: fi;
+}
+.item12 {
+  grid-area: si;
+}
+.item13 {
+  grid-area: se;
+}
+.item14 {
+  grid-area: ei;
+}
+.item15 {
+  grid-area: ni;
+}
+.item16 {
+  grid-area: ze;
+}
+.item17 {
+  grid-area: dot;
+}
+
+html {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  background: url(https://newevolutiondesigns.com/images/freebies/space-wallpaper-5.jpg);
+  background-size: cover;
+}
+
+body {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+.App {
+  position: absolute;
+  font-family: sans-serif;
+  text-align: center;
+  width: 50%;
+  height: 75%;
+  background-color: blue;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.display {
+  position: absolute;
+  background-color: white;
+  width: 90%;
+  height: 25%;
+  top: 5%;
+  left: 5%;
+  color: black;
+}
+
+.buttons {
+  position: absolute;
+  top: 30%;
+  display: grid;
+  grid-template-areas:
+    "ac ac div mult"
+    "se ei ni sub"
+    "fo fi si add"
+    "on tw th eq"
+    "ze ze dot eq";
+  width: 90%;
+  height: 65%;
+  left: 5%;
+}
