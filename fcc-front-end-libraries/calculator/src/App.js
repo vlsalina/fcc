@@ -6,32 +6,118 @@ class App extends React.Component {
     super(props);
     this.state = {
       input: "",
-      num1_flag: false, // to declare if # is pressed
-      num2_flag: false,
-      op_flag: false, // for operator
-      eq_flag: false, // for reset (AC button)
-      neg_flag: false // for negative number
-    };
+      result: "",
+      num1: "",
+      num2: ""
+     };
+
+    this.decimals = [0,1,2,3,4,5,6,7,8,9];
+    this.operations = [" + ", " - ", " * ", " / "];
+
+    this.num1_flag = false; // to declare if # is pressed
+    this.num2_flag = false;
+    this.op_flag = false; // for operator
+    this.eq_flag = false; // for reset (AC button)
+    this.neg_flag = false; // for negative number
+
+    this.num1 = -1; // first operand
+    this.num2 = -1; // second operand
+    this.result = -1; // result
+    this.op = -1; // 0 = add, 1 = subtract, 2 = multiply, 3 = divide
+
     this.handleClick = this.handleClick.bind(this);
     this.reset = this.reset.bind(this);
   }
 
   reset() {
     this.setState({
-      input: ""
+      input: "",
+      num1: "",
+      num2: ""
     });
+    this.num1_flag = false; // to declare if # is pressed
+    this.num2_flag = false;
+    this.op_flag = false; // for operator
+    this.eq_flag = false; // for reset (AC button)
+    this.neg_flag = false; // for negative number
+
+
+
   }
 
   handleClick(e) {
-    this.setState({
-      input: this.state.input.concat(e)
-    });
-  }
+    if (this.decimals.includes(parseInt(e)) === true && this.op_flag === false) {
+      this.num1_flag = true;
+      this.setState({
+        input: this.state.input.concat(e),
+        num1: this.state.num1.concat(e)
+      });
+
+    } else if (this.operations.includes(e) === true && this.num1_flag === true && this.op_flag === false) {
+      switch(e) {
+        case this.operations[0]:
+          this.op = 0;
+          break;
+        case this.operations[1]:
+          this.op = 1;
+          break;
+        case this.operations[2]:
+          this.op = 2;
+          break;
+        case this.operations[3]:
+          this.op = 3;
+          break;
+        default:
+      }       
+
+      this.op_flag = true;
+      this.setState({
+         input: this.state.input.concat(e)
+      });
+    } else if (this.decimals.includes(parseInt(e)) === true && this.num1_flag === true && this.op_flag === true) {
+      this.num2_flag = true;
+      this.setState({
+         input: this.state.input.concat(e),
+         num2: this.state.num2.concat(e)
+      });
+    } else if (e === " = ") {
+
+      switch(this.op) {
+        case 0:  this.result = parseInt(this.state.num1) + parseInt(this.state.num2); break;
+        case 1:  this.result = parseInt(this.state.num1) - parseInt(this.state.num2); break;
+        case 2:  this.result = parseInt(this.state.num1) * parseInt(this.state.num2); break;
+        case 3:  this.result = parseInt(this.state.num1) / parseInt(this.state.num2); break;
+        default:  
+      }   
+
+      this.setState({
+        input: "",
+        result: this.state.input + " = " + this.result,
+        num1: "",
+        num2: ""
+      });
+
+
+      this.num1_flag = false; // to declare if # is pressed
+      this.num2_flag = false;
+      this.op_flag = false; // for operator
+      this.eq_flag = false; // for reset (AC button)
+      this.neg_flag = false; // for negative number
+    }
+   }
+
 
   render() {
     return (
       <div className="App">
-        <div className="display">{this.state.input}</div>
+        <div className="display">
+          <div className="last">
+            {this.state.result}
+          </div>
+          <div classname="current">
+            {this.state.input}
+          </div>
+        </div>
         <div className="buttons">
           <button className="item1" onClick={() => this.reset()}>
             AC
