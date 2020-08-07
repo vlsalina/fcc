@@ -21,6 +21,8 @@ class App extends React.Component {
     this.neg_flag = false; // for negative number
     this.decimal = false;
 
+    this.dash_token = false; // to control the number of "-" signs being pressed
+
     this.num1 = -1; // first operand
     this.num2 = -1; // second operand
     this.result = -1.0; // result
@@ -42,12 +44,26 @@ class App extends React.Component {
     this.eq_flag = false; // for reset (AC button)
     this.neg_flag = false; // for negative number
     this.decimal = false;
-
-
+    this.dash_token = false;
+    this.num_token = false;
   }
 
   handleClick(e) {
-    if (e === ".") {
+    if (this.neg_flag === false && this.operations.includes(e) === true && this.op_flag === false && e === " - " && this.dash_token === false && this.num_token === false) {
+      this.setState({
+        input: this.state.input.concat("-"),
+        num1: this.state.num1.concat("-")
+      });
+      this.neg_flag = true;
+      this.dash_token = true;
+    } else if (this.neg_flag === false && this.operations.includes(e) === true && this.op_flag === true && e === " - "  && this.dash_token === false && this.num_token === false) {
+      this.setState({
+        input: this.state.input.concat("-"),
+        num2: this.state.num2.concat("-")
+      });
+      this.neg_flag = true;
+      this.dash_token = true;
+    } else if (e === ".") {
       if (this.num1_flag === false && this.decimal === false) {
         this.setState({
           input: this.state.input.concat(e),
@@ -69,8 +85,9 @@ class App extends React.Component {
         input: this.state.input.concat(e),
         num1: this.state.num1.concat(e)
       });
-
-    } else if (this.operations.includes(e) === true && this.op_flag === false) {
+      this.dash_token = false;
+      this.num_token = true;
+    } else if (this.operations.includes(e) === true && this.op_flag === false && this.dash_token === false) {
       switch(e) {
         case this.operations[0]:
           this.op = 0;
@@ -88,8 +105,10 @@ class App extends React.Component {
       }       
 
       this.op_flag = true;
-      this.num1_flag = true;
       this.decimal = false;
+      this.num1_flag = true;
+      this.neg_flag = false;
+      this.num_token = false;
       this.setState({
          input: this.state.input.concat(e)
       });
@@ -99,6 +118,7 @@ class App extends React.Component {
          input: this.state.input.concat(e),
          num2: this.state.num2.concat(e)
       });
+      this.dash_token = true;
     } else if (e === " = ") {
       
       switch(this.op) {
@@ -123,6 +143,8 @@ class App extends React.Component {
       this.eq_flag = false; // for reset (AC button)
       this.neg_flag = false; // for negative number
       this.decimal = false;
+      this.dash_token = false;
+      this.num_token = false;
     }
    }
 
