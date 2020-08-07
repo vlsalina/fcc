@@ -84,7 +84,7 @@ body {
   background-color: white;
   width: 90%;
   height: 25%;
-  top: 5%;
+  top: 5%; 
   left: 5%;
   color: black;
 }
@@ -103,3 +103,21 @@ body {
   height: 65%;
   left: 5%;
 }
+
+.last {
+  position: absolute; 
+  width: 100%;
+  height: 50%;
+  text-align: right;
+  background-color: red;
+}
+
+.current {
+  width: 100%;
+  height: 50%;
+  position: absolute;
+  top: 50%;
+  text-align: right;
+  background-color: grey;
+}
+

@@ -22,7 +22,7 @@ class App extends React.Component {
 
     this.num1 = -1; // first operand
     this.num2 = -1; // second operand
-    this.result = -1; // result
+    this.result = -1.0; // result
     this.op = -1; // 0 = add, 1 = subtract, 2 = multiply, 3 = divide
 
     this.handleClick = this.handleClick.bind(this);
@@ -33,7 +33,8 @@ class App extends React.Component {
     this.setState({
       input: "",
       num1: "",
-      num2: ""
+      num2: "",
+      decimal: false
     });
     this.num1_flag = false; // to declare if # is pressed
     this.num2_flag = false;
@@ -46,19 +47,31 @@ class App extends React.Component {
   }
 
   handleClick(e) {
-    if (this.decimals.includes(parseInt(e)) === true && this.op_flag === false) {
-      this.num1_flag = true;
+    if (e === ".") {
+      if (this.num1_flag === false) {
+        this.setState({
+          input: this.state.input.concat(e),
+          num1: this.state.num1.concat(e),
+        });
+      } else {
+        this.setState({
+          input: this.state.input.concat(e),
+          num2: this.state.num2.concat(e),
+        });
+      };
+      
+    } else if (this.decimals.includes(parseFloat(e)) === true && this.op_flag === false) {
       this.setState({
         input: this.state.input.concat(e),
         num1: this.state.num1.concat(e)
       });
 
-    } else if (this.operations.includes(e) === true && this.num1_flag === true && this.op_flag === false) {
+    } else if (this.operations.includes(e) === true && this.op_flag === false) {
       switch(e) {
         case this.operations[0]:
           this.op = 0;
           break;
-        case this.operations[1]:
+        case this.operations[1]: 
           this.op = 1;
           break;
         case this.operations[2]:
@@ -71,22 +84,23 @@ class App extends React.Component {
       }       
 
       this.op_flag = true;
+      this.num1_flag = true;
       this.setState({
          input: this.state.input.concat(e)
       });
-    } else if (this.decimals.includes(parseInt(e)) === true && this.num1_flag === true && this.op_flag === true) {
+    } else if (this.decimals.includes(parseFloat(e)) === true && this.num1_flag === true && this.op_flag === true) {
       this.num2_flag = true;
       this.setState({
          input: this.state.input.concat(e),
          num2: this.state.num2.concat(e)
       });
     } else if (e === " = ") {
-
+      
       switch(this.op) {
-        case 0:  this.result = parseInt(this.state.num1) + parseInt(this.state.num2); break;
-        case 1:  this.result = parseInt(this.state.num1) - parseInt(this.state.num2); break;
-        case 2:  this.result = parseInt(this.state.num1) * parseInt(this.state.num2); break;
-        case 3:  this.result = parseInt(this.state.num1) / parseInt(this.state.num2); break;
+        case 0:  this.result = parseFloat(this.state.num1) + parseFloat(this.state.num2); break;
+        case 1:  this.result = parseFloat(this.state.num1) - parseFloat(this.state.num2); break;
+        case 2:  this.result = parseFloat(this.state.num1) * parseFloat(this.state.num2); break;
+        case 3:  this.result = parseFloat(this.state.num1) / parseFloat(this.state.num2); break;
         default:  
       }   
 
@@ -114,7 +128,7 @@ class App extends React.Component {
           <div className="last">
             {this.state.result}
           </div>
-          <div classname="current">
+          <div className="current">
             {this.state.input}
           </div>
         </div>
