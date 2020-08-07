@@ -19,6 +19,7 @@ class App extends React.Component {
     this.op_flag = false; // for operator
     this.eq_flag = false; // for reset (AC button)
     this.neg_flag = false; // for negative number
+    this.decimal = false;
 
     this.num1 = -1; // first operand
     this.num2 = -1; // second operand
@@ -33,31 +34,34 @@ class App extends React.Component {
     this.setState({
       input: "",
       num1: "",
-      num2: "",
-      decimal: false
+      num2: ""
     });
     this.num1_flag = false; // to declare if # is pressed
     this.num2_flag = false;
     this.op_flag = false; // for operator
     this.eq_flag = false; // for reset (AC button)
     this.neg_flag = false; // for negative number
-
+    this.decimal = false;
 
 
   }
 
   handleClick(e) {
     if (e === ".") {
-      if (this.num1_flag === false) {
+      if (this.num1_flag === false && this.decimal === false) {
         this.setState({
           input: this.state.input.concat(e),
           num1: this.state.num1.concat(e),
         });
-      } else {
+        this.decimal = true;
+      } 
+
+      if (this.num1_flag === true && this.decimal === false) {
         this.setState({
           input: this.state.input.concat(e),
           num2: this.state.num2.concat(e),
         });
+        this.decimal = true;
       };
       
     } else if (this.decimals.includes(parseFloat(e)) === true && this.op_flag === false) {
@@ -85,6 +89,7 @@ class App extends React.Component {
 
       this.op_flag = true;
       this.num1_flag = true;
+      this.decimal = false;
       this.setState({
          input: this.state.input.concat(e)
       });
@@ -117,6 +122,7 @@ class App extends React.Component {
       this.op_flag = false; // for operator
       this.eq_flag = false; // for reset (AC button)
       this.neg_flag = false; // for negative number
+      this.decimal = false;
     }
    }
 
