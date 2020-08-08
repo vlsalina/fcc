@@ -37,6 +37,7 @@ class App extends React.Component {
   reset() {
     this.setState({
       input: "",
+      result: "",
       num1: "",
       num2: ""
     });
