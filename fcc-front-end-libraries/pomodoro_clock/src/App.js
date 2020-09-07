@@ -2,7 +2,6 @@ import React, { useState, Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
 
-
 class App extends Component {
     constructor(props) {
       super(props);
@@ -13,11 +12,9 @@ class App extends Component {
         session_seconds: 59, 
         stopFlag: false
       }
-      this.m = 10;
       
       this.mflag = false; // Determines when to use break or timer  
       this.sflag = false;
-      this.stopFlag = false;
 
       this.timer = this.timer.bind(this);
       this.stop = this.stop.bind(this);
@@ -27,17 +24,18 @@ class App extends Component {
     timer() {
       const myInterval = setInterval(() => {
   
+        const { session_minutes, session_seconds } = this.state;
+
         if (this.state.stopFlag == true) {
           clearInterval(myInterval);
-          //this.stopFlag = false;
-          
+          this.setState({
+            stopFlag: false
+          })
         }
-
-        const { session_minutes, session_seconds } = this.state;
 
         if (session_seconds > 0) {
           this.setState({
-            session_seconds: session_seconds - 1 
+            session_seconds: session_seconds - 1
           })
         } 
 
@@ -46,14 +44,12 @@ class App extends Component {
     } 
 
     stop() {
-        //this.stopFlag = true;
         this.setState({
           stopFlag: true
         })
     }
 
     reset() {
-        
 
     }
 
@@ -100,17 +96,6 @@ class App extends Component {
       )
     }
     
-}
-
-class timer extends Component {
-  constructor(props) {
-    super(props);
-    this.handleClick = this.handleClick.bind(this);
-  }
-
-  
-
-
 }
 
 export default App;
