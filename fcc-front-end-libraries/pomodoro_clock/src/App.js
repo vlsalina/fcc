@@ -2,15 +2,19 @@ import React, { useState, Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
 
+let initial_m = 3;
+let initial_s = 59;
+
 class App extends Component {
     constructor(props) {
       super(props);
       this.state = {
         break_minutes: 1,
         break_seconds: 0,
-        session_minutes: 3,
-        session_seconds: 59, 
-        stopFlag: false
+        session_minutes: initial_m,
+        session_seconds: initial_s, 
+        session_display_m: initial_m,
+        session_display_s: initial_s,
       }
       
       this.mflag = false; // Determines when to use break or timer  
@@ -19,23 +23,21 @@ class App extends Component {
       this.timer = this.timer.bind(this);
       this.stop = this.stop.bind(this);
       this.reset = this.reset.bind(this);
+      this.iBreak = this.iBreak.bind(this);
+      this.dbreak = this.dBreak.bind(this);
+      this.iSession = this.iSession.bind(this);
+      this.dSession = this.dSession.bind(this);
     }
 
     timer() {
-      const myInterval = setInterval(() => {
+      this.myInterval = setInterval(() => {
   
-        const { session_minutes, session_seconds } = this.state;
+        const { session_display_m, session_display_s } = this.state;
 
-        if (this.state.stopFlag == true) {
-          clearInterval(myInterval);
-          this.setState({
-            stopFlag: false
-          })
-        }
 
-        if (session_seconds > 0) {
+        if (session_display_s > 0) {
           this.setState({
-            session_seconds: session_seconds - 1
+            session_display_s: session_display_s - 1
           })
         } 
 
@@ -44,15 +46,51 @@ class App extends Component {
     } 
 
     stop() {
-        this.setState({
-          stopFlag: true
-        })
+      clearInterval(this.myInterval);
     }
 
     reset() {
+      this.setState({
+        session_display_m: this.state.session_minutes,
+        session_display_s: this.state.session_seconds
+      })
+    }
+
+    iBreak() {
+      const { break_minutes } = this.state;
+
+      this.setState({
+        break_minutes: break_minutes + 1 
+      })  
+    }
+
+    dBreak() {
+      const { break_minutes } = this.state;
+
+      this.setState({
+        break_minutes: break_minutes - 1 
+      })  
+    }
+
+
+    iSession() {
+      const { session_minutes } = this.state;
+
+      this.setState({
+        session_minutes: session_minutes + 1,
+        session_display_m: session_minutes + 1      
+      })  
 
     }
 
+    dSession() {
+      const { session_minutes } = this.state;
+
+      this.setState({
+        session_minutes: session_minutes - 1,
+        session_display_m: session_minutes - 1
+      })
+    }
 
     render() {
       const { minutes, seconds } = this.state
@@ -64,24 +102,25 @@ class App extends Component {
 
           <div id="timers">
             <div id="break">
-              Break Length {this.state.break_minutes} 
+              Break Length {this.state.break_minutes}  
+              <span>
+                <button onClick={this.iBreak}>+</button>
+                <button onClick={this.dBreak}>-</button>
+              </span>
             </div>
             <div id="timer">
-              Session Length {this.state.session_minutes}
+              Session Length {this.state.session_minutes} 
+              <span>
+                <button onClick={this.iSession}>+</button>
+                <button onClick={this.dSession}>-</button>
+              </span> 
             </div>
           </div>          
      
           <div id="display">
             <div>Session</div> 
-            <div> {
-                    (this.mflag == false) ? this.state.session_minutes : this.state.break_minutes
-                  } :  
-                  {
-                    (this.sflag == false) ?  
-                      ((this.state.session_seconds < 10) ? `0${this.state.session_seconds}` : this.state.session_seconds)
-                      : 
-                      ((this.state.break_seconds < 10) ? `0${this.state.break_seconds}` : this.state.break_seconds)
-                  }
+            <div> {this.state.session_display_m} :  
+                  {(this.state.session_display_s < 10) ? `0${this.state.session_display_s}` : this.state.session_display_s}
             </div> 
           </div>
 
