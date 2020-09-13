@@ -2,25 +2,29 @@ import React, { useState, Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
 
-let initial_m = 3;
-let initial_s = 59;
+let session_initial_m = 25;
+let session_initial_s = 0;
+let break_initial_m = 5;
+let break_initial_s = 0;
 
 class App extends Component {
     constructor(props) {
       super(props);
       this.state = {
-        break_minutes: 1,
+        break_minutes: 5,
         break_seconds: 0,
-        session_minutes: initial_m,
-        session_seconds: initial_s, 
-        session_display_m: initial_m,
-        session_display_s: initial_s,
+        break_display_m: break_initial_m, 
+        break_display_s: break_initial_s,
+        session_minutes: session_initial_m,
+        session_seconds: session_initial_s, 
+        session_display_m: session_initial_m,
+        session_display_s: session_initial_s,
       }
       
-      this.mflag = false; // Determines when to use break or timer  
-      this.sflag = false;
+      this.flag = false; // Determines when to use break or timer  
 
       this.timer = this.timer.bind(this);
+      this.breakt = this.breakt.bind(this);
       this.stop = this.stop.bind(this);
       this.reset = this.reset.bind(this);
       this.iBreak = this.iBreak.bind(this);
@@ -41,9 +45,56 @@ class App extends Component {
           })
         } 
 
+        if (session_display_s == 0) {
+          if (session_display_m == 0) {
+            //this.flag = true;
+            this.setState({
+              session_display_m: this.state.session_minutes,
+              session_display_s: this.state.session_seconds
+            })
+          } else {
+            this.setState({
+              session_display_m: session_display_m - 1,
+              session_display_s: 59
+            })
+          }
+        }
+
       }, 1000);
 
     } 
+
+    breakt() {
+      this.myInterval = setInterval(() => {
+  
+        const { break_minutes, break_seconds, session_display_m, session_display_s } = this.state;
+
+
+        if (break_seconds > 0) {
+          this.setState({
+            break_seconds: break_seconds - 1 
+          })
+        } 
+
+        if (break_seconds == 0) {
+          if (break_minutes == 0) {
+            this.setState({
+              session_display_m: this.state.session_minutes,
+              session_display_s: this.state.session_seconds
+            })
+          } else {
+            this.setState({
+              session_display_m: session_display_m - 1,
+              session_display_s: 59
+            })
+          }
+        }
+
+
+      }, 1000);
+    }
+
+    
 
     stop() {
       clearInterval(this.myInterval);
