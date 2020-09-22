@@ -2,17 +2,17 @@ import React, { useState, Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
 
-let session_initial_m = 25;
+let session_initial_m = 1;
 let session_initial_s = 0;
-let break_initial_m = 5;
+let break_initial_m = 2;
 let break_initial_s = 0;
 
 class App extends Component {
     constructor(props) {
       super(props);
       this.state = {
-        break_minutes: 5,
-        break_seconds: 0,
+        break_minutes: break_initial_m,
+        break_seconds: break_initial_s,
         break_display_m: break_initial_m, 
         break_display_s: break_initial_s,
         session_minutes: session_initial_m,
@@ -22,6 +22,7 @@ class App extends Component {
       }
       
       this.flag = true; // Determines when to use break or timer  
+      this.keep_going = false;
 
       this.timer = this.timer.bind(this);
       this.breakt = this.breakt.bind(this);
@@ -34,6 +35,7 @@ class App extends Component {
     }
 
     timer() {
+      this.keep_going = true;
       this.myInterval = setInterval(() => {
   
         const { session_display_m, session_display_s } = this.state;
@@ -53,6 +55,11 @@ class App extends Component {
               session_display_m: this.state.session_minutes,
               session_display_s: this.state.session_seconds
             })
+            if (this.keep_going == true) {
+              clearInterval(this.myInterval); 
+              this.breakt();
+            } 
+      
           } else {
             this.setState({
               session_display_m: session_display_m - 1,
@@ -61,11 +68,12 @@ class App extends Component {
           }
         }
 
-      }, 1000);
+      }, 100);
 
     } 
 
     breakt() {
+      this.keep_going = true;
       this.myInterval = setInterval(() => {
   
         const { break_display_m, break_display_s, session_display_m, session_display_s } = this.state;
@@ -81,15 +89,15 @@ class App extends Component {
           if (break_display_m == 0) {
             this.flag = true;
             this.setState({
-              session_display_m: this.state.session_minutes,
-              session_display_s: this.state.session_seconds,
               break_display_m: this.state.break_minutes,
               break_display_s: this.state.break_seconds
             })
+            if (this.keep_going == true) {
+              clearInterval(this.myInterval);
+              this.timer();
+            }
           } else {
             this.setState({
-              session_display_m: break_display_m - 1,
-              session_display_s: break_display_s,
               break_display_m: break_display_m - 1,
               break_display_s: 59
             })
@@ -97,12 +105,13 @@ class App extends Component {
         }
 
 
-      }, 1000);
+      }, 100);
     }
 
     
 
     stop() {
+      this.keep_going = false;
       clearInterval(this.myInterval);
     }
 
