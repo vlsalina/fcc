@@ -21,14 +21,14 @@ class App extends Component {
         session_display_s: session_initial_s,
       }
       
-      this.flag = false; // Determines when to use break or timer  
+      this.flag = true; // Determines when to use break or timer  
 
       this.timer = this.timer.bind(this);
       this.breakt = this.breakt.bind(this);
       this.stop = this.stop.bind(this);
       this.reset = this.reset.bind(this);
       this.iBreak = this.iBreak.bind(this);
-      this.dbreak = this.dBreak.bind(this);
+      this.dBreak = this.dBreak.bind(this);
       this.iSession = this.iSession.bind(this);
       this.dSession = this.dSession.bind(this);
     }
@@ -48,6 +48,7 @@ class App extends Component {
         if (session_display_s == 0) {
           if (session_display_m == 0) {
             //this.flag = true;
+            this.flag = false;
             this.setState({
               session_display_m: this.state.session_minutes,
               session_display_s: this.state.session_seconds
@@ -67,25 +68,30 @@ class App extends Component {
     breakt() {
       this.myInterval = setInterval(() => {
   
-        const { break_minutes, break_seconds, session_display_m, session_display_s } = this.state;
+        const { break_display_m, break_display_s, session_display_m, session_display_s } = this.state;
 
 
-        if (break_seconds > 0) {
+        if (break_display_s > 0) {
           this.setState({
-            break_seconds: break_seconds - 1 
+            break_display_s: break_display_s - 1 
           })
         } 
 
-        if (break_seconds == 0) {
-          if (break_minutes == 0) {
+        if (break_display_s == 0) {
+          if (break_display_m == 0) {
+            this.flag = true;
             this.setState({
               session_display_m: this.state.session_minutes,
-              session_display_s: this.state.session_seconds
+              session_display_s: this.state.session_seconds,
+              break_display_m: this.state.break_minutes,
+              break_display_s: this.state.break_seconds
             })
           } else {
             this.setState({
-              session_display_m: session_display_m - 1,
-              session_display_s: 59
+              session_display_m: break_display_m - 1,
+              session_display_s: break_display_s,
+              break_display_m: break_display_m - 1,
+              break_display_s: 59
             })
           }
         }
@@ -103,7 +109,9 @@ class App extends Component {
     reset() {
       this.setState({
         session_display_m: this.state.session_minutes,
-        session_display_s: this.state.session_seconds
+        session_display_s: this.state.session_seconds,
+        break_display_m: this.state.break_minutes,
+        break_display_s: this.state.break_seconds
       })
     }
 
@@ -111,7 +119,10 @@ class App extends Component {
       const { break_minutes } = this.state;
 
       this.setState({
-        break_minutes: break_minutes + 1 
+        break_minutes: break_minutes + 1,
+        break_display_m: break_minutes + 1,
+        break_display_s: 0,
+        break_seconds: 0 
       })  
     }
 
@@ -119,8 +130,11 @@ class App extends Component {
       const { break_minutes } = this.state;
 
       this.setState({
-        break_minutes: break_minutes - 1 
-      })  
+        break_minutes: break_minutes - 1,
+        break_display_m: break_minutes - 1,
+        break_display_s: 0,
+        break_seconds: 0 
+      })
     }
 
 
@@ -129,7 +143,8 @@ class App extends Component {
 
       this.setState({
         session_minutes: session_minutes + 1,
-        session_display_m: session_minutes + 1      
+        session_display_m: session_minutes + 1,
+        session_display_s: 0
       })  
 
     }
@@ -139,12 +154,12 @@ class App extends Component {
 
       this.setState({
         session_minutes: session_minutes - 1,
-        session_display_m: session_minutes - 1
+        session_display_m: session_minutes - 1,
+        session_display_s: 0
       })
     }
 
     render() {
-      const { minutes, seconds } = this.state
       return (
         <div id="App">
           <div id="title">
@@ -170,13 +185,16 @@ class App extends Component {
      
           <div id="display">
             <div>Session</div> 
-            <div> {this.state.session_display_m} :  
-                  {(this.state.session_display_s < 10) ? `0${this.state.session_display_s}` : this.state.session_display_s}
+            <div> {(this.flag == true) ? this.state.session_display_m : this.state.break_display_m} : 
+                  {(this.flag == true) ?  
+                    (this.state.session_display_s < 10) ? `0${this.state.session_display_s}` : this.state.session_display_s :
+                    (this.state.break_display_s < 10) ? `0${this.state.break_display_s}` : this.state.break_display_s}
+                    
             </div> 
           </div>
 
           <div id="buttons">
-            <button onClick={this.timer}>Play</button>
+            <button onClick={(this.flag == true) ? this.timer : this.breakt}>Play</button>
             <button onClick={this.stop}>Pause</button>
             <button onClick={this.reset}>Reset</button> 
           </div>
