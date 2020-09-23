@@ -32,10 +32,13 @@ class App extends Component {
       this.dBreak = this.dBreak.bind(this);
       this.iSession = this.iSession.bind(this);
       this.dSession = this.dSession.bind(this);
+  
+      this.color = this.color.bind(this);
     }
 
     timer() {
       this.keep_going = true;
+      this.color();
       this.myInterval = setInterval(() => {
   
         const { session_display_m, session_display_s } = this.state;
@@ -74,6 +77,7 @@ class App extends Component {
 
     breakt() {
       this.keep_going = true;
+      this.color();
       this.myInterval = setInterval(() => {
   
         const { break_display_m, break_display_s, session_display_m, session_display_s } = this.state;
@@ -116,12 +120,15 @@ class App extends Component {
     }
 
     reset() {
+      clearInterval(this.myInterval);
       this.setState({
         session_display_m: this.state.session_minutes,
         session_display_s: this.state.session_seconds,
         break_display_m: this.state.break_minutes,
         break_display_s: this.state.break_seconds
       })
+      document.getElementById("display").style.color = "white";
+      this.flag = true;
     }
 
     iBreak() {
@@ -168,9 +175,19 @@ class App extends Component {
       })
     }
 
+    color() {
+      let text = document.getElementById("display");
+      if (this.flag == true) {
+        text.style.color = "white";
+      } else {
+        text.style.color = "red";
+      }
+    }
+
     render() {
       return (
         <div id="App">
+          <div className="center">
           <div id="title">
             Pomodoro Clock
           </div>
@@ -193,7 +210,7 @@ class App extends Component {
           </div>          
      
           <div id="display">
-            <div>Session</div> 
+            <div>{(this.flag == true) ? "Session" : "Break"}</div> 
             <div> {(this.flag == true) ? this.state.session_display_m : this.state.break_display_m} : 
                   {(this.flag == true) ?  
                     (this.state.session_display_s < 10) ? `0${this.state.session_display_s}` : this.state.session_display_s :
@@ -207,7 +224,7 @@ class App extends Component {
             <button onClick={this.stop}>Pause</button>
             <button onClick={this.reset}>Reset</button> 
           </div>
-
+          </div>
         </div>
 
       )
