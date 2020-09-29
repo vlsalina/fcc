@@ -23,6 +23,8 @@ class App extends Component {
       
       this.flag = true; // Determines when to use break or timer  
       this.keep_going = false;
+      this.playPressed = false;
+     
 
       this.timer = this.timer.bind(this);
       this.breakt = this.breakt.bind(this);
@@ -32,13 +34,26 @@ class App extends Component {
       this.dBreak = this.dBreak.bind(this);
       this.iSession = this.iSession.bind(this);
       this.dSession = this.dSession.bind(this);
+      this.play = this.play.bind(this);
   
       this.color = this.color.bind(this);
+    }
+
+    play() {
+      if (this.playPressed == false) {
+        this.playPressed = true;
+        if (this.flag == true) {
+          this.timer(); 
+        } else {
+          this.breakt();
+        } 
+      }
     }
 
     timer() {
       this.keep_going = true;
       this.color();
+
       this.myInterval = setInterval(() => {
   
         const { session_display_m, session_display_s } = this.state;
@@ -72,7 +87,7 @@ class App extends Component {
         }
 
       }, 100);
-
+      
     } 
 
     breakt() {
@@ -110,11 +125,13 @@ class App extends Component {
 
 
       }, 100);
+      
     }
 
     
 
     stop() {
+      this.playPressed = false;
       this.keep_going = false;
       clearInterval(this.myInterval);
     }
@@ -145,9 +162,11 @@ class App extends Component {
     dBreak() {
       const { break_minutes } = this.state;
 
+      let bdec = break_minutes - 1;
+
       this.setState({
-        break_minutes: break_minutes - 1,
-        break_display_m: break_minutes - 1,
+        break_minutes: (bdec >= 0) ? bdec : 0,
+        break_display_m: (bdec >= 0) ? bdec: 0,
         break_display_s: 0,
         break_seconds: 0 
       })
@@ -168,9 +187,11 @@ class App extends Component {
     dSession() {
       const { session_minutes } = this.state;
 
+      let sdec = session_minutes - 1;
+
       this.setState({
-        session_minutes: session_minutes - 1,
-        session_display_m: session_minutes - 1,
+        session_minutes: (sdec >= 0) ? sdec : 0,
+        session_display_m: (sdec >= 0) ? sdec : 0,
         session_display_s: 0
       })
     }
@@ -220,7 +241,7 @@ class App extends Component {
           </div>
 
           <div id="buttons">
-            <button onClick={(this.flag == true) ? this.timer : this.breakt}>Play</button>
+            <button onClick={this.play}>Play</button>
             <button onClick={this.stop}>Pause</button>
             <button onClick={this.reset}>Reset</button> 
           </div>
