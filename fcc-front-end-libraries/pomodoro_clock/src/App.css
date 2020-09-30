@@ -15,6 +15,8 @@ body {
   background-color: black;
 }
 
+
+
 #App {
   position: absolute;
   height: 50%;
@@ -26,22 +28,28 @@ body {
   text-align: center;
   font-family: 'digital-clock-font';
   color: white;
-  font-size: 300%;
+  font-size: 200%;
 }
 
 .item1 { grid-area: title; }
 .item2 { grid-area: break; }
 .item3 { grid-area: timer; }
-.item4 { grid-area: display; }
-.item5 { grid-area: buttons; }
+.item4 { grid-area: sDisplay; }
+.item5 { grid-area: display; }
+.item6 { grid-area: buttons; }
+
+#display {
+  font-size: 300%;
+}
 
 .grid-container {
   display: grid;
   grid-template-areas:
-    '. title title .'
-    'break . . timer'
-    '. display display .'
-    '. buttons buttons .';
+    '. . title title . .'
+    'break . . . . timer'
+    '. . sDisplay sDisplay . .'
+    '. . display display . .'
+    '. . buttons buttons . .';
   position: absolute;
   top: 50%;
   left: 50%;

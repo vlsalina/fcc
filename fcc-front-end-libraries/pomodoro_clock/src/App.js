@@ -240,8 +240,8 @@ class App extends Component {
           </div>
 
           <div id="buttons" className="item5">
-            <button onClick={this.play}>Play</button>
-            <button onClick={this.stop}>Pause</button>
+            <button onClick={this.play}>Start</button>
+            <button onClick={this.stop}>Stop</button>
             <button onClick={this.reset}>Reset</button> 
           </div>
           </div>
