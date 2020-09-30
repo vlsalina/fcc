@@ -142,7 +142,6 @@ class App extends Component {
         break_display_s: this.state.break_seconds
       })
       document.getElementById("display").style.color = "white";
-      document.getElementById("sDisplay").style.color = "white";
       document.getElementById("App").style.color = "white";
       document.getElementById("App").style.borderColor = "white";
       this.flag = true;
@@ -198,16 +197,13 @@ class App extends Component {
 
     color() {
       let display = document.getElementById("display");
-      let sDisplay = document.getElementById("sDisplay");
       let app = document.getElementById("App");
       if (this.flag == true) {
         display.style.color = "white";
-        sDisplay.style.color = "white";
         app.style.borderColor = "white";
         app.style.color = "white";
       } else {
         display.style.color = "red";
-        sDisplay.style.color = "red";
         app.style.borderColor = "red";
         app.style.color = "red";
       }
@@ -238,13 +234,11 @@ class App extends Component {
               </div> 
             </div>
      
-          <div id="sDisplay" className="item4">
+          <div id="display" className="item4">
             <div>{(this.flag == true) ? "Session" : "Break"}</div> 
-          </div>
 
 
-          <div id="display" className="item5">
-            <div> {(this.flag == true) ? 
+            <div id="nums"> {(this.flag == true) ? 
                     this.state.session_display_m : 
                     this.state.break_display_m}:  
                   {(this.flag == true) ?  
@@ -252,12 +246,11 @@ class App extends Component {
                     (this.state.break_display_s < 10) ? `0${this.state.break_display_s}` : this.state.break_display_s}
                     
             </div> 
-          </div>
-
-          <div id="buttons" className="item6">
-            <button onClick={this.play}>Start</button>
-            <button onClick={this.stop}>Stop</button>
-            <button onClick={this.reset}>Reset</button> 
+            <div className="btn">
+              <button onClick={this.play}>Start</button>
+              <button onClick={this.stop}>Stop</button>
+              <button onClick={this.reset}>Reset</button> 
+            </div>
           </div>
           </div>
         </div>
