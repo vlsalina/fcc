@@ -4,7 +4,7 @@ import './App.css';
 
 let session_initial_m = 1;
 let session_initial_s = 0;
-let break_initial_m = 2;
+let break_initial_m = 1;
 let break_initial_s = 0;
 
 class App extends Component {
@@ -144,6 +144,7 @@ class App extends Component {
         break_display_s: this.state.break_seconds
       })
       document.getElementById("display").style.color = "white";
+      document.getElementById("sDisplay").style.color = "white";
       this.flag = true;
     }
 
@@ -196,11 +197,14 @@ class App extends Component {
     }
 
     color() {
-      let text = document.getElementById("display");
+      let display = document.getElementById("display");
+      let sDisplay = document.getElementById("sDisplay");
       if (this.flag == true) {
-        text.style.color = "white";
+        display.style.color = "white";
+        sDisplay.style.color = "white";
       } else {
-        text.style.color = "red";
+        display.style.color = "red";
+        sDisplay.style.color = "red";
       }
     }
 
@@ -229,9 +233,14 @@ class App extends Component {
               </div> 
             </div>
      
-          <div id="display" className="item4">
+          <div id="sDisplay" className="item4">
             <div>{(this.flag == true) ? "Session" : "Break"}</div> 
-            <div> {(this.flag == true) ? this.state.session_display_m : this.state.break_display_m} : 
+          </div>
+
+          <div id="display" className="item5">
+            <div> {(this.flag == true) ? 
+                    this.state.session_display_m : 
+                    this.state.break_display_m}:  
                   {(this.flag == true) ?  
                     (this.state.session_display_s < 10) ? `0${this.state.session_display_s}` : this.state.session_display_s :
                     (this.state.break_display_s < 10) ? `0${this.state.break_display_s}` : this.state.break_display_s}
@@ -239,7 +248,7 @@ class App extends Component {
             </div> 
           </div>
 
-          <div id="buttons" className="item5">
+          <div id="buttons" className="item6">
             <button onClick={this.play}>Start</button>
             <button onClick={this.stop}>Stop</button>
             <button onClick={this.reset}>Reset</button> 

@@ -1,7 +1,5 @@
-@font-face{
- font-family:'digital-clock-font';
- src: url('./digital-7/digital-7.ttf');
-}
+@import url(https://allfont.net/allfont.css?fonts=digital-7-mono);
+
 
 html {
   height: 100%;
@@ -26,7 +24,7 @@ body {
   transform: translate(-50%, -50%);
   background-color: black;
   text-align: center;
-  font-family: 'digital-clock-font';
+  font-family: 'Digital-7 Mono', arial;
   color: white;
   font-size: 200%;
 }
@@ -40,6 +38,11 @@ body {
 
 #display {
   font-size: 300%;
+}
+
+#sDisplay {
+  font-size: 300%;
+  width: 310px;
 }
 
 .grid-container {
