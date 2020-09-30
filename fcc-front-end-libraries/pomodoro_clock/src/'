@@ -92,35 +92,20 @@ body {
 
   #display {
     font-size: 200%;
-    width: 100%;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
+    border: 1px solid white;
   }
 
   #sDisplay {
     font-size: 200%;
     width: 100%;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
+    border: 1px solid white;
+    padding: 0 0 -5px 0;
   }
 
   #App {
     height: 100%;
     width: 100%;
   } 
-
-  #title {
-    width: 100%;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-  }
-
 
 }
 

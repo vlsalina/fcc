@@ -127,8 +127,6 @@ class App extends Component {
       
     }
 
-    
-
     stop() {
       this.playPressed = false;
       this.keep_going = false;
@@ -224,7 +222,7 @@ class App extends Component {
           </div>
 
             <div id="break" className="item2">
-              Break Length 
+              <div id="break_header">Break Length</div> 
               <div>{this.state.break_minutes}</div>  
               <div>
                 <button onClick={this.iBreak}>+</button>
@@ -232,7 +230,7 @@ class App extends Component {
               </div>
             </div>
             <div id="timer" className="item3">
-              Session Length 
+              <div id="session_header">Session Length</div> 
               <div>{this.state.session_minutes}</div> 
               <div>
                 <button onClick={this.iSession}>+</button>
@@ -243,6 +241,7 @@ class App extends Component {
           <div id="sDisplay" className="item4">
             <div>{(this.flag == true) ? "Session" : "Break"}</div> 
           </div>
+
 
           <div id="display" className="item5">
             <div> {(this.flag == true) ? 
