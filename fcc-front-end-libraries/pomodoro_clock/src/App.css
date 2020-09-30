@@ -27,6 +27,8 @@ body {
   font-family: 'Digital-7 Mono', arial;
   color: white;
   font-size: 200%;
+  border: 5px solid white;
+  border-radius: 1%;
 }
 
 .item1 { grid-area: title; }

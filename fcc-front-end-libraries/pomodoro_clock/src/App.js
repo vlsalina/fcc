@@ -145,6 +145,8 @@ class App extends Component {
       })
       document.getElementById("display").style.color = "white";
       document.getElementById("sDisplay").style.color = "white";
+      document.getElementById("App").style.color = "white";
+      document.getElementById("App").style.borderColor = "white";
       this.flag = true;
     }
 
@@ -199,12 +201,17 @@ class App extends Component {
     color() {
       let display = document.getElementById("display");
       let sDisplay = document.getElementById("sDisplay");
+      let app = document.getElementById("App");
       if (this.flag == true) {
         display.style.color = "white";
         sDisplay.style.color = "white";
+        app.style.borderColor = "white";
+        app.style.color = "white";
       } else {
         display.style.color = "red";
         sDisplay.style.color = "red";
+        app.style.borderColor = "red";
+        app.style.color = "red";
       }
     }
 
