@@ -1,3 +1,8 @@
+@font-face{
+ font-family:'digital-clock-font';
+ src: url('./digital-7/digital-7.ttf');
+}
+
 html {
   height: 100%;
   width: 100%;
@@ -17,11 +22,26 @@ body {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  color: white;
+  background-color: black;
   text-align: center;
+  font-family: 'digital-clock-font';
+  color: white;
+  font-size: 300%;
 }
 
-.center {
+.item1 { grid-area: title; }
+.item2 { grid-area: break; }
+.item3 { grid-area: timer; }
+.item4 { grid-area: display; }
+.item5 { grid-area: buttons; }
+
+.grid-container {
+  display: grid;
+  grid-template-areas:
+    '. title title .'
+    'break . . timer'
+    '. display display .'
+    '. buttons buttons .';
   position: absolute;
   top: 50%;
   left: 50%;

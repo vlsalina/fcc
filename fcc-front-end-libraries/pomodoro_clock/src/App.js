@@ -24,7 +24,6 @@ class App extends Component {
       this.flag = true; // Determines when to use break or timer  
       this.keep_going = false;
       this.playPressed = false;
-     
 
       this.timer = this.timer.bind(this);
       this.breakt = this.breakt.bind(this);
@@ -208,29 +207,29 @@ class App extends Component {
     render() {
       return (
         <div id="App">
-          <div className="center">
-          <div id="title">
+          <div className="grid-container">
+          <div id="title" className="item1">
             Pomodoro Clock
           </div>
 
-          <div id="timers">
-            <div id="break">
-              Break Length {this.state.break_minutes}  
-              <span>
+            <div id="break" className="item2">
+              Break Length 
+              <div>{this.state.break_minutes}</div>  
+              <div>
                 <button onClick={this.iBreak}>+</button>
                 <button onClick={this.dBreak}>-</button>
-              </span>
+              </div>
             </div>
-            <div id="timer">
-              Session Length {this.state.session_minutes} 
-              <span>
+            <div id="timer" className="item3">
+              Session Length 
+              <div>{this.state.session_minutes}</div> 
+              <div>
                 <button onClick={this.iSession}>+</button>
                 <button onClick={this.dSession}>-</button>
-              </span> 
+              </div> 
             </div>
-          </div>          
      
-          <div id="display">
+          <div id="display" className="item4">
             <div>{(this.flag == true) ? "Session" : "Break"}</div> 
             <div> {(this.flag == true) ? this.state.session_display_m : this.state.break_display_m} : 
                   {(this.flag == true) ?  
@@ -240,7 +239,7 @@ class App extends Component {
             </div> 
           </div>
 
-          <div id="buttons">
+          <div id="buttons" className="item5">
             <button onClick={this.play}>Play</button>
             <button onClick={this.stop}>Pause</button>
             <button onClick={this.reset}>Reset</button> 
