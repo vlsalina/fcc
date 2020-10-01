@@ -1,6 +1,7 @@
 import React, { useState, Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
+import alarm from './analog-watch-alarm_daniel-simion1.mp3';
 
 let session_initial_m = 1;
 let session_initial_s = 0;
@@ -34,6 +35,7 @@ class App extends Component {
       this.iSession = this.iSession.bind(this);
       this.dSession = this.dSession.bind(this);
       this.play = this.play.bind(this);
+      this.audio = this.audio.bind(this);
   
       this.color = this.color.bind(this);
     }
@@ -47,6 +49,13 @@ class App extends Component {
           this.breakt();
         } 
       }
+    }
+  
+    audio() {
+      let audioBeep = document.getElementById("beep");
+      audioBeep.volume = 1;
+      audioBeep.currentTime = 0;
+      audioBeep.play();
     }
 
     timer() {
@@ -72,11 +81,11 @@ class App extends Component {
               session_display_m: this.state.session_minutes,
               session_display_s: this.state.session_seconds
             })
+            this.audio();
             if (this.keep_going == true) {
               clearInterval(this.myInterval); 
               this.breakt();
             } 
-      
           } else {
             this.setState({
               session_display_m: session_display_m - 1,
@@ -110,6 +119,7 @@ class App extends Component {
               break_display_m: this.state.break_minutes,
               break_display_s: this.state.break_seconds
             })
+            this.audio();
             if (this.keep_going == true) {
               clearInterval(this.myInterval);
               this.timer();
@@ -142,8 +152,8 @@ class App extends Component {
         break_display_s: this.state.break_seconds
       })
       document.getElementById("display").style.color = "white";
-      document.getElementById("App").style.color = "white";
-      document.getElementById("App").style.borderColor = "white";
+      document.getElementById("grid").style.borderColor = "white";
+      document.getElementById("title").style.color = "white";
       this.flag = true;
     }
 
@@ -197,22 +207,26 @@ class App extends Component {
 
     color() {
       let display = document.getElementById("display");
-      let app = document.getElementById("App");
+      let grid = document.getElementById("grid");
+      let ttl = document.getElementById("title");
       if (this.flag == true) {
         display.style.color = "white";
-        app.style.borderColor = "white";
-        app.style.color = "white";
+        grid.style.borderColor = "white";
+        ttl.style.color = "white";
       } else {
         display.style.color = "red";
-        app.style.borderColor = "red";
-        app.style.color = "red";
+        grid.style.borderColor = "red";
+        ttl.style.color = "red";
       }
     }
 
     render() {
       return (
         <div id="App">
-          <div className="grid-container">
+          <audio id="beep">
+            <source src={alarm} type="audio/mpeg" />
+          </audio>
+          <div id="grid" className="grid-container">
           <div id="title" className="item1">
             Pomodoro Clock
           </div>
