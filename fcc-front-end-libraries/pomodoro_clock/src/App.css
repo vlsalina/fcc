@@ -56,7 +56,12 @@ body {
 }
 
 .btn {
-  line-height: 1%;
+  line-height: 0%;
+}
+
+button {
+  width: 33.33%;
+  height: 25px;
 }
 
 #break_header, #session_header {
@@ -88,19 +93,11 @@ body {
   #display {
     font-size: 200%;
     width: 100%;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
   }
 
   #sDisplay {
     font-size: 200%;
     width: 100%;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
   }
 
   #App {
@@ -110,10 +107,6 @@ body {
 
   #title {
     width: 100%;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
   }
 
 
