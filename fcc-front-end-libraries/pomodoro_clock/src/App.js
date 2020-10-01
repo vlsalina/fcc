@@ -1,7 +1,7 @@
 import React, { useState, Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
-import alarm from './analog-watch-alarm_daniel-simion1.mp3';
+import alarm from './analog-watch-alarm_daniel-simion.mp3';
 
 let session_initial_m = 1;
 let session_initial_s = 0;
@@ -94,7 +94,7 @@ class App extends Component {
           }
         }
 
-      }, 100);
+      }, 1000);
       
     } 
 
@@ -133,7 +133,7 @@ class App extends Component {
         }
 
 
-      }, 100);
+      }, 1000);
       
     }
 
@@ -213,10 +213,23 @@ class App extends Component {
         display.style.color = "white";
         grid.style.borderColor = "white";
         ttl.style.color = "white";
+        document.getElementById("break_header").style.color = "white";
+        document.getElementById("bTime").style.color = "white";
+
+        document.getElementById("session_header").style.color = "white";
+        document.getElementById("sTime").style.color = "white";
+        
       } else {
         display.style.color = "red";
         grid.style.borderColor = "red";
         ttl.style.color = "red";
+        document.getElementById("break_header").style.color = "red";
+        document.getElementById("bTime").style.color = "red";
+        document.getElementById("session_header").style.color = "red";
+        document.getElementById("sTime").style.color = "red";
+        
+
+
       }
     }
 
@@ -233,7 +246,7 @@ class App extends Component {
 
             <div id="break" className="item2">
               <div id="break_header">Break Length</div> 
-              <div>{this.state.break_minutes}</div>  
+              <div id="bTime">{this.state.break_minutes}</div>  
               <div>
                 <button onClick={this.iBreak}>+</button>
                 <button onClick={this.dBreak}>-</button>
@@ -241,7 +254,7 @@ class App extends Component {
             </div>
             <div id="timer" className="item3">
               <div id="session_header">Session Length</div> 
-              <div>{this.state.session_minutes}</div> 
+              <div id="sTime">{this.state.session_minutes}</div> 
               <div>
                 <button onClick={this.iSession}>+</button>
                 <button onClick={this.dSession}>-</button>
