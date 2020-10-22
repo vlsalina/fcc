@@ -29,7 +29,7 @@
     var g = svg.append("g")
                .attr("transform", "translate(" + 100 + "," + 100 + ")");
 
-    d3.csv("XYZ.csv", function(error, data) {
+    d3.csv("https://raw.githubusercontent.com/vlsalina/fcc/master/fcc-data-visualization-projects/XYZ.csv", function(error, data) {
         if (error) {
             throw error;
         }
