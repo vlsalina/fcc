@@ -26,6 +26,7 @@ class App extends Component {
       this.keep_going = false;
       this.playPressed = false;
 
+
       this.timer = this.timer.bind(this);
       this.breakt = this.breakt.bind(this);
       this.stop = this.stop.bind(this);
@@ -53,7 +54,7 @@ class App extends Component {
   
     audio() {
       let audioBeep = document.getElementById("beep");
-      audioBeep.volume = 1;
+      audioBeep.volume = 0.1;
       audioBeep.currentTime = 0;
       audioBeep.play();
     }
@@ -154,7 +155,14 @@ class App extends Component {
       document.getElementById("display").style.color = "white";
       document.getElementById("grid").style.borderColor = "white";
       document.getElementById("title").style.color = "white";
+
+      document.getElementById("break_header").style.color = "white";
+      document.getElementById("session_header").style.color = "white";
+
+      document.getElementById("bTime").style.color = "white";
+      document.getElementById("sTime").style.color = "white";
       this.flag = true;
+
     }
 
     iBreak() {

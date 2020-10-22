@@ -1,6 +1,5 @@
 @import url(https://allfont.net/allfont.css?fonts=digital-7-mono);
 
-
 html {
   height: 100%;
   width: 100%;
@@ -24,7 +23,7 @@ body {
   background-color: black;
   text-align: center;
   font-family: 'Digital-7 Mono', arial;
-  color: white;
+ color: white;
   font-size: 200%;
   border-radius: 1%;
 }
@@ -37,8 +36,6 @@ body {
 #display {
   font-size: 300%;
 }
-
-
 
 .grid-container {
   box-sizing: border-box;
