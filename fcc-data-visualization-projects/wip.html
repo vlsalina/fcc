@@ -1,0 +1,36 @@
+<!doctype html>
+<html>
+<head>
+<style>
+  svg {
+     background-color: pink;
+  }
+
+</style>
+    <script src="https://d3js.org/d3.v4.min.js"></script>
+</head>
+<body>
+<script>
+
+  var width = 1980;
+  var height = 1080;
+
+  var svg = d3.select("body")
+              .append("svg")
+              .attr("width", width)
+              .attr("height", height);
+
+  var g = svg.append("g")
+            .attr("transform", "translate(" + 100 + "," + 100 + ")");
+
+  d3.json("https://raw.githubusercontent.com/freeCodeCamp/ProjectReferenceData/master/GDP-data.json", function(data) {
+  console.log(data);
+}
+);
+  
+
+
+</script>
+
+              </body>
+</html>
