@@ -43,6 +43,8 @@
 
   d3.json("https://raw.githubusercontent.com/freeCodeCamp/ProjectReferenceData/master/GDP-data.json", function(data) {
   console.log(data.data);
+  let xtest = [0,1,2,3,4,5,6,7,8,9,10];
+  let ytest = [1,2,3,5,2,37,44,78,88,99,200,222];
 
   let qtr = 1;
   let years = data.data.map(function(d) { 
@@ -62,10 +64,10 @@
   console.log(years);
 
   var xScale = d3.scaleLinear().range([0, width]);
-      xScale.domain(years);
+      xScale.domain([d3.min(years),d3.max(years)]);
 
   var yScale = d3.scaleLinear().range([height, 0]);
-      yScale.domain(gdp);
+      yScale.domain([0,d3.max(gdp)]);
 
   g.append("g")
     .attr("transform", "translate(0," + height + ")")
@@ -74,11 +76,17 @@
   g.append("g")
     .call(d3.axisLeft(yScale));
 
+  //let new_dataset = [];
+  //for (let i = 0; i < years.length; i++) {
+  //  new_dataset.push([years[i],gdp[i]]);
+  //}
+  //console.log(new_dataset);
+
   let new_dataset = [];
   for (let i = 0; i < years.length; i++) {
     new_dataset.push([years[i],gdp[i]]);
   }
-  console.log(new_dataset);
+
 
   g.selectAll(".bar")
     .data(new_dataset)
@@ -86,7 +94,7 @@
     .attr("class", "bar")
     .attr("x", function(d) { return xScale(d[0]); })
     .attr("y", function(d) { return yScale(d[1]); })
-    .attr("width", xScale.bandwidth)
+    .attr("width", width / new_dataset.length)
     .attr("height", function(d) { return height - yScale(d[1]); })
     
 
