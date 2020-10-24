@@ -6,25 +6,91 @@
      background-color: pink;
   }
 
+  .bar {
+    fill: steelblue;
+  }
+
+  .highlight {
+    fill: orange;
+  }
+
 </style>
     <script src="https://d3js.org/d3.v4.min.js"></script>
 </head>
 <body>
 <script>
 
-  var width = 1980;
-  var height = 1080;
+  var margin = 200;
+  var width = 1900 - margin;
+  var height = 920 - margin;
 
   var svg = d3.select("body")
               .append("svg")
-              .attr("width", width)
-              .attr("height", height);
+              .attr("width", 1900)
+              .attr("height", 920);
+
+  svg.append("text")
+      .attr("transform", "translate(" + (width/2) + "," + "0)")
+      .attr("x", 50)
+      .attr("y", 50)
+      .attr("font-size", "24px")
+      .text("Gross Domestic Product");
+
+  var xScale = d3.scaleBand().range([0, width]);
 
   var g = svg.append("g")
             .attr("transform", "translate(" + 100 + "," + 100 + ")");
 
   d3.json("https://raw.githubusercontent.com/freeCodeCamp/ProjectReferenceData/master/GDP-data.json", function(data) {
-  console.log(data);
+  console.log(data.data);
+
+  let qtr = 1;
+  let years = data.data.map(function(d) { 
+      if (qtr > 4) {
+        qtr = 1;
+        let y = parseInt(d[0].slice(0,4)) + (0.1 * qtr); 
+        qtr++;
+        return y;
+      } else {  
+        let y = parseInt(d[0].slice(0,4)) + (0.1 * qtr); 
+        qtr++;
+        return y;
+      }
+    });
+  let gdp = data.data.map(function(d) { return d[1]; });
+
+  console.log(years);
+
+  var xScale = d3.scaleLinear().range([0, width]);
+      xScale.domain(years);
+
+  var yScale = d3.scaleLinear().range([height, 0]);
+      yScale.domain(gdp);
+
+  g.append("g")
+    .attr("transform", "translate(0," + height + ")")
+    .call(d3.axisBottom(xScale));
+
+  g.append("g")
+    .call(d3.axisLeft(yScale));
+
+  let new_dataset = [];
+  for (let i = 0; i < years.length; i++) {
+    new_dataset.push([years[i],gdp[i]]);
+  }
+  console.log(new_dataset);
+
+  g.selectAll(".bar")
+    .data(new_dataset)
+    .enter().append("rect")
+    .attr("class", "bar")
+    .attr("x", function(d) { return xScale(d[0]); })
+    .attr("y", function(d) { return yScale(d[1]); })
+    .attr("width", xScale.bandwidth)
+    .attr("height", function(d) { return height - yScale(d[1]); })
+    
+
+
 }
 );
   
