@@ -4,6 +4,10 @@
 <style>
   svg {
      background-color: pink;
+     position: absolute;
+     top: 50%;
+     left: 50%;
+     transform: translate(-50%,-50%);
   }
 
   .bar {
@@ -14,6 +18,10 @@
     fill: orange;
   }
 
+  .bar:hover {
+    fill: blue;
+  }
+
 </style>
     <script src="https://d3js.org/d3.v4.min.js"></script>
 </head>
@@ -21,16 +29,18 @@
 <script>
 
   var margin = 200;
-  var width = 1900 - margin;
-  var height = 920 - margin;
+  var svg_width = 1200;
+  var svg_height = 800;
+  var width = svg_width - margin;
+  var height = svg_height - margin;
 
   var svg = d3.select("body")
               .append("svg")
-              .attr("width", 1900)
-              .attr("height", 920);
+              .attr("width", svg_width)
+              .attr("height", svg_height);
 
   svg.append("text")
-      .attr("transform", "translate(" + (width/2) + "," + "0)")
+      .attr("transform", "translate(" + (width/2-100) + "," + "0)")
       .attr("x", 50)
       .attr("y", 50)
       .attr("font-size", "24px")
@@ -42,10 +52,6 @@
             .attr("transform", "translate(" + 100 + "," + 100 + ")");
 
   d3.json("https://raw.githubusercontent.com/freeCodeCamp/ProjectReferenceData/master/GDP-data.json", function(data) {
-  console.log(data.data);
-  let xtest = [0,1,2,3,4,5,6,7,8,9,10];
-  let ytest = [1,2,3,5,2,37,44,78,88,99,200,222];
-
   let qtr = 1;
   let years = data.data.map(function(d) { 
       if (qtr > 4) {
@@ -71,32 +77,75 @@
 
   g.append("g")
     .attr("transform", "translate(0," + height + ")")
-    .call(d3.axisBottom(xScale));
+    .call(d3.axisBottom(xScale))
+    .append("text")
+    .attr("y", 50)
+    .attr("x", (width/2))
+    .attr("stroke", "black")
+    .text("Year (quarterly)");
 
   g.append("g")
-    .call(d3.axisLeft(yScale));
-
-  //let new_dataset = [];
-  //for (let i = 0; i < years.length; i++) {
-  //  new_dataset.push([years[i],gdp[i]]);
-  //}
-  //console.log(new_dataset);
+    .call(d3.axisLeft(yScale))
+    .append("text")
+    .attr("transform", "rotate(-90)")
+    .attr("y", 0)
+    .attr("x", -(height/2))
+    .attr("dy", "-6.1em")
+    .attr("stroke", "black")
+    .text("GDP");
 
   let new_dataset = [];
   for (let i = 0; i < years.length; i++) {
     new_dataset.push([years[i],gdp[i]]);
   }
 
-
   g.selectAll(".bar")
     .data(new_dataset)
     .enter().append("rect")
     .attr("class", "bar")
+    .on("mouseover", onMouseOver)
+    .on("mouseout", onMouseOut)
     .attr("x", function(d) { return xScale(d[0]); })
     .attr("y", function(d) { return yScale(d[1]); })
     .attr("width", width / new_dataset.length)
+    .transition()
+    .ease(d3.easeLinear)
+    .duration(400)
+    .delay(function (d, i) {
+       return i * 1;
+    })
     .attr("height", function(d) { return height - yScale(d[1]); })
-    
+
+  function onMouseOver(d, i) {
+    d3.select(this)
+      .transition()
+      .duration(400)
+      .attr("y", function(d) { return yScale(d[1]) - 10; });
+      //.attr("height", function(d) { return height - yScale(d[1]) + 10; });
+
+      g.append("text")
+        .attr("class", "val")
+        .attr("x", function() {
+          return xScale(d[0]);
+        })
+        .attr("y", function() {
+          return yScale(d[1]) - 15;
+        })
+        .text(function() {
+          return "$" + d[1] + " Billion";
+        }); 
+  }
+
+  function onMouseOut(d, i) {
+    d3.select(this)
+      .transition()
+      .duration(400)
+      .attr("y", function(d) { return yScale(d[1]); });
+      //.attr("height", function(d) { return height - yScale(d[1]); });
+
+    d3.selectAll(".val")
+      .remove()
+  }  
 
 
 }
