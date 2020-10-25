@@ -23,13 +23,13 @@
   }
 
   .val {
-    opacity: 0.9;
+    transform: translate(-50px, -10px);
   }
 
   .box {
-    transform: translate(-4.4%, -5%);
+    transform: translate(-100px, -50px);
     fill: white;
-    opacity: 0.5;
+    opacity: 0.4;
   }
 
 </style>
@@ -39,7 +39,7 @@
 <script>
 
   var margin = 200;
-  var svg_width = 1200;
+  var svg_width = 1900;
   var svg_height = 800;
   var width = svg_width - margin;
   var height = svg_height - margin;
@@ -60,6 +60,9 @@
 
   var g = svg.append("g")
             .attr("transform", "translate(" + 100 + "," + 100 + ")");
+  
+  var gg = svg.append("g");
+
 
   d3.json("https://raw.githubusercontent.com/freeCodeCamp/ProjectReferenceData/master/GDP-data.json", function(data) {
   let qtr = 1;
@@ -133,32 +136,60 @@
    //   .attr("y", function(d) { return yScale(d[1]) - 10; });
    //   .attr("height", function(d) { return height - yScale(d[1]) + 10; });
       
-      svg.append("rect")
-        .attr("class", "box")
-        .attr("x", (svg_width / 2))
-        .attr("y", (svg_height / 2))
+      //svg.append("rect")
+      //  .attr("class", "box")
+      //  .attr("x", (svg_width / 2))
+      //  .attr("y", (svg_height / 2))
         //.attr("x", function() {
         //  return xScale(d[0]);
         //})
         //.attr("y", function() {
         //  return yScale(d[1]) - 50;
         //})
-        .attr("width", 200)
-        .attr("height", 100);
+        //.attr("width", 200)
+        //.attr("height", 100);
 
-      svg.append("text")
-        .attr("class", "val")
-        .attr("x", (svg_width / 2))
-        .attr("y", (svg_height / 2))
+      //svg.append("text")
+      //  .attr("class", "val")
+      //  .attr("x", (svg_width / 2))
+      //  .attr("y", (svg_height / 2))
         //.attr("x", function() {
         //  return xScale(d[0]) + 7;
         //})
         //.attr("y", function() {
         //  return yScale(d[1]) - 32;
         //})
-        .text(function() {
-          return "$" + d[1] + " Billion";
-        }); 
+        //.text(function() {
+        //  return "$" + d[1] + " Billion";
+        //}); 
+
+    var e = Math.floor(d[0]%Math.floor(d[0])*10); 
+    var o = Math.ceil(d[0]%Math.floor(d[0])*10); 
+    var result = (parseInt(Math.floor(d[0]%Math.ceil(d[0])*10)) % 2 == 0) ? e : o; 
+  
+    gg.append("text")
+      .attr("class", "val")
+      .attr("x", svg.attr("width") / 2)
+      .attr("y", svg.attr("height") / 2) 
+      .text(function() {
+        return (d[0] - d[0]%Math.floor(d[0])) + " Q" + result;
+      }); 
+ 
+
+    gg.append("text")
+      .attr("class", "val")
+      .attr("x", svg.attr("width") / 2)
+      .attr("y", svg.attr("height") / 2 + 25) 
+      .text(function() {
+        return "$" + d[1] + " Billion";
+      }); 
+  
+    gg.append("rect")
+      .attr("class", "box")
+      .attr("x", svg.attr("width") / 2)
+      .attr("y", svg.attr("height") / 2)
+      .attr("width", 200)
+      .attr("height", 100);
 
   }
 
@@ -169,11 +200,13 @@
    //   .attr("y", function(d) { return yScale(d[1]); });
    //   .attr("height", function(d) { return height - yScale(d[1]); });
 
-    d3.selectAll(".val")
-      .remove()
+   // d3.selectAll(".val")
+   //   .remove()
 
-    d3.selectAll(".box")
-      .remove()
+   // d3.selectAll(".box")
+   //   .remove()
+    gg.selectAll("text").remove();
+    gg.select("rect").remove();
   }  
 
 
