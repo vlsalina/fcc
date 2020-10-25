@@ -29,7 +29,7 @@
   .box {
     transform: translate(-100px, -50px);
     fill: white;
-    opacity: 0.4;
+    opacity: 0.5;
   }
 
 </style>
@@ -167,27 +167,27 @@
     var o = Math.ceil(d[0]%Math.floor(d[0])*10); 
     var result = (parseInt(Math.floor(d[0]%Math.ceil(d[0])*10)) % 2 == 0) ? e : o; 
   
-    gg.append("text")
+    svg.append("text")
       .attr("class", "val")
-      .attr("x", svg.attr("width") / 2)
-      .attr("y", svg.attr("height") / 2) 
+      .attr("x", function() { return xScale(d[0]); })
+      .attr("y", function() { return yScale(d[1]); }) 
       .text(function() {
         return (d[0] - d[0]%Math.floor(d[0])) + " Q" + result;
       }); 
  
 
-    gg.append("text")
+    svg.append("text")
       .attr("class", "val")
-      .attr("x", svg.attr("width") / 2)
-      .attr("y", svg.attr("height") / 2 + 25) 
+      .attr("x", function() { return xScale(d[0]); })
+      .attr("y", function() { return yScale(d[1]) + 25; }) 
       .text(function() {
         return "$" + d[1] + " Billion";
       }); 
   
-    gg.append("rect")
+    svg.append("rect")
       .attr("class", "box")
-      .attr("x", svg.attr("width") / 2)
-      .attr("y", svg.attr("height") / 2)
+      .attr("x", function() { return xScale(d[0]); })
+      .attr("y", function() { return yScale(d[1]); })
       .attr("width", 200)
       .attr("height", 100);
 
@@ -205,8 +205,8 @@
 
    // d3.selectAll(".box")
    //   .remove()
-    gg.selectAll("text").remove();
-    gg.select("rect").remove();
+    svg.selectAll(".val").remove();
+    svg.selectAll(".box").remove();
   }  
 
 
