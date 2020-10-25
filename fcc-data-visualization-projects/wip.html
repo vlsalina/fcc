@@ -38,7 +38,7 @@
 <body>
 <script>
 
-  var margin = 200;
+  var margin = 400;
   var svg_width = 1700;
   var svg_height = 800;
   var width = svg_width - margin;
@@ -49,18 +49,16 @@
               .attr("width", svg_width)
               .attr("height", svg_height);
 
-  svg.append("text")
-      .attr("transform", "translate(" + (width/2-100) + "," + "0)")
-      .attr("x", 50)
-      .attr("y", 50)
-      .attr("font-size", "24px")
+  var g = svg.append("g")
+            .attr("transform", "translate(" + (svg_width / 2 - 625) + "," + (svg_height / 2 - 200) + ")");
+
+   g.append("text")
+      .attr("transform", "translate(" + 0 + "," + 0 + ")")
+      .attr("x", (width / 2)-150)
+      .attr("y", (-50))
+      .attr("font-size", "36px")
       .text("United States GDP");
 
-  var xScale = d3.scaleBand().range([0, width]);
-
-  var g = svg.append("g")
-            .attr("transform", "translate(" + 100 + "," + 100 + ")");
-  
 
   d3.json("https://raw.githubusercontent.com/freeCodeCamp/ProjectReferenceData/master/GDP-data.json", function(data) {
   let qtr = 0.25;
@@ -197,6 +195,8 @@
 
     // BELOW IS THE DISPLAY PART
   
+    let space = 100;
+  
     svg.append("rect")
       .attr("class", "box")
       .attr("x", function() { 
@@ -209,10 +209,10 @@
           //  return xScale(d[0]) - 25;
           //}
 
-          return xScale(d[0]);
+          return xScale(d[0]) + space;
 
       })
-      .attr("y", function() { return height; })
+      .attr("y", function() { return height + space; })
       .attr("width", 200)
       .attr("height", 100);
 
@@ -229,9 +229,9 @@
           //  return xScale(d[0]) - 25;
           //}
 
-          return xScale(d[0]);
+          return xScale(d[0]) + space;
       })
-      .attr("y", function() { return height; }) 
+      .attr("y", function() { return height + space; }) 
       .text(function() {
         //return (d[0] - d[0]%Math.floor(d[0])) + " Q" + result;
         return d[0] + " Q" + d[2];
@@ -250,9 +250,9 @@
           //  return xScale(d[0]) - 25;
           //}
 
-          return xScale(d[0]);
+          return xScale(d[0]) + space;
       })
-      .attr("y", function() { return height + 25; }) 
+      .attr("y", function() { return height + 25 + space; }) 
       .text(function() {
         return "$" + d[1] + " Billion";
       }); 
