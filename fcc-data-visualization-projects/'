@@ -27,9 +27,8 @@
   }
 
   .box {
-    transform: translate(-4.4%, -5%);
     fill: white;
-    opacity: 0.5;
+    opacity: 0.75;
   }
 
 </style>
@@ -60,6 +59,12 @@
 
   var g = svg.append("g")
             .attr("transform", "translate(" + 100 + "," + 100 + ")");
+
+  var display = svg.append("g")
+                  .attr("transform", "translate(-50%,-50%)")
+                  .attr("width", 50%)
+                  .attr("height", 50%)
+                  .fill("black");
 
   d3.json("https://raw.githubusercontent.com/freeCodeCamp/ProjectReferenceData/master/GDP-data.json", function(data) {
   let qtr = 1;
@@ -133,32 +138,32 @@
    //   .attr("y", function(d) { return yScale(d[1]) - 10; });
    //   .attr("height", function(d) { return height - yScale(d[1]) + 10; });
       
-      svg.append("rect")
-        .attr("class", "box")
-        .attr("x", (svg_width / 2))
-        .attr("y", (svg_height / 2))
+      //g.append("rect")
+      //  .attr("class", "box")
+      //  .attr("x", (width / 2))
+      //  .attr("y", (height / 2))
         //.attr("x", function() {
         //  return xScale(d[0]);
         //})
         //.attr("y", function() {
         //  return yScale(d[1]) - 50;
         //})
-        .attr("width", 200)
-        .attr("height", 100);
+        //.attr("width", 120)
+        //.attr("height", 25); 
 
-      svg.append("text")
-        .attr("class", "val")
-        .attr("x", (svg_width / 2))
-        .attr("y", (svg_height / 2))
+      //g.append("text")
+      //  .attr("class", "val")
+      //  .attr("x", (width / 2))
+      //  .attr("y", (height / 2))
         //.attr("x", function() {
         //  return xScale(d[0]) + 7;
         //})
         //.attr("y", function() {
         //  return yScale(d[1]) - 32;
         //})
-        .text(function() {
-          return "$" + d[1] + " Billion";
-        }); 
+        //.text(function() {
+        //  return "$" + d[1] + " Billion";
+        //}); 
 
   }
 
@@ -169,11 +174,11 @@
    //   .attr("y", function(d) { return yScale(d[1]); });
    //   .attr("height", function(d) { return height - yScale(d[1]); });
 
-    d3.selectAll(".val")
-      .remove()
+   // d3.selectAll(".val")
+   //   .remove()
 
-    d3.selectAll(".box")
-      .remove()
+   // d3.selectAll(".box")
+   //   .remove()
   }  
 
 
