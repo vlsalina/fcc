@@ -29,7 +29,7 @@
   .box {
     transform: translate(-100px, -50px);
     fill: white;
-    opacity: 0.7;
+    opacity: 0.9;
   }
 
 </style>
@@ -39,7 +39,7 @@
 <script>
 
   var margin = 200;
-  var svg_width = 1900;
+  var svg_width = 1700;
   var svg_height = 800;
   var width = svg_width - margin;
   var height = svg_height - margin;
@@ -61,29 +61,57 @@
   var g = svg.append("g")
             .attr("transform", "translate(" + 100 + "," + 100 + ")");
   
-  var gg = svg.append("g");
-
 
   d3.json("https://raw.githubusercontent.com/freeCodeCamp/ProjectReferenceData/master/GDP-data.json", function(data) {
-  let qtr = 1;
+  let qtr = 0.25;
+  let indx = 0;
+  let quarters = [];
   let years = data.data.map(function(d) { 
-      if (qtr > 4) {
-        qtr = 1;
-        let y = parseInt(d[0].slice(0,4)) + (0.1 * qtr); 
-        qtr++;
-        return y;
-      } else {  
-        let y = parseInt(d[0].slice(0,4)) + (0.1 * qtr); 
-        qtr++;
-        return y;
+      //if (qtr > 4) {
+      //  qtr = 1;
+      //  let y = parseInt(d[0].slice(0,4)) + (0.1 * qtr); 
+      //  qtr++;
+      //  return y;
+      //} else {  
+      //  let y = parseInt(d[0].slice(0,4)) + (0.1 * qtr); 
+      //  qtr++;
+      //  return y;
+      //}
+
+      if (indx == 0) {
+        let y = parseInt(d[0].slice(0,4)) + (indx * qtr);
+        indx++;
+        //quarters.push(indx);
+        return [y, indx];
+      } else if (indx == 1) {
+        let y = parseInt(d[0].slice(0,4)) + (indx * qtr);
+        indx++;
+        //quarters.push(indx);
+        return [y, indx];
+      } else if (indx == 2) {
+        let y = parseInt(d[0].slice(0,4)) + (indx * qtr);
+        indx++;
+        //quarters.push(indx);
+        return [y, indx];
+      } else if (indx == 3) {
+        let y = parseInt(d[0].slice(0,4)) + (indx * qtr);
+        indx++;
+        //quarters.push(indx);
+        return [y, indx];
+      } else {
+        indx = 0;
+        let y = parseInt(d[0].slice(0,4)) + (indx * qtr);
+        indx++;
+        //quarters.push(indx);
+        return [y, indx];
       }
     });
   let gdp = data.data.map(function(d) { return d[1]; });
 
-  //console.log(years);
+  console.log(years);
 
   var xScale = d3.scaleLinear().range([0, width]);
-      xScale.domain([d3.min(years),d3.max(years)]);
+      xScale.domain([d3.min(years.map(function(curr) { return curr[0]; })),d3.max(years.map(function(curr) { return curr[0]; }))]);
 
   var yScale = d3.scaleLinear().range([height, 0]);
       yScale.domain([0,d3.max(gdp)]);
@@ -109,7 +137,7 @@
 
   let new_dataset = [];
   for (let i = 0; i < years.length; i++) {
-    new_dataset.push([years[i],gdp[i]]);
+    new_dataset.push([years[i][0], gdp[i], years[i][1]]);
   }
 
   g.selectAll(".bar")
@@ -163,21 +191,25 @@
         //  return "$" + d[1] + " Billion";
         //}); 
 
-    var e = Math.floor(d[0]%Math.floor(d[0])*10); 
-    var o = Math.ceil(d[0]%Math.floor(d[0])*10); 
-    var result = (parseInt(Math.floor(d[0]%Math.ceil(d[0])*10)) % 2 == 0) ? e : o; 
+    //var e = Math.floor(d[0]%Math.floor(d[0])*10); 
+    //var o = Math.ceil(d[0]%Math.floor(d[0])*10); 
+    //var result = (parseInt(Math.floor(d[0]%Math.ceil(d[0])*10)) % 2 == 0) ? e : o; 
+
+    // BELOW IS THE DISPLAY PART
   
     svg.append("rect")
       .attr("class", "box")
       .attr("x", function() { 
-          let n = parseInt(d[0] - d[0]%Math.floor(d[0]));  
-          if (n <= 1952) {
-            return  xScale(d[0]) + 210; 
-          } else if (n <= 1956) {
-            return  xScale(d[0]) + 75; 
-          } else {
-            return xScale(d[0]) - 25;
-          }
+          //let n = parseInt(d[0] - d[0]%Math.floor(d[0]));  
+          //if (n <= 1952) {
+          //  return  xScale(d[0]) + 210; 
+          //} else if (n <= 1956) {
+          //  return  xScale(d[0]) + 75; 
+          //} else {
+          //  return xScale(d[0]) - 25;
+          //}
+
+          return xScale(d[0]);
 
       })
       .attr("y", function() { return height; })
@@ -188,33 +220,37 @@
     svg.append("text")
       .attr("class", "val")
       .attr("x", function() { 
-          let n = parseInt(d[0] - d[0]%Math.floor(d[0]));  
-          if (n <= 1952) {
-            return  xScale(d[0]) + 210; 
-          } else if (n <= 1956) {
-            return  xScale(d[0]) + 75; 
-          } else {
-            return xScale(d[0]) - 25;
-          }
+          //let n = parseInt(d[0] - d[0]%Math.floor(d[0]));  
+          //if (n <= 1952) {
+          //  return  xScale(d[0]) + 210; 
+          //} else if (n <= 1956) {
+          //  return  xScale(d[0]) + 75; 
+          //} else {
+          //  return xScale(d[0]) - 25;
+          //}
+
+          return xScale(d[0]);
       })
       .attr("y", function() { return height; }) 
       .text(function() {
-        return (d[0] - d[0]%Math.floor(d[0])) + " Q" + result;
+        //return (d[0] - d[0]%Math.floor(d[0])) + " Q" + result;
+        return d[0] + " Q" + d[2];
       }); 
  
 
     svg.append("text")
       .attr("class", "val")
       .attr("x", function() { 
-          let n = parseInt(d[0] - d[0]%Math.floor(d[0]));  
-          if (n <= 1952) {
-            return  xScale(d[0]) + 210; 
-          } else if (n <= 1956) {
-            return  xScale(d[0]) + 75; 
-          } else {
-            return xScale(d[0]) - 25;
-          }
+          //let n = parseInt(d[0] - d[0]%Math.floor(d[0]));  
+          //if (n <= 1952) {
+          //  return  xScale(d[0]) + 210; 
+          //} else if (n <= 1956) {
+          //  return  xScale(d[0]) + 75; 
+          //} else {
+          //  return xScale(d[0]) - 25;
+          //}
 
+          return xScale(d[0]);
       })
       .attr("y", function() { return height + 25; }) 
       .text(function() {
