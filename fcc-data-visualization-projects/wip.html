@@ -80,7 +80,7 @@
     });
   let gdp = data.data.map(function(d) { return d[1]; });
 
-  console.log(years);
+  //console.log(years);
 
   var xScale = d3.scaleLinear().range([0, width]);
       xScale.domain([d3.min(years),d3.max(years)]);
@@ -169,7 +169,17 @@
   
     svg.append("rect")
       .attr("class", "box")
-      .attr("x", function() { return xScale(d[0]); })
+      .attr("x", function() { 
+          let n = parseInt(d[0] - d[0]%Math.floor(d[0]));  
+          if (n <= 1952) {
+            return  xScale(d[0]) + 210; 
+          } else if (n <= 1956) {
+            return  xScale(d[0]) + 75; 
+          } else {
+            return xScale(d[0]) - 25;
+          }
+
+      })
       .attr("y", function() { return height; })
       .attr("width", 200)
       .attr("height", 100);
@@ -177,7 +187,16 @@
 
     svg.append("text")
       .attr("class", "val")
-      .attr("x", function() { return xScale(d[0]); })
+      .attr("x", function() { 
+          let n = parseInt(d[0] - d[0]%Math.floor(d[0]));  
+          if (n <= 1952) {
+            return  xScale(d[0]) + 210; 
+          } else if (n <= 1956) {
+            return  xScale(d[0]) + 75; 
+          } else {
+            return xScale(d[0]) - 25;
+          }
+      })
       .attr("y", function() { return height; }) 
       .text(function() {
         return (d[0] - d[0]%Math.floor(d[0])) + " Q" + result;
@@ -186,7 +205,17 @@
 
     svg.append("text")
       .attr("class", "val")
-      .attr("x", function() { return xScale(d[0]); })
+      .attr("x", function() { 
+          let n = parseInt(d[0] - d[0]%Math.floor(d[0]));  
+          if (n <= 1952) {
+            return  xScale(d[0]) + 210; 
+          } else if (n <= 1956) {
+            return  xScale(d[0]) + 75; 
+          } else {
+            return xScale(d[0]) - 25;
+          }
+
+      })
       .attr("y", function() { return height + 25; }) 
       .text(function() {
         return "$" + d[1] + " Billion";
