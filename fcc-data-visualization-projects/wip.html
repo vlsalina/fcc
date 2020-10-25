@@ -54,7 +54,7 @@
       .attr("x", 50)
       .attr("y", 50)
       .attr("font-size", "24px")
-      .text("Gross Domestic Product");
+      .text("United States GDP");
 
   var xScale = d3.scaleBand().range([0, width]);
 
@@ -102,10 +102,10 @@
     .append("text")
     .attr("transform", "rotate(-90)")
     .attr("y", 0)
-    .attr("x", -(height/2))
+    .attr("x", -(height/2)+50)
     .attr("dy", "-6.1em")
     .attr("stroke", "black")
-    .text("GDP");
+    .text("Gross Domestic Product");
 
   let new_dataset = [];
   for (let i = 0; i < years.length; i++) {
