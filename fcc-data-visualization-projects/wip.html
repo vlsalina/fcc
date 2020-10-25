@@ -29,7 +29,7 @@
   .box {
     transform: translate(-100px, -50px);
     fill: white;
-    opacity: 0.5;
+    opacity: 0.7;
   }
 
 </style>
@@ -167,10 +167,18 @@
     var o = Math.ceil(d[0]%Math.floor(d[0])*10); 
     var result = (parseInt(Math.floor(d[0]%Math.ceil(d[0])*10)) % 2 == 0) ? e : o; 
   
+    svg.append("rect")
+      .attr("class", "box")
+      .attr("x", function() { return xScale(d[0]); })
+      .attr("y", function() { return height; })
+      .attr("width", 200)
+      .attr("height", 100);
+
+
     svg.append("text")
       .attr("class", "val")
       .attr("x", function() { return xScale(d[0]); })
-      .attr("y", function() { return yScale(d[1]); }) 
+      .attr("y", function() { return height; }) 
       .text(function() {
         return (d[0] - d[0]%Math.floor(d[0])) + " Q" + result;
       }); 
@@ -179,17 +187,17 @@
     svg.append("text")
       .attr("class", "val")
       .attr("x", function() { return xScale(d[0]); })
-      .attr("y", function() { return yScale(d[1]) + 25; }) 
+      .attr("y", function() { return height + 25; }) 
       .text(function() {
         return "$" + d[1] + " Billion";
       }); 
   
-    svg.append("rect")
-      .attr("class", "box")
-      .attr("x", function() { return xScale(d[0]); })
-      .attr("y", function() { return yScale(d[1]); })
-      .attr("width", 200)
-      .attr("height", 100);
+    //svg.append("rect")
+    //  .attr("class", "box")
+    //  .attr("x", function() { return xScale(d[0]); })
+    //  .attr("y", function() { return height; })
+    //  .attr("width", 200)
+    //  .attr("height", 100);
 
   }
 
