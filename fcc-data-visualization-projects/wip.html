@@ -234,7 +234,7 @@
       .attr("y", function() { return height + space; }) 
       .text(function() {
         //return (d[0] - d[0]%Math.floor(d[0])) + " Q" + result;
-        return d[0] + " Q" + d[2];
+        return (d[0]-d[0]%Math.floor(d[0])) + " Q" + d[2];
       }); 
  
 
