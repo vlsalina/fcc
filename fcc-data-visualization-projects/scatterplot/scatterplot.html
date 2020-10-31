@@ -24,13 +24,18 @@
     fill: orange;
   }
 
+  .recDisplay {
+    fill: white;
+    opacity: 0.4;
+  }
+
 </style>
     <script src="https://d3js.org/d3.v4.min.js"></script>
 </head>
 <body>
 <script>
 
-  var margin = 100;
+  var margin = 200;
   var svg_width = 1700;
   var svg_height = 800;
   var width = svg_width - 2 * margin;
@@ -51,7 +56,7 @@
     .text("Scatter Plot"); 
 
   d3.json("https://raw.githubusercontent.com/freeCodeCamp/ProjectReferenceData/master/cyclist-data.json", function(data) {
-  console.log(data);
+  //console.log(data);
   //var x = data.map(function(d,i) { return d.Year; });
     var yValues = data.map(function(d,i) { 
       var decimal = parseFloat(d.Time.slice(3,5) / 60);
@@ -61,17 +66,23 @@
       return d.Year;
     });
     var times = data.map(function(d,i) {
-      return d.Times;
+      return d.Time;
     });
     var crimes = data.map(function(d,i) {
       return d.Doping;
     });
-    
+    var names = data.map(function(d,i) {
+      return d.Name;
+    });
+    var nationality = data.map(function(d,i) {
+      return d.Nationality;
+    });
+    console.log(times); 
 
     // [ year, time(string), crime, time(float) ]
     let dataset = [];
     for (let i = 0; i < years.length; i++) {
-      dataset.push([years[i], times[i], crimes[i], yValues[i]]);
+      dataset.push([years[i], times[i], crimes[i], yValues[i], names[i], nationality[i]]);
     }
 
     console.log(dataset);
@@ -80,9 +91,7 @@
   
 
   var xScale = d3.scaleLinear().range([0, width]);
-      xScale.domain([d3.min(data.map(function(d) {
-        return d.Year;
-      })),
+      xScale.domain([1993,
         d3.max(data.map(function(d) {
         return d.Year;
       }))]);
@@ -107,7 +116,82 @@
     .attr("class", "cir")
     .attr("cx", function(d) { return xScale(d[0]); })
     .attr("cy", function(d) { return yScale(d[3]); })
-    .attr("r", 3); 
+    .attr("r", 5)
+    .on("mouseover", onMouseOver)
+    .on("mouseout", onMouseOut); 
+
+  var space = 15;
+  var rect_width = 410;
+  var rect_height = 100;
+
+
+  function onMouseOver(d, i) {
+    var info = g.append("rect")
+      .attr("class", "recDisplay")
+      .attr("x", function() {
+          return xScale(d[0] + 0.5);
+        })
+      .attr("y", yScale(d[3]))
+      .attr("transform", "translate(" + (-10) + "," + (-10) + ")")
+      .attr("width", rect_width)  
+      .attr("height", rect_height);
+
+    g.append("text")
+      .attr("class", "tDisplay")
+      .attr("x", function() {
+        return xScale(d[0] + 0.5);
+      })
+      .attr("y", function() {
+        return yScale(d[3]);
+      })
+      .attr("transform", "translate(" + 0 + "," + space + ")")
+      .text(function() {
+        return d[4] + ": " + d[5]; 
+      });
+
+    g.append("text")
+      .attr("class", "tDisplay")
+      .attr("x", function() {
+        return xScale(d[0] + 0.5);
+      })
+      .attr("y", function() {
+        return yScale(d[3]);
+      })
+      .attr("transform", "translate(" + 0 + "," + (2*space) + ")")
+      .text(function() {
+        return "Year: " + d[0] + ", " + "Time: " + d[1]; 
+      });
+      
+    g.append("text")
+      .attr("class", "tDisplay")
+      .attr("x", function() {
+        return xScale(d[0] + 0.5);
+      })
+      .attr("y", function() {
+        return yScale(d[3]);
+      })
+      .attr("transform", "translate(" + 0 + "," + (4*space) + ")")
+      .text(function() {
+        return d[2]; 
+      });
+
+    info.each(function() {
+      console.log(this.getBBox());
+    });
+
+  }
+
+  function onMouseOut(d,i) {
+     g.select("rect")
+        .remove();
+
+      g.selectAll(".recDisplay")
+        .remove();
+  
+      g.selectAll(".tDisplay")
+        .remove();
+
+  }
 
         
 
