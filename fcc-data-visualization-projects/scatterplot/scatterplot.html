@@ -49,11 +49,29 @@
   var g = svg.append("g")
           .attr("transform", "translate(" + margin + "," + margin + ")");
 
+  var div = d3.select("body")
+            .append("div")
+            .style("opacity", 0);
+
+  //var title = d3.select("body")
+  //              .append("h1")
+  //              .html("Doping in Professional Bicycle Racing<br>35 Fastest times up Alpe d'Huez")
+  //              .style("text-align", "center"); 
+
   g.append("text")
-    .attr("transform", "translate(" + 0 + "," + 0 + ")")
     .attr("x", width/2)
-    .attr("y", 0)
-    .text("Scatter Plot"); 
+    .attr("y", "-2em")
+    .style("text-anchor", "middle")
+    .style("font-size", "2em")
+    .text("Doping in Professional Bicycle Racing");
+
+  g.append("text")
+    .attr("x", width/2)
+    .attr("y", "-1em")
+    .style("text-anchor", "middle")
+    .style("font-size", "1.5em")
+    .text("35 Fastest times up Alpe d'Huez");
+
 
   d3.json("https://raw.githubusercontent.com/freeCodeCamp/ProjectReferenceData/master/cyclist-data.json", function(data) {
   //console.log(data);
@@ -85,16 +103,22 @@
       dataset.push([years[i], times[i], crimes[i], yValues[i], names[i], nationality[i]]);
     }
 
-    console.log(dataset);
+  //console.log(dataset);
   //console.log(x);
   //console.log(y);
   
+  let n = 999999;
+  let toString = function(n) { return parseInt(n.toString().replaceAll(",","")) }; 
+  console.log(toString(999999));
+
+
 
   var xScale = d3.scaleLinear().range([0, width]);
       xScale.domain([1993,
         d3.max(data.map(function(d) {
         return d.Year;
       }))]);
+      x = d3.scaleLinear().range([0, width]);
 
   var yScale = d3.scaleLinear().range([0, height]);
       yScale.domain([
@@ -102,14 +126,30 @@
         d3.max(dataset.map(function(d,i) { return d[3]; }))
       ]);
 
+  // x axis 
   g.append("g")
     .attr("transform", "translate(" + 0 + "," + height + ")")
-    .call(d3.axisBottom(xScale));
+    .call(d3.axisBottom(xScale).tickFormat(d3.format('d')));
 
+   g.append("text")
+    .text("Time (s)")
+    .attr("transform", "rotate(-90)")
+    .attr("x", -height/2)
+    .attr("y", "-3.5em");
+
+
+  // y axis 
   g.append("g")
     .attr("transform", "translate(" + 0 + "," + 0 + ")")
     .call(d3.axisLeft(yScale));
 
+  g.append("text")
+    .text("Year")
+    .attr("x", width/2)
+    .attr("y", height + 50);
+
+
+  // dots 
   g.selectAll("circle")
     .data(dataset)
     .enter().append("circle")
@@ -117,83 +157,46 @@
     .attr("cx", function(d) { return xScale(d[0]); })
     .attr("cy", function(d) { return yScale(d[3]); })
     .attr("r", 5)
+    .attr("fill", function(d) {
+      if (d[2] === "") {
+        return "blue";
+      } else {
+        return "red";
+      }
+    })
     .on("mouseover", onMouseOver)
     .on("mouseout", onMouseOut); 
 
-  var space = 15;
-  var rect_width = 410;
-  var rect_height = 100;
-
-
+  // onmouseover 
   function onMouseOver(d, i) {
-    var info = g.append("rect")
-      .attr("class", "recDisplay")
-      .attr("x", function() {
-          return xScale(d[0] + 0.5);
-        })
-      .attr("y", yScale(d[3]))
-      .attr("transform", "translate(" + (-10) + "," + (-10) + ")")
-      .attr("width", rect_width)  
-      .attr("height", rect_height);
 
-    g.append("text")
-      .attr("class", "tDisplay")
-      .attr("x", function() {
-        return xScale(d[0] + 0.5);
-      })
-      .attr("y", function() {
-        return yScale(d[3]);
-      })
-      .attr("transform", "translate(" + 0 + "," + space + ")")
-      .text(function() {
-        return d[4] + ": " + d[5]; 
-      });
 
-    g.append("text")
-      .attr("class", "tDisplay")
-      .attr("x", function() {
-        return xScale(d[0] + 0.5);
-      })
-      .attr("y", function() {
-        return yScale(d[3]);
-      })
-      .attr("transform", "translate(" + 0 + "," + (2*space) + ")")
-      .text(function() {
-        return "Year: " + d[0] + ", " + "Time: " + d[1]; 
-      });
-      
-    g.append("text")
-      .attr("class", "tDisplay")
-      .attr("x", function() {
-        return xScale(d[0] + 0.5);
-      })
-      .attr("y", function() {
-        return yScale(d[3]);
-      })
-      .attr("transform", "translate(" + 0 + "," + (4*space) + ")")
-      .text(function() {
-        return d[2]; 
-      });
+    let x = d3.event.pageX;
+    let y = d3.event.pageY;
 
-    info.each(function() {
-      console.log(this.getBBox());
-    });
+    let str =  d[4] + ": " + d[5] + "<br>" +
+               "Year: " + d[0] + ", " + "Time: " + d[1] + "<br><br>" +
+               d[2];  
 
+    div.style("background-color", "black");
+    div.html(str)
+       .style("opacity", 1)
+       .attr("class", "text")
+       .style("z-index", 1)
+       .style("color", "white")
+       .style("padding", "10px")
+       .style("position", "absolute")
+       .style("left", x + 20 + "px")
+       .style("top", y - 10 + "px")
+       .style("border-radius", "10px");
   }
 
+
+  // onmouseout 
   function onMouseOut(d,i) {
-     g.select("rect")
-        .remove();
-
-      g.selectAll(".recDisplay")
-        .remove();
-  
-      g.selectAll(".tDisplay")
-        .remove();
-
+     div.style("opacity", 0);
+    
   }
-
-        
 
 }
 );
