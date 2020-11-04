@@ -111,7 +111,15 @@
   let toString = function(n) { return parseInt(n.toString().replaceAll(",","")) }; 
   console.log(toString(999999));
 
+  var formatter = function(d) {
+      let temp = Math.ceil((d % 1) * 60);
+      let seconds = (temp == 0) ? "00" : temp;
+      let minutes = d - d%1;
+      return minutes + ":" + seconds; 
+  
+  };
 
+  console.log(formatter(["0:00","6:41"]));
 
   var xScale = d3.scaleLinear().range([0, width]);
       xScale.domain([1993,
@@ -141,7 +149,7 @@
   // y axis 
   g.append("g")
     .attr("transform", "translate(" + 0 + "," + 0 + ")")
-    .call(d3.axisLeft(yScale));
+    .call(d3.axisLeft(yScale).tickFormat(formatter));
 
   g.append("text")
     .text("Year")
