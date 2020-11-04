@@ -72,6 +72,35 @@
     .style("font-size", "1.5em")
     .text("35 Fastest times up Alpe d'Huez");
 
+  let legend = g.append("g");
+  legend.attr("transform", "translate(" + (width-margin/10) + "," + height/4 + ")");
+
+  let doping = legend.append("g");
+  doping.append("rect")
+        .attr("transform", "translate(" + 5 + "," + 0 + ")")
+        .attr("x", 0)
+        .attr("y", 0)
+        .attr("width", 20)
+        .attr("height", 20)
+        .attr("fill", "red");
+  doping.append("text")
+        .attr("transform", "translate(" + 0 + "," + 20 + ")")
+        .attr("text-anchor", "end")
+        .text("Riders with doping allegations");
+
+  let nonDoping = legend.append("g")
+  nonDoping.append("rect")
+        .attr("transform", "translate(" + 5 + "," + 0 + ")")
+        .attr("x", 0)
+        .attr("y", 23)
+        .attr("width", 20)
+        .attr("height", 20)
+        .attr("fill", "blue");
+  nonDoping.append("text")
+        .attr("transform", "translate(" + 0 + "," + 40 + ")")
+        .attr("text-anchor", "end")
+        .text("No doping allegations");
+
 
   d3.json("https://raw.githubusercontent.com/freeCodeCamp/ProjectReferenceData/master/cyclist-data.json", function(data) {
   //console.log(data);
