@@ -182,9 +182,10 @@
     let x = d3.event.pageX;
     let y = d3.event.pageY;
 
-    let str =  d[4] + ": " + d[5] + "<br>" +
+    let str =  (d[2] !== "") ? d[4] + ": " + d[5] + "<br>" +
                "Year: " + d[0] + ", " + "Time: " + d[1] + "<br><br>" +
-               d[2];  
+               d[2] : d[4] + ": " + d[5] + "<br>" +
+               "Year: " + d[0] + ", " + "Time: " + d[1]; 
 
     div.style("background-color", "black");
     div.html(str)
