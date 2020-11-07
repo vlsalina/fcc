@@ -103,7 +103,7 @@
   let LHeight = height/15
 
   let xLegend = d3.scaleLinear().range([0,LWidth]);
-  xLegend.domain([0,11]);
+  xLegend.domain([0,9]);
 
   let yLegend = d3.scaleLinear().range([0,LHeight]);
   yLegend.domain([1,0]);
@@ -113,13 +113,20 @@
 
   legend.append("g")
         .attr("transform", "translate(" + 0 + "," + LHeight + ")")
-        .call(d3.axisBottom(xLegend));
+        .call(d3.axisBottom(xLegend).tickFormat(function(d) { return color(d); }));
 
   legend.append("g")
         .attr("transform", "translate(" + 0 + "," + 0 + ")")
         .call(d3.axisLeft(yLegend).ticks(1).tickFormat(function(d) { return ""; }));
 
-
+  legend.selectAll("rect")
+      .data(colors)
+      .enter().append("rect")
+      .attr("x", function(d,i) { return xLegend(i); })
+      .attr("y", 0)
+      .attr("width", (LWidth / 9))
+      .attr("height", LHeight)
+      .attr("fill", function(d) { return d; });
 
   var len = data.monthlyVariance.length;
   
@@ -199,6 +206,22 @@
       case 12: return "December"; break;
       default: return ""; break;
   }}
+
+  function color(d) {
+    switch(d) {
+      case 0: return "2.8"; break;
+      case 1: return "3.9"; break;
+      case 2: return "5.0"; break;
+      case 3: return "6.1"; break;
+      case 4: return "7.2"; break;
+      case 5: return "8.3"; break;
+      case 6: return "9.5"; break;
+      case 7: return "10.6"; break;
+      case 8: return "11.7"; break;
+      case 9: return "12.8"; break;
+      default: return ""; break; 
+    }
+  }
  
 
   })
