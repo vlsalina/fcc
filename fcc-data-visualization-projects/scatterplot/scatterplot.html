@@ -132,23 +132,14 @@
       dataset.push([years[i], times[i], crimes[i], yValues[i], names[i], nationality[i]]);
     }
 
-  //console.log(dataset);
-  //console.log(x);
-  //console.log(y);
-  
-  let n = 999999;
-  let toString = function(n) { return parseInt(n.toString().replaceAll(",","")) }; 
-  console.log(toString(999999));
 
   var formatter = function(d) {
       let temp = Math.ceil((d % 1) * 60);
-      let seconds = (temp == 0) ? "00" : temp;
+      let seconds = (temp < 10) ? "0" + temp : temp;
       let minutes = d - d%1;
       return minutes + ":" + seconds; 
   
   };
-
-  console.log(formatter(["0:00","6:41"]));
 
   var xScale = d3.scaleLinear().range([0, width]);
       xScale.domain([1993,
@@ -169,7 +160,7 @@
     .call(d3.axisBottom(xScale).tickFormat(d3.format('d')));
 
    g.append("text")
-    .text("Time (s)")
+    .text("Time")
     .attr("transform", "rotate(-90)")
     .attr("x", -height/2)
     .attr("y", "-3.5em");
