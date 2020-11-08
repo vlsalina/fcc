@@ -124,7 +124,7 @@
       .enter().append("rect")
       .attr("x", function(d,i) { return xLegend(i); })
       .attr("y", 0)
-      .attr("width", (LWidth / 9))
+      .attr("width", (LWidth / 9) - 0.5)
       .attr("height", LHeight)
       .attr("fill", function(d) { return d; });
 
