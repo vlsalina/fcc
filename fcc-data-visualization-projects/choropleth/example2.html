@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<style>
+
+  svg {
+    background-color: pink;
+  }
+
+</style>
+</head>
+<body>
+<script src="https://d3js.org/d3.v4.min.js"></script>
+<script src="https://unpkg.com/topojson@3"></script>
+<script>
+
+var margin = {"top": 50, "right": 50, "bottom": 50, "left": 50};
+var width = 1080,
+    height = 580;
+
+
+var svg = d3.select("body").append("svg")
+    .attr("width", width + margin.left + margin.right)
+    .attr("height", height + margin.top + margin.bottom);
+
+// title element
+var title = svg.append("h1")
+          .attr("id", "title")
+          .html("United States Educational Attainment");
+
+// description element
+var description = svg.append("h3")
+                  .attr("id", "description")
+                  .html("Percentage of adults age 25 and older with a bachelor's degree or higher (2010-2014)");
+
+var us = "https://cdn.freecodecamp.org/testable-projects-fcc/data/choropleth_map/counties.json";
+var education = "https://cdn.freecodecamp.org/testable-projects-fcc/data/choropleth_map/for_user_education.json";
+
+d3.queue()
+  .defer(d3.json, us)
+  .defer(d3.json, education)
+  .await(ready);
+
+var projection = d3.geoAlbersUsa()
+                    .scale(100);
+
+var path = d3.geoPath();
+          //.projection(projection);
+
+function ready(error, us, education) {
+  if (error) throw error;
+  
+  var counties = topojson.feature(us, us.objects.counties).features;
+  console.log(counties);
+
+  svg.append("g")
+    .attr(
+    .selectAll(".county")
+    .data(counties)
+    .enter().append("path")
+    .attr("class", "county")
+    .attr("d", path);
+
+};
+
+</script>
+</body>
+</html>
