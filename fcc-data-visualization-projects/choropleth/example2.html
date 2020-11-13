@@ -6,6 +6,26 @@
 
   svg {
     background-color: pink;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+
+  #heading {
+    position: absolute;
+    top: 5%;
+    left: 50%;
+    transform: translate(-50%,0);
+    text-align: center;
+  }
+
+  #title {
+    color: blue;
+  }
+
+  #description {
+    color: blue;
   }
 
 </style>
@@ -21,16 +41,21 @@ var width = 1080,
 
 
 var svg = d3.select("body").append("svg")
+    .attr("transform", "translate(" + margin.left + "," + margin.top + ")")
     .attr("width", width + margin.left + margin.right)
     .attr("height", height + margin.top + margin.bottom);
 
+var heading = d3.select("body")
+          .append("div")
+          .attr("id", "heading");
+
 // title element
-var title = svg.append("h1")
+var title = heading.append("h1")
           .attr("id", "title")
           .html("United States Educational Attainment");
 
 // description element
-var description = svg.append("h3")
+var description = heading.append("h3")
                   .attr("id", "description")
                   .html("Percentage of adults age 25 and older with a bachelor's degree or higher (2010-2014)");
 
@@ -55,7 +80,7 @@ function ready(error, us, education) {
   console.log(counties);
 
   svg.append("g")
-    .attr(
+    .attr("transform", "translate(" + margin.left + "," + margin.top + ")")
     .selectAll(".county")
     .data(counties)
     .enter().append("path")
