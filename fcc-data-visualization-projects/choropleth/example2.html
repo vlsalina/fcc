@@ -75,9 +75,53 @@ var description = heading.append("h3")
                   .html("Percentage of adults age 25 and older with a bachelor's degree or higher (2010-2014)");
 
 // info box
+function color(d) {
+    switch(d) {
+      case 0: return "3%"; break;
+      case 1: return "12%"; break;
+      case 2: return "21%"; break;
+      case 3: return "30%"; break;
+      case 4: return "39%"; break;
+      case 5: return "48%"; break;
+      case 6: return "57%"; break;
+      case 7: return "66%"; break;
+      default: return ""; break; 
+   }
+}
+
 let info = d3.select("body")
             .append("div")
             .attr("opacity", 0);
+
+  let LWidth = width/4;
+  let LHeight = height/20
+
+  let xLegend = d3.scaleLinear().range([0,LWidth]);
+  xLegend.domain([0,7]);
+
+  //let yLegend = d3.scaleLinear().range([0,LHeight]);
+  //yLegend.domain([1,0]);
+
+  let legend = svg.append("g")
+               .attr("transform", "translate(" + (width - margin.right*6) + "," + margin.top*3 + ")");   
+
+  legend.append("g")
+        .attr("transform", "translate(" + 0 + "," + LHeight + ")")
+        .call(d3.axisBottom(xLegend).tickFormat(function(d) { return color(d); }).ticks(8));
+
+  //legend.append("g")
+  //      .attr("transform", "translate(" + 0 + "," + 0 + ")")
+  //      .call(d3.axisLeft(yLegend).ticks(1).tickFormat(function(d) { return ""; }));
+
+  legend.selectAll("rect")
+      .data(colors)
+      .enter().append("rect")
+      .attr("x", function(d,i) { return xLegend(i); })
+      .attr("y", 0)
+      .attr("width", (LWidth / 7))
+      .attr("height", LHeight)
+      .attr("fill", function(d) { return d; });
+
 
 var us = "https://cdn.freecodecamp.org/testable-projects-fcc/data/choropleth_map/counties.json";
 var education = "https://cdn.freecodecamp.org/testable-projects-fcc/data/choropleth_map/for_user_education.json";
@@ -173,6 +217,8 @@ function ready(error, us, education) {
   function onMouseOut(d, i) {
       info.style("opacity", 0);
   }
+
+
 
 };
 
