@@ -5,7 +5,6 @@
 <style>
 
   svg {
-    background-color: pink; 
     position: absolute;
     top: 50%;
     left: 50%;
@@ -91,27 +90,23 @@ function color(d) {
 
 let info = d3.select("body")
             .append("div")
+            .attr("id", "tooltip")
             .attr("opacity", 0);
 
+// legend
   let LWidth = width/4;
   let LHeight = height/20
 
   let xLegend = d3.scaleLinear().range([0,LWidth]);
   xLegend.domain([0,7]);
 
-  //let yLegend = d3.scaleLinear().range([0,LHeight]);
-  //yLegend.domain([1,0]);
-
   let legend = svg.append("g")
+               .attr("id", "legend")
                .attr("transform", "translate(" + (width - margin.right*6) + "," + margin.top*3 + ")");   
 
   legend.append("g")
         .attr("transform", "translate(" + 0 + "," + LHeight + ")")
         .call(d3.axisBottom(xLegend).tickFormat(function(d) { return color(d); }).ticks(8));
-
-  //legend.append("g")
-  //      .attr("transform", "translate(" + 0 + "," + 0 + ")")
-  //      .call(d3.axisLeft(yLegend).ticks(1).tickFormat(function(d) { return ""; }));
 
   legend.selectAll("rect")
       .data(colors)
@@ -191,10 +186,12 @@ function ready(error, us, education) {
   function onMouseOver(d,i) {
     
     let str = "";
+    let attainment = 0;
 
     for (let i = 0; i < education.length; i++) {
       if (education[i].fips == d.id) {
         str = education[i].area_name + ", " + education[i].state + ": " + education[i].bachelorsOrHigher + "%"; 
+        attainment = education[i].bachelorsOrHigher;
         break;
       }
     }
@@ -202,12 +199,13 @@ function ready(error, us, education) {
     let x = d3.event.pageX;
     let y = d3.event.pageY;    
 
+    info.attr("data-education", attainment); 
+
     info.html(str)
-        .attr("class", "info")
         .style("opacity", 1)
         .style("background-color", "black")
         .style("color", "white")
-        .style("padding", "20px")
+        .style("padding", "10px")
         .style("position", "absolute")
         .style("left", x + "px")
         .style("top", y + "px")
