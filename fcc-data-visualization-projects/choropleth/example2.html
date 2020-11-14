@@ -5,12 +5,13 @@
 <style>
 
   svg {
-    background-color: pink;
+    background-color: pink; 
     position: absolute;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
   }
+  
 
   #heading {
     position: absolute;
@@ -37,7 +38,7 @@
 
 var margin = {"top": 50, "right": 50, "bottom": 50, "left": 50};
 var width = 1080,
-    height = 580;
+    height = 780;
 
 // 8 colors
 let colors = [
@@ -73,6 +74,11 @@ var description = heading.append("h3")
                   .attr("id", "description")
                   .html("Percentage of adults age 25 and older with a bachelor's degree or higher (2010-2014)");
 
+// info box
+let info = d3.select("body")
+            .append("div")
+            .attr("opacity", 0);
+
 var us = "https://cdn.freecodecamp.org/testable-projects-fcc/data/choropleth_map/counties.json";
 var education = "https://cdn.freecodecamp.org/testable-projects-fcc/data/choropleth_map/for_user_education.json";
 
@@ -98,9 +104,10 @@ function ready(error, us, education) {
   //console.log(typeof list[0][0]);
   //console.log(typeof us.objects.counties.geometries[0].id);
 
+
   // render map
   svg.append("g")
-    .attr("transform", "translate(" + margin.left + "," + margin.top + ")")
+    .attr("transform", "translate(" + margin.left*2 + "," + margin.top*4 + ")")
     .selectAll(".county")
     .data(counties)
     .enter().append("path")
@@ -116,7 +123,9 @@ function ready(error, us, education) {
        } 
        return result;
     })
-    .attr("d", path);
+    .attr("d", path)
+    .on("mouseover", onMouseOver)
+    .on("mouseout", onMouseOut);
 
 
   // color code counties by education attainment
@@ -135,6 +144,35 @@ function ready(error, us, education) {
       else { return colors[7]; }
     });
 
+  function onMouseOver(d,i) {
+    
+    let str = "";
+
+    for (let i = 0; i < education.length; i++) {
+      if (education[i].fips == d.id) {
+        str = education[i].area_name + ", " + education[i].state + ": " + education[i].bachelorsOrHigher + "%"; 
+        break;
+      }
+    }
+
+    let x = d3.event.pageX;
+    let y = d3.event.pageY;    
+
+    info.html(str)
+        .attr("class", "info")
+        .style("opacity", 1)
+        .style("background-color", "black")
+        .style("color", "white")
+        .style("padding", "20px")
+        .style("position", "absolute")
+        .style("left", x + "px")
+        .style("top", y + "px")
+        .style("border-radius", "10px");
+  }
+
+  function onMouseOut(d, i) {
+      info.style("opacity", 0);
+  }
 
 };
 
