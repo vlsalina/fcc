@@ -59,6 +59,7 @@ var svg = d3.select("body").append("svg")
     .attr("width", width + margin.left + margin.right)
     .attr("height", height + margin.top + margin.bottom);
 
+// heading to contain title and description
 var heading = d3.select("body")
           .append("div")
           .attr("id", "heading");
@@ -126,6 +127,7 @@ d3.queue()
   .defer(d3.json, education)
   .await(ready);
 
+// projection not needed. must find out why
 var projection = d3.geoAlbersUsa()
                     .scale(100);
 
