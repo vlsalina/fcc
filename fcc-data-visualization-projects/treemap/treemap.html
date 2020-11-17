@@ -127,16 +127,6 @@ function ready(error, kickstarter, movies, games) {
     return d.data.name;
   })
 
-  d3.select("body")
-    .selectAll("div.txt")
-    .data(rootNode.descendants())
-    .enter()
-    .append("div")
-    .attr("class", "txt")
-    .attr("position", "absolute")
-    .attr("transform", "translate(" + d.x0 + "," + d.y0 + ")")
-    .html("Hello");
-
 } 
 
 </script>
