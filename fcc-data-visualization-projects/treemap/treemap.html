@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<style>
+
+  svg {
+    background-color: lightblue;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+
+  #heading {
+    position: absolute;
+    top: 5%;
+    left: 50%;
+    transform: translate(-50%,0);
+    text-align: center;
+  }
+
+  #title {
+    color: blue;
+  }
+
+  #description {
+    color: blue;
+  }
+
+  rect {
+    fill: cadetblue;
+    opacity: 0.3;
+    stroke: white;
+  }
+
+  text {
+    font-family: "Helvetica Neue", Helvetica, sans-serif;
+    fill: white;
+    font-size: 10px;
+  }
+
+</style>
+</head>
+<body>
+<script src="https://d3js.org/d3.v4.min.js"></script>
+<script src="https://unpkg.com/topojson@3"></script>
+<script>
+
+var margin = {"top": 50, "right": 50, "bottom": 50, "left": 50};
+var width = 1780,
+    height = 780;
+
+
+var svg = d3.select("body").append("svg")
+    .attr("transform", "translate(" + margin.left*10 + "," + margin.top*10 + ")")
+    .attr("width", width + margin.left + margin.right)
+    .attr("height", height + margin.top + margin.bottom);
+
+// heading to contain title and description
+var heading = d3.select("body")
+          .append("div")
+          .attr("id", "heading");
+
+// title element
+var title = heading.append("h1")
+          .attr("id", "title")
+          .html("");
+
+// description element
+var description = heading.append("h3")
+                  .attr("id", "description")
+                  .html("");
+
+// links
+let kickstarter_link = d3.select("body")
+                          .append("div")
+                          .html("<span id=\"kick\">Kickstarter</span> | <span id=\"mov\">Movies</span> | <span id=\"gam\">Games</span>");
+
+
+let kickstarter = "https://cdn.freecodecamp.org/testable-projects-fcc/data/tree_map/kickstarter-funding-data.json";
+let movies = "https://cdn.freecodecamp.org/testable-projects-fcc/data/tree_map/movie-data.json";
+let games = "https://cdn.freecodecamp.org/testable-projects-fcc/data/tree_map/video-game-sales-data.json";
+
+d3.queue()
+  .defer(d3.json, kickstarter)
+  .defer(d3.json, movies)
+  .defer(d3.json, games)
+  .await(ready);
+
+function ready(error, kickstarter, movies, games) {
+  console.log(kickstarter);
+  console.log(movies);
+  console.log(games);
+
+  let curr = kickstarter;
+
+  var treemapLayout = d3.treemap()
+  .size([1880, 880])
+  .paddingOuter(16);
+
+  var rootNode = d3.hierarchy(curr)
+  
+  rootNode.sum(function(d) {
+    return d.value;
+  });
+  
+  treemapLayout(rootNode);  
+ 
+  var nodes = d3.select('svg')
+  .selectAll('g')
+  .data(rootNode.descendants())
+  .enter()
+  .append('g')
+  .attr('transform', function(d) {return 'translate(' + [d.x0, d.y0] + ')'})
+
+  nodes
+  .append('rect')
+  .attr('width', function(d) { return d.x1 - d.x0; })
+  .attr('height', function(d) { return d.y1 - d.y0; })
+
+  nodes
+  .append('text')
+  .attr('dx', 4)
+  .attr('dy', 14)
+  .text(function(d) {
+    return d.data.name;
+  })
+
+} 
+
+</script>
+</body>
+</html>
