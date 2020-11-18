@@ -117,7 +117,6 @@ function ready(error, kickstarter, movies, games) {
 
   nodes
   .append('rect')
-  .attr("id", function(d) { return d.data.name; })
   .attr('width', function(d) { return d.x1 - d.x0; })
   .attr('height', function(d) { return d.y1 - d.y0; });
   
@@ -126,19 +125,15 @@ function ready(error, kickstarter, movies, games) {
   .text(function(d) {
     return d.data.name;
   })
-  .attr("name", function(d) { return d.data.name; })
-  .attr("data-width", function(d) { return d.x1 - d.x0; })
+  .attr("data-width", (d) => d.x1 = d.x0)
   .attr("x", 3)
   .attr("y", 10)
   .call(wrapText);
-
-  
 
   function wrapText(selection) {
     selection.each(function() {
       const node = d3.select(this);
       const rectWidth = +node.attr("data-width");
-      const n = node.attr("name");
       let word;
       const words = node.text().split(" ").reverse();
       let line = [];
@@ -146,19 +141,16 @@ function ready(error, kickstarter, movies, games) {
       const y = node.attr("y");
       let tspan = node.text(" ").append("tspan").attr("x", x).attr("y", y);
       let lineNumber = 0;
-      while (words.length >= 1) {
+      while (words.length > 1) {
         word = words.pop();
         line.push(word);
         tspan.text(line.join(" "));
         const tspanLength = tspan.node().getComputedTextLength();
-        if (tspanLength > rectWidth) {
-          //console.log(n + " More: " + tspanLength, rectWidth);
+        if (tspanLength > rectWidth && line.length !== 1) {
           line.pop();
           tspan.text(line.join(" "));
           line = [word];
           tspan = addTspan(word);
-        } else {
-          //console.log(n + " Less: " + tspanLength, rectWidth);  
         }
 
       }  
@@ -172,12 +164,12 @@ function ready(error, kickstarter, movies, games) {
               .append('tspan')
               .attr('x', x)
               .attr('y', y)
-              .attr('dy', `${lineNumber * 10}px`)
+              .attr('dy', `${lineNumber * fontSize}px`)
               .text(text)
           );
       }
 
-    })
+    }
 
   }
 
