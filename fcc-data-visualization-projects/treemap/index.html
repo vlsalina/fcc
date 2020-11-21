@@ -29,7 +29,6 @@
   }
 
   rect {
-    fill: cadetblue;
     opacity: 0.3;
     stroke: white;
   }
@@ -73,10 +72,46 @@ var description = heading.append("h3")
                   .html("");
 
 // links
-let kickstarter_link = d3.select("body")
-                          .append("div")
-                          .html("<a href=\"https://raw.githubusercontent.com/vlsalina/fcc/master/fcc-data-visualization-projects/treemap/kickstarter.html\" id=\"kick\"><span>Kickstarter</span></a> | <a href=\"https://raw.githubusercontent.com/vlsalina/fcc/master/fcc-data-visualization-projects/treemap/movies.html\" id=\"mov\"><span>Movies</span></a> | <a href=\"https://raw.githubusercontent.com/vlsalina/fcc/master/fcc-data-visualization-projects/treemap/treemap.html\" id=\"gam\"><span>Games</span></a>"
-        );
+let links = d3.select("body")
+            .append("div")
+            .attr("id", "links");
+
+// tooltip
+let tooltip = d3.select("body")
+                .append("div")
+                .attr("id", "tooltip")
+                .style("opacity", 0);
+
+
+
+let kick_url = "https://vlsalina.github.io/kickstarter";
+let movies_url = "https://vlsalina.github.io/movies";
+let games_url = "https://vlsalina.github.io/games";
+
+links.append("span")
+      .append("a")
+      .attr("id", "kickstarter")
+      .attr("href", kick_url)
+      .html("Kickstarter");
+
+links.append("span").html(" | ");
+
+links.append("span")
+      .append("a")
+      .attr("id", "movies")
+      .attr("href", movies_url)
+      .html("Movies");
+
+links.append("span").html(" | ");
+
+links.append("span")
+      .append("a")
+      .attr("id", "games")
+      .attr("href", games_url)
+      .html("Games");
+
+// colors
+let colors = d3.scaleOrdinal();
 
 
 let kickstarter = "https://cdn.freecodecamp.org/testable-projects-fcc/data/tree_map/kickstarter-funding-data.json";
@@ -94,22 +129,25 @@ function ready(error, kickstarter, movies, games) {
   console.log(movies);
   console.log(games);
 
-  let curr = games;
 
-  // content switch
-  d3.select("#kick")
-    .on("click", onClickKick);
+  // default data
+  let curr = movies; 
 
-  d3.select("#mov")
-    .on("click", onClickMov);
+  // get categories
+  let categories = curr.children.map(function(data) {
+                          return data.name;
+                      });
 
-  d3.select("#gam")
-    .on("click", onClickGam);
+  // color scale
+  console.log(categories);
+  colors.domain(categories);
+  colors.range(d3.schemeCategory20);
+  
 
   // build treemap
   var treemapLayout = d3.treemap()
   .size([1880, 880])
-  .paddingOuter(16);
+  .paddingOuter(0);
 
   var rootNode = d3.hierarchy(curr)
   
@@ -122,16 +160,26 @@ function ready(error, kickstarter, movies, games) {
  
   var nodes = d3.select('svg')
   .selectAll('g')
-  .data(rootNode.descendants())
+  .data(rootNode.descendants().filter(function(d) {
+      if (d.depth > 1) {
+        return d;
+      }   
+   }))
   .enter()
   .append('g')
   .attr('transform', function(d) {return 'translate(' + [d.x0, d.y0] + ')'; })
 
   nodes
   .append('rect')
+  .attr("class", "rect")
+  .attr("category", function(d) { return d.data.category; })
+  .attr("value", function(d) { return d.data.value; })
   .attr("id", function(d) { return d.data.name; })
   .attr('width', function(d) { return d.x1 - d.x0; })
-  .attr('height', function(d) { return d.y1 - d.y0; });
+  .attr('height', function(d) { return d.y1 - d.y0; })
+  .attr("fill", function(d) {
+      return colors(d.data.category); 
+  });
   
   nodes
   .append('text')
@@ -143,6 +191,14 @@ function ready(error, kickstarter, movies, games) {
   .attr("x", 3)
   .attr("y", 10)
   .call(wrapText);
+
+  // mouse events
+  d3.selectAll(".rect")
+   .on("mousemove", onMouseMove)
+   .on("mouseout", onMouseOut);
+  d3.select("#tooltip")
+   .on("mousemove", onMouseMove)
+   .on("mouseout", onMouseOut);
 
   
   // wrapper
@@ -193,16 +249,37 @@ function ready(error, kickstarter, movies, games) {
 
   }
 
-  function onClickKick() {
-    curr = kickstarter;
+  // mouseover
+  function onMouseMove(d,i) {      
+     
+    let str = "";
+    let node = d3.select(this); 
+
+    str = "Name: " + node.attr("id") + "<br>" +
+          "Category: " + node.attr("category") + "<br>" +
+          "Value: " + node.attr("value");
+
+    let x = d3.event.pageX;
+    let y = d3.event.pageY;
+
+
+    if (node.attr("category") != null) {
+      tooltip.html(str)
+            .style("opacity", 1)
+            .style("background-color", "black")
+            .style("color", "white")
+            .style("padding", "20px")
+            .style("position", "absolute")
+            .style("left", (x+20) + "px")
+            .style("top", y + "px")
+            .style("border-radius", "10px");  
+    } else {
+      tooltip.style("opacity", 0);
+    }
   }
 
-  function onClickMov() {
-    curr = movies;
-  }
-
-  function onClickGam() {
-    curr = games;
+  function onMouseOut(d,i) {
+    tooltip.style("opacity", 0);
   }
 
 } 
