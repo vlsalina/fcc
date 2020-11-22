@@ -1,0 +1,13 @@
+function sumAll(arr) {
+  let ra = arr.slice();
+  ra.sort(function(a,b) { return a - b });
+  let sum = 0;
+  for (let i = ra[0]; i <= ra[1]; i++) {
+	sum += i;	
+        
+  }
+  return sum;
+}
+
+
+sumAll([1, 4]);

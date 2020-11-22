@@ -1,0 +1,13 @@
+function truthCheck(collection, pre) {
+  let ans = collection.every(function(e) { 
+     if(e[pre]) { 
+        return true; 
+     } else { 
+        return false; 
+     }  
+  });
+
+  return ans; 
+}
+
+truthCheck([{"user": "Tinky-Winky", "sex": "male"}, {"user": "Dipsy", "sex": "male"}, {"user": "Laa-Laa", "sex": "female"}, {"user": "Po", "sex": "female"}], "sex");

@@ -1,0 +1,128 @@
+function convertToRoman(num) {
+	let the_ones, the_tens, the_hundreds, the_thousands;
+	let string_ones = "";
+        let string_tens = "";
+        let string_hundreds = "";
+        let string_thousands = "";
+
+	if (num >= 1000) {
+		the_ones = num % 10;
+		the_tens = num % 100 - the_ones;
+		the_hundreds = num % 1000 - the_tens - the_ones;
+		the_thousands = num - the_hundreds - the_tens - the_ones;
+		string_ones = ones(the_ones);
+		string_tens = tens(the_tens); 
+		string_hundreds = hundreds(the_hundreds);
+		string_thousands = thousands(the_thousands);
+
+	} else if (num >= 100) {
+		the_ones = num % 10;
+		the_tens = num % 100 - the_ones;
+		the_hundreds = num - the_tens - the_ones;
+		string_ones = ones(the_ones);
+		string_tens = tens(the_tens); 
+		string_hundreds = hundreds(the_hundreds);
+
+	} else if (num >= 10) {
+		the_ones = num % 10;
+		the_tens = num - the_ones;
+		string_ones = ones(the_ones);
+		string_tens = tens(the_tens); 
+
+	} else if (num >= 1) {
+		the_ones = num;     
+		string_ones = ones(the_ones);
+	}
+
+	//let string_thousands = thousands(the_thousands);
+	//let string_hundreds = hundreds(the_hundreds);
+	//let string_tens = tens(the_tens);
+	//let string_ones = ones(the_ones);
+
+	let t = "";
+
+	let answer = t.concat(string_thousands).concat(string_hundreds).concat(string_tens).concat(string_ones); 
+
+	return answer;
+}
+
+function ones(num) {
+
+	switch(num) {
+		case 1: return "I";
+		case 2: return "II";
+		case 3: return "III";
+		case 4: return "IV";
+		case 5: return "V";
+		case 6: return "VI";
+		case 7: return "VII";
+		case 8: return "VIII";
+		case 9: return "IX";
+                default: return ""; 
+
+	}
+
+}
+
+
+function tens(num) {
+
+	if (num == undefined) {
+		return "";
+	}
+
+	switch(num) {
+		case 10: return "X";
+		case 20: return "XX";
+		case 30: return "XXX";
+		case 40: return "XL";
+		case 50: return "L";
+		case 60: return "LX";
+		case 70: return "LXX";
+		case 80: return "LXXX";
+		case 90: return "XC";
+                default: return "";
+	}
+
+}
+
+
+function hundreds(num) {
+
+
+	if (num == undefined) {
+		return "";
+	}
+
+	switch(num) {
+		case 100: return "C";
+		case 200: return "CC";
+		case 300: return "CCC";
+		case 400: return "CD";
+		case 500: return "D";
+		case 600: return "DC";
+		case 700: return "DCC";
+		case 800: return "DCCC";
+		case 900: return "CM";
+                default: return "";
+	}
+
+}
+
+function thousands(num) {
+	if (num == undefined) {
+		return "";
+	} 
+
+	let times = num / 1000;
+	let txt = "";
+
+	for (let i = 0; i < times; i++) {
+		txt += "M";
+	}
+     
+        return txt;
+
+}
+
+convertToRoman(36);

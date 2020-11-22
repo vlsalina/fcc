@@ -1,0 +1,141 @@
+@import url(https://allfont.net/allfont.css?fonts=digital-7-mono);
+
+
+html {
+  height: 100%;
+  width: 100%;
+}
+
+body {
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  background-color: black;
+}
+
+#App {
+  box-sizing: border-box; 
+  position: absolute;
+  height: 50%;
+  width: 50%;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: black;
+  text-align: center;
+  font-family: 'Digital-7 Mono', arial;
+  color: white;
+  font-size: 200%;
+  border-radius: 1%;
+}
+
+.item1 { grid-area: title; }
+.item2 { grid-area: break; }
+.item3 { grid-area: timer; }
+.item4 { grid-area: sDisplay; }
+.item5 { grid-area: display; }
+.item6 { grid-area: buttons; }
+
+#display {
+  font-size: 300%;
+}
+
+#sDisplay {
+  font-size: 300%;
+  width: 310px;
+}
+
+.grid-container {
+  box-sizing: border-box;
+  display: grid;
+  grid-template-areas:
+    '. . title title . .'
+    'break break . . timer timer'
+    '. . sDisplay sDisplay . .'
+    '. . display display . .'
+    '. . buttons buttons . .';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  border: 5px solid white;
+  padding: 20px;
+}
+
+#break_header, #session_header {
+  background-color: black;
+  width: 300px;
+}
+
+.App-logo {
+  height: 40vmin;
+  pointer-events: none;
+}
+
+@media only screen and (max-width: 640px) {
+  .grid-container {
+    display: grid;
+    grid-template-areas:
+      '. . title title . .'
+      '. . sDisplay sDisplay . .'
+      '. . display display . .'
+      '. . buttons buttons . .'
+      '. . break timer . .';
+    width: 90%;
+    height: 90%;
+  }
+
+  #break_header, #session_header {
+    width: 100%;
+    font-size: 50%;
+  }
+
+  #display {
+    font-size: 200%;
+    border: 1px solid white;
+  }
+
+  #sDisplay {
+    font-size: 200%;
+    width: 100%;
+    border: 1px solid white;
+    padding: 0 0 -5px 0;
+  }
+
+  #App {
+    height: 100%;
+    width: 100%;
+  } 
+
+}
+
+
+@media (prefers-reduced-motion: no-preference) {
+  .App-logo {
+    animation: App-logo-spin infinite 20s linear;
+  }
+}
+
+.App-header {
+  background-color: #282c34;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+}
+
+.App-link {
+  color: #61dafb;
+}
+
+@keyframes App-logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}

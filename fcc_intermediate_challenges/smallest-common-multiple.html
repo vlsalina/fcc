@@ -1,0 +1,27 @@
+function smallestCommons(arr) {
+  let begin = (arr[0] - arr[1] > 0) ? arr[1] : arr[0]; 
+  let end = (arr[0] - arr[1] > 0) ? arr[0] : arr[1]; 
+  let index = end;
+  while (true) {
+     if (f(begin,end,index)) {
+       return index;
+     }
+     index++;
+  }
+  return 0;
+}
+
+function f(start, stop, curr) {
+
+  for (let i = start; i <= stop; i++) {
+    if (curr % i != 0) {    
+      return false; 
+    }
+  }
+  return true;
+
+
+}
+
+
+smallestCommons([1,5]);

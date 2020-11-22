@@ -1,0 +1,124 @@
+.App {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+}
+
+html,
+body {
+  background-color: lightskyblue;
+  height: 100%;
+}
+
+.topnav a {
+  text-decoration: none;
+  color: white;
+  background-color: black;
+  padding: 1% 5%;
+  margin: 1%;
+  box-sizing: border-box;
+}
+
+.topnav {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+}
+
+table,
+th,
+td {
+  border: 1px solid black;
+  border-collapse: collapse;
+}
+
+th,
+td {
+  padding-top: 5px;
+  padding-bottom: 5px;
+  padding-right: 5px;
+  padding-left: 5px;
+}
+
+blockquote {
+  border-left: 3px solid black;
+  padding-left: 10px;
+}
+
+.flex-container {
+  display: flex;
+  justify-content: space-around;
+  height: 100%;
+}
+
+.col {
+  width: 49%;
+}
+
+.display {
+  background-color: white;
+  word-wrap: break-word;
+  border: 1px solid black;
+  overflow: auto;
+  padding: 1%;
+  box-sizing: border-box;
+  height: 100%;
+}
+
+textarea {
+  width: 100%;
+  height: 99.2%;
+  resize: none;
+}
+
+.App-logo {
+  height: 40vmin;
+  pointer-events: none;
+}
+
+@media only screen and (max-width: 768px) {
+  /* For mobile phones: */
+  .flex-container {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .col {
+    width: 98%;
+    height: 48%;
+  }
+
+  textarea {
+    width: 99.2%;
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .App-logo {
+    animation: App-logo-spin infinite 20s linear;
+  }
+}
+
+.App-header {
+  background-color: #282c34;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+}
+
+.App-link {
+  color: #61dafb;
+}
+
+@keyframes App-logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}

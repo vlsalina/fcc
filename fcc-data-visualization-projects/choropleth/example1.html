@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<head>
+  <title>Basic geo (svg)</title>
+</head>
+
+<style>
+body {
+  font-family: "Helvetica Neue", Helvetica, sans-serif;
+  font-size: 14px;
+  color: #333;
+}
+
+#content .map path {
+  fill: #ddd;
+  stroke: #aaa;
+}
+</style>
+
+<body>
+  <div id="content">
+    <svg width="800px" height="400px">
+      <g class="map"></g>
+    </svg>
+  </div>
+
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/4.2.2/d3.min.js"></script>
+
+  <script>
+
+  d3.json("https://cdn.freecodecamp.org/testable-projects-fcc/data/choropleth_map/counties.json", function(data) {
+
+    console.log(data.objects.counties.geometries);
+    let geojson = data;
+  
+         var projection = d3.geoEquirectangular()
+           .scale(200)
+           .translate([200, 150]);
+         
+         var geoGenerator = d3.geoPath()
+           .projection(projection);
+         
+         function update(geojson) {
+           var u = d3.select('#content g.map')
+             .selectAll('path')
+             .data(geojson.objects.counties);
+         
+           u.enter()
+             .append('path')
+             .attr('d', geoGenerator);
+         }
+         
+         update(geojson);
+  });
+
+  </script>
+</body>
+</html>
