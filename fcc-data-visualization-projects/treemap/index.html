@@ -217,45 +217,10 @@ function ready(error, kickstarter, movies, games) {
    .on("mouseout", onMouseOut);
 
   // thelegend
-  function getTextWidth(word) { 
-      text = document.createElement("span"); 
-      document.body.appendChild(text); 
-
-      text.style.font = "times new roman"; 
-      text.style.fontSize = 16 + "px"; 
-      text.style.height = 'auto'; 
-      text.style.width = 'auto'; 
-      text.style.position = 'absolute'; 
-      text.style.whiteSpace = 'no-wrap'; 
-      text.innerHTML = word; 
-
-      width = Math.ceil(text.clientWidth); 
-      //formattedWidth = width + "px"; 
-      formattedWidth = width; 
-
-      //document.querySelector('.output').textContent 
-      //        = formattedWidth; 
-      //document.body.removeChild(text);
-      return formattedWidth;
-  }
-
-  //let test = getTextWidth(categories[0]);
-  //console.log(test);
-
-  let max = 0;
-  for (let i = 0; i < categories.length; i++) {
-    let len = getTextWidth(categories[i]);   
-    if (len > max) {
-      max = len;       
-    }
-  }
-  console.log(max);
-
-
   let legendWidth = 1000;
   let legendHeight = 500;
   
-  let wordWidth = max; // MUST BE MAX WORD LENGTH
+  let wordWidth = 200;
   let wordHeight = 16;
 
   let width_tracker = 0;
@@ -433,10 +398,6 @@ function ready(error, kickstarter, movies, games) {
   function onMouseOut(d,i) {
     tooltip.style("opacity", 0);
   }
-
-  
-
-  
 
 } 
 
