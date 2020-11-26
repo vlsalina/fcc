@@ -224,9 +224,9 @@ function ready(error, kickstarter, movies, games) {
   let wordHeight = 35;
 
   let width_tracker = 0;
+  let second_width_tracker = 0;
   let line_tracker = 0;
 
-  let so_far = false;
   let t = 0;
 
   d3.select("#div")
@@ -244,7 +244,8 @@ function ready(error, kickstarter, movies, games) {
 
 
   legend.selectAll(".categories")
-      .data(["a","a","a","a","a","a","a","a","a","a","a","a","a","a","a","a","a","a","a","a","a","a","a","a","a","a","a","a","a","a","a","a","a","a","a","a","a","a","a","a","a","a","a","a","a","a","a","a"])
+      .data(["aa","a","a","a","a","a","a","a","a","a","a","a","a","a","a","a","a","a","a","a","a","a","a","a","a","a","a","a","a","a","a","a","a","a","a","a","a","a","a","a","a","a","a","a","a","a","a","a"])
+      //.data(categories)
       .enter()
       .append("text")
       .attr("class", "categories")
@@ -252,21 +253,27 @@ function ready(error, kickstarter, movies, games) {
         return d;
       })
       .attr("x", function(d,i) {
+        if (i == 0) {
+          return width_tracker;
+        }
+        width_tracker += 200;
         if (width_tracker > legendWidth) {
           width_tracker = 0;
-          t = 0;
-          return t++ * wordWidth;
-          so_far = true;
-        } else {
-          width_tracker += wordWidth;
-          return t++ * wordWidth; 
         }
+        return width_tracker;
+         
       })
       .attr("y", function(d,i) {
-        if (i % 8 == 0) {
+        if (i == 0) {
+          return line_tracker * wordHeight;
+        }
+        second_width_tracker += 200;
+        if (second_width_tracker > legendWidth) {
+          second_width_tracker = 0;
           line_tracker++;
         }
         return line_tracker * wordHeight;
+
       }); 
   
   // wrapper
