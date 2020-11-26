@@ -5,7 +5,7 @@
 <style>
 
   svg {
-    background-color: lightblue;
+    background-color: none;
     position: absolute;
     top: 50%;
     left: 50%;
@@ -29,7 +29,7 @@
   }
 
   rect {
-    opacity: 0.3;
+    opacity: 1;
     stroke: white;
   }
 
@@ -41,7 +41,7 @@
 
   #div {
     position: absolute;
-    top: 124%;
+    top: 125%;
     left: 50%;
   }
 
@@ -50,7 +50,7 @@
   }
 
   .categories {
-    font-size: 32px;
+    font-size: 16px;
   }
 
 </style>
@@ -147,7 +147,7 @@ function ready(error, kickstarter, movies, games) {
 
 
   // default data
-  let curr = movies; 
+  let curr = games; 
 
   // get categories
   let categories = curr.children.map(function(data) {
@@ -217,11 +217,46 @@ function ready(error, kickstarter, movies, games) {
    .on("mouseout", onMouseOut);
 
   // thelegend
-  let legendWidth = 1500;
+  function getTextWidth(word) { 
+      text = document.createElement("span"); 
+      document.body.appendChild(text); 
+
+      text.style.font = "times new roman"; 
+      text.style.fontSize = 16 + "px"; 
+      text.style.height = 'auto'; 
+      text.style.width = 'auto'; 
+      text.style.position = 'absolute'; 
+      text.style.whiteSpace = 'no-wrap'; 
+      text.innerHTML = word; 
+
+      width = Math.ceil(text.clientWidth); 
+      //formattedWidth = width + "px"; 
+      formattedWidth = width; 
+
+      //document.querySelector('.output').textContent 
+      //        = formattedWidth; 
+      //document.body.removeChild(text);
+      return formattedWidth;
+  }
+
+  //let test = getTextWidth(categories[0]);
+  //console.log(test);
+
+  let max = 0;
+  for (let i = 0; i < categories.length; i++) {
+    let len = getTextWidth(categories[i]);   
+    if (len > max) {
+      max = len;       
+    }
+  }
+  console.log(max);
+
+
+  let legendWidth = 1000;
   let legendHeight = 500;
   
-  let wordWidth = 200;
-  let wordHeight = 35;
+  let wordWidth = max; // MUST BE MAX WORD LENGTH
+  let wordHeight = 16;
 
   let width_tracker = 0;
   let second_width_tracker = 0;
@@ -244,19 +279,20 @@ function ready(error, kickstarter, movies, games) {
 
 
   legend.selectAll(".categories")
-      .data(["aa","a","a","a","a","a","a","a","a","a","a","a","a","a","a","a","a","a","a","a","a","a","a","a","a","a","a","a","a","a","a","a","a","a","a","a","a","a","a","a","a","a","a","a","a","a","a","a"])
-      //.data(categories)
+      //.data(["aa","a","a","a","a","a","a","a","a","a","a","a","a","a","a","a","a","a","a","a","a","a","a","a","a","a","a","a","a","a","a","a","a","a","a","a","a","a","a","a","a","a","a","a","a","a","a","a"])
+      .data(categories)
       .enter()
       .append("text")
       .attr("class", "categories")
       .text(function(d) {
         return d;
       })
+      .style("fill", "black")
       .attr("x", function(d,i) {
         if (i == 0) {
           return width_tracker;
         }
-        width_tracker += 200;
+        width_tracker += wordWidth;
         if (width_tracker > legendWidth) {
           width_tracker = 0;
         }
@@ -265,17 +301,58 @@ function ready(error, kickstarter, movies, games) {
       })
       .attr("y", function(d,i) {
         if (i == 0) {
-          return line_tracker * wordHeight;
+          return wordHeight + line_tracker * wordHeight;
         }
         second_width_tracker += 200;
         if (second_width_tracker > legendWidth) {
           second_width_tracker = 0;
           line_tracker++;
         }
-        return line_tracker * wordHeight;
+        return wordHeight + line_tracker * wordHeight;
+      });
 
-      }); 
-  
+  // colorCodes
+  let cwidth_tracker = 0;
+  let csecond_width_tracker = 0;
+  let cline_tracker = 0;
+
+  let block_spacer = 200;
+  let adjustor = 150;
+
+  legend.selectAll(".colorCode")
+        .data(categories)
+        .enter()
+        .append("rect")
+        .attr("class", "colorCode")
+        .attr("width", wordHeight)
+        .attr("height", wordHeight)
+        .attr("fill", function(d,i) {
+          return colors(d);
+        })
+        .attr("x", function(d,i) {
+           if (i == 0) {
+             return block_spacer + cwidth_tracker - adjustor;
+           }
+           cwidth_tracker += block_spacer;
+           if (cwidth_tracker > legendWidth) {
+             cwidth_tracker = 0;
+           }
+           return block_spacer + cwidth_tracker - adjustor;
+        })
+        .attr("y", function(d,i) {
+           if (i == 0) {
+             return cline_tracker * wordHeight;
+           }
+           csecond_width_tracker += block_spacer;
+           if (csecond_width_tracker > legendWidth) {
+             csecond_width_tracker = 0;
+             cline_tracker++;
+           }
+           return cline_tracker * wordHeight; 
+        }); 
+
+
+
   // wrapper
   function wrapText(selection) {
     selection.each(function() {
@@ -356,6 +433,10 @@ function ready(error, kickstarter, movies, games) {
   function onMouseOut(d,i) {
     tooltip.style("opacity", 0);
   }
+
+  
+
+  
 
 } 
 
