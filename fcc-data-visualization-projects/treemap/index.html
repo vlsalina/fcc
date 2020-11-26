@@ -147,7 +147,7 @@ function ready(error, kickstarter, movies, games) {
 
 
   // default data
-  let curr = games; 
+  let curr = kickstarter; 
 
   // get categories
   let categories = curr.children.map(function(data) {
@@ -217,11 +217,47 @@ function ready(error, kickstarter, movies, games) {
    .on("mouseout", onMouseOut);
 
   // thelegend
+  function getTextWidth(word) { 
+  
+          text = document.createElement("span"); 
+          document.body.appendChild(text); 
+  
+          text.style.font = "times new roman"; 
+          text.style.fontSize = 16 + "px"; 
+          text.style.height = 'auto'; 
+          text.style.width = 'auto'; 
+          text.style.position = 'absolute'; 
+          text.style.whiteSpace = 'no-wrap'; 
+          text.innerHTML = word; 
+  
+          width = Math.ceil(text.clientWidth); 
+          //formattedWidth = width + "px"; 
+          formattedWidth = width; 
+
+          //document.querySelector('.output').textContent 
+          //        = formattedWidth; 
+          document.body.removeChild(text); 
+
+          return formattedWidth;
+  }  
+
+  //console.log(getTextWidth(categories[5]));
+
+  // compute length in pixels of longest word in categories 
+  let max = 0;
+  for (let i = 0; i < categories.length; i++) {
+    let len = getTextWidth(categories[i]);
+    if (len > max) {
+      max = len;
+    }
+  }
+  console.log(max);
+
   let legendWidth = 1000;
   let legendHeight = 500;
   
   let wordWidth = 200;
-  let wordHeight = 16;
+  let wordHeight = 24;
 
   let width_tracker = 0;
   let second_width_tracker = 0;
@@ -253,6 +289,7 @@ function ready(error, kickstarter, movies, games) {
         return d;
       })
       .style("fill", "black")
+      .style("font-weight", "none")
       .attr("x", function(d,i) {
         if (i == 0) {
           return width_tracker;
@@ -266,14 +303,14 @@ function ready(error, kickstarter, movies, games) {
       })
       .attr("y", function(d,i) {
         if (i == 0) {
-          return wordHeight + line_tracker * wordHeight;
+          return wordHeight + line_tracker * (2 * wordHeight);
         }
         second_width_tracker += 200;
         if (second_width_tracker > legendWidth) {
           second_width_tracker = 0;
           line_tracker++;
         }
-        return wordHeight + line_tracker * wordHeight;
+        return wordHeight + line_tracker * (2 * wordHeight);
       });
 
   // colorCodes
@@ -282,7 +319,7 @@ function ready(error, kickstarter, movies, games) {
   let cline_tracker = 0;
 
   let block_spacer = 200;
-  let adjustor = 150;
+  let adjustor = block_spacer - max - 15;
 
   legend.selectAll(".colorCode")
         .data(categories)
@@ -306,14 +343,14 @@ function ready(error, kickstarter, movies, games) {
         })
         .attr("y", function(d,i) {
            if (i == 0) {
-             return cline_tracker * wordHeight;
+             return cline_tracker * (2 * wordHeight);
            }
            csecond_width_tracker += block_spacer;
            if (csecond_width_tracker > legendWidth) {
              csecond_width_tracker = 0;
              cline_tracker++;
            }
-           return cline_tracker * wordHeight; 
+           return cline_tracker * (2 * wordHeight); 
         }); 
 
 
