@@ -5,7 +5,7 @@
 <style>
 
   svg {
-    background-color: lightblue;
+    background-color: none;
     position: absolute;
     top: 50%;
     left: 50%;
@@ -29,7 +29,7 @@
   }
 
   rect {
-    opacity: 0.3;
+    opacity: 1;
     stroke: white;
   }
 
@@ -37,6 +37,20 @@
     font-family: "Helvetica Neue", Helvetica, sans-serif;
     fill: white;
     font-size: 10px;
+  }
+
+  #div {
+    position: absolute;
+    top: 125%;
+    left: 50%;
+  }
+
+  #legend {
+    background-color: pink;    
+  }
+
+  .categories {
+    font-size: 16px;
   }
 
 </style>
@@ -52,7 +66,6 @@ var width = 1780,
 
 
 var svg = d3.select("body").append("svg")
-    .attr("transform", "translate(" + margin.left*10 + "," + margin.top*10 + ")")
     .attr("width", width + margin.left + margin.right)
     .attr("height", height + margin.top + margin.bottom);
 
@@ -82,7 +95,10 @@ let tooltip = d3.select("body")
                 .attr("id", "tooltip")
                 .style("opacity", 0);
 
-
+// legend
+d3.select("body")
+              .append("div")
+              .attr("id", "div");
 
 let kick_url = "https://vlsalina.github.io/kickstarter";
 let movies_url = "https://vlsalina.github.io/movies";
@@ -131,7 +147,7 @@ function ready(error, kickstarter, movies, games) {
 
 
   // default data
-  let curr = movies; 
+  let curr = kickstarter; 
 
   // get categories
   let categories = curr.children.map(function(data) {
@@ -200,7 +216,145 @@ function ready(error, kickstarter, movies, games) {
    .on("mousemove", onMouseMove)
    .on("mouseout", onMouseOut);
 
+  // thelegend
+  function getTextWidth(word) { 
   
+          text = document.createElement("span"); 
+          document.body.appendChild(text); 
+  
+          text.style.font = "times new roman"; 
+          text.style.fontSize = 16 + "px"; 
+          text.style.height = 'auto'; 
+          text.style.width = 'auto'; 
+          text.style.position = 'absolute'; 
+          text.style.whiteSpace = 'no-wrap'; 
+          text.innerHTML = word; 
+  
+          width = Math.ceil(text.clientWidth); 
+          //formattedWidth = width + "px"; 
+          formattedWidth = width; 
+
+          //document.querySelector('.output').textContent 
+          //        = formattedWidth; 
+          document.body.removeChild(text); 
+
+          return formattedWidth;
+  }  
+
+  //console.log(getTextWidth(categories[5]));
+
+  // compute length in pixels of longest word in categories 
+  let max = 0;
+  for (let i = 0; i < categories.length; i++) {
+    let len = getTextWidth(categories[i]);
+    if (len > max) {
+      max = len;
+    }
+  }
+  console.log(max);
+
+  let legendWidth = 1000;
+  let legendHeight = 500;
+  
+  let wordWidth = 200;
+  let wordHeight = 24;
+
+  let width_tracker = 0;
+  let second_width_tracker = 0;
+  let line_tracker = 0;
+
+  let t = 0;
+
+  d3.select("#div")
+    .append("svg")
+    .attr("width", legendWidth)
+    .attr("height", legendHeight);
+
+  d3.select("#div svg").append("g");
+
+  let legend = d3.select("#div svg g"); 
+
+  //legend.append("text")
+  //  .text("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa")
+  //  .attr("y", 100); 
+
+
+  legend.selectAll(".categories")
+      //.data(["aa","a","a","a","a","a","a","a","a","a","a","a","a","a","a","a","a","a","a","a","a","a","a","a","a","a","a","a","a","a","a","a","a","a","a","a","a","a","a","a","a","a","a","a","a","a","a","a"])
+      .data(categories)
+      .enter()
+      .append("text")
+      .attr("class", "categories")
+      .text(function(d) {
+        return d;
+      })
+      .style("fill", "black")
+      .style("font-weight", "none")
+      .attr("x", function(d,i) {
+        if (i == 0) {
+          return width_tracker;
+        }
+        width_tracker += wordWidth;
+        if (width_tracker > legendWidth) {
+          width_tracker = 0;
+        }
+        return width_tracker;
+         
+      })
+      .attr("y", function(d,i) {
+        if (i == 0) {
+          return wordHeight + line_tracker * (2 * wordHeight);
+        }
+        second_width_tracker += 200;
+        if (second_width_tracker > legendWidth) {
+          second_width_tracker = 0;
+          line_tracker++;
+        }
+        return wordHeight + line_tracker * (2 * wordHeight);
+      });
+
+  // colorCodes
+  let cwidth_tracker = 0;
+  let csecond_width_tracker = 0;
+  let cline_tracker = 0;
+
+  let block_spacer = 200;
+  let adjustor = block_spacer - max - 15;
+
+  legend.selectAll(".colorCode")
+        .data(categories)
+        .enter()
+        .append("rect")
+        .attr("class", "colorCode")
+        .attr("width", wordHeight)
+        .attr("height", wordHeight)
+        .attr("fill", function(d,i) {
+          return colors(d);
+        })
+        .attr("x", function(d,i) {
+           if (i == 0) {
+             return block_spacer + cwidth_tracker - adjustor;
+           }
+           cwidth_tracker += block_spacer;
+           if (cwidth_tracker > legendWidth) {
+             cwidth_tracker = 0;
+           }
+           return block_spacer + cwidth_tracker - adjustor;
+        })
+        .attr("y", function(d,i) {
+           if (i == 0) {
+             return cline_tracker * (2 * wordHeight);
+           }
+           csecond_width_tracker += block_spacer;
+           if (csecond_width_tracker > legendWidth) {
+             csecond_width_tracker = 0;
+             cline_tracker++;
+           }
+           return cline_tracker * (2 * wordHeight); 
+        }); 
+
+
+
   // wrapper
   function wrapText(selection) {
     selection.each(function() {
