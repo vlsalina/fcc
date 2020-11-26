@@ -39,6 +39,16 @@
     font-size: 10px;
   }
 
+  #div {
+    position: absolute;
+    top: 124%;
+    left: 50%;
+  }
+
+  #legend {
+    background-color: pink;    
+  }
+
 </style>
 </head>
 <body>
@@ -52,7 +62,6 @@ var width = 1780,
 
 
 var svg = d3.select("body").append("svg")
-    .attr("transform", "translate(" + margin.left*10 + "," + margin.top*10 + ")")
     .attr("width", width + margin.left + margin.right)
     .attr("height", height + margin.top + margin.bottom);
 
@@ -82,7 +91,10 @@ let tooltip = d3.select("body")
                 .attr("id", "tooltip")
                 .style("opacity", 0);
 
-
+// legend
+d3.select("body")
+              .append("div")
+              .attr("id", "div");
 
 let kick_url = "https://vlsalina.github.io/kickstarter";
 let movies_url = "https://vlsalina.github.io/movies";
@@ -200,6 +212,44 @@ function ready(error, kickstarter, movies, games) {
    .on("mousemove", onMouseMove)
    .on("mouseout", onMouseOut);
 
+  // legend
+  let legendWidth = 1500;
+  let legendHeight = 500;
+  
+  let wordWidth = 200;
+  let wordHeight = 30;
+
+  let width_tracker = 0;
+  let line_tracker = 0;
+
+  d3.select("#div")
+    .append("svg")
+    .attr("id", "legend")
+    .attr("width", legendWidth)
+    .attr("height", legendHeight);
+
+
+  //let legend = d3.select("#legend");
+
+  //legend.selectAll(".categories")
+  //    .data(categories)
+  //    .append("g")
+  //    .append("text")
+  //    .text(function(d) {
+  //      return d;
+  //    })
+  //    .attr("x", function(d,i) {
+  //      if (width_tracker > legendWidth) {
+  //        line_tracker += 1; 
+  //        width_tracker = 0;
+  //      } else {
+  //        width_tracker += wordWidth;
+  //        return i * wordWidth; 
+  //      }
+  //    })
+  //    .attr("y", function(d,i) {
+  //        return line_tracker * wordHeight;
+  //    }); 
   
   // wrapper
   function wrapText(selection) {
