@@ -226,6 +226,7 @@ function ready(error, kickstarter, movies, games) {
   let width_tracker = 0;
   let line_tracker = 0;
 
+  let so_far = false;
   let t = 0;
 
   d3.select("#div")
@@ -253,17 +254,19 @@ function ready(error, kickstarter, movies, games) {
       .attr("x", function(d,i) {
         if (width_tracker > legendWidth) {
           width_tracker = 0;
-          line_tracker += 1; 
           t = 0;
           return t++ * wordWidth;
+          so_far = true;
         } else {
           width_tracker += wordWidth;
           return t++ * wordWidth; 
         }
       })
       .attr("y", function(d,i) {
-          console.log(t, width_tracker, line_tracker);
-          return line_tracker * wordHeight;
+        if (i % 8 == 0) {
+          line_tracker++;
+        }
+        return line_tracker * wordHeight;
       }); 
   
   // wrapper
