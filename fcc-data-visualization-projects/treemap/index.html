@@ -49,6 +49,10 @@
     background-color: pink;    
   }
 
+  .categories {
+    font-size: 32px;
+  }
+
 </style>
 </head>
 <body>
@@ -212,44 +216,55 @@ function ready(error, kickstarter, movies, games) {
    .on("mousemove", onMouseMove)
    .on("mouseout", onMouseOut);
 
-  // legend
+  // thelegend
   let legendWidth = 1500;
   let legendHeight = 500;
   
   let wordWidth = 200;
-  let wordHeight = 30;
+  let wordHeight = 35;
 
   let width_tracker = 0;
   let line_tracker = 0;
 
+  let t = 0;
+
   d3.select("#div")
     .append("svg")
-    .attr("id", "legend")
     .attr("width", legendWidth)
     .attr("height", legendHeight);
 
+  d3.select("#div svg").append("g");
 
-  //let legend = d3.select("#legend");
+  let legend = d3.select("#div svg g"); 
 
-  //legend.selectAll(".categories")
-  //    .data(categories)
-  //    .append("g")
-  //    .append("text")
-  //    .text(function(d) {
-  //      return d;
-  //    })
-  //    .attr("x", function(d,i) {
-  //      if (width_tracker > legendWidth) {
-  //        line_tracker += 1; 
-  //        width_tracker = 0;
-  //      } else {
-  //        width_tracker += wordWidth;
-  //        return i * wordWidth; 
-  //      }
-  //    })
-  //    .attr("y", function(d,i) {
-  //        return line_tracker * wordHeight;
-  //    }); 
+  //legend.append("text")
+  //  .text("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa")
+  //  .attr("y", 100); 
+
+
+  legend.selectAll(".categories")
+      .data(["a","a","a","a","a","a","a","a","a","a","a","a","a","a","a","a","a","a","a","a","a","a","a","a","a","a","a","a","a","a","a","a","a","a","a","a","a","a","a","a","a","a","a","a","a","a","a","a"])
+      .enter()
+      .append("text")
+      .attr("class", "categories")
+      .text(function(d) {
+        return d;
+      })
+      .attr("x", function(d,i) {
+        if (width_tracker > legendWidth) {
+          width_tracker = 0;
+          line_tracker += 1; 
+          t = 0;
+          return t++ * wordWidth;
+        } else {
+          width_tracker += wordWidth;
+          return t++ * wordWidth; 
+        }
+      })
+      .attr("y", function(d,i) {
+          console.log(t, width_tracker, line_tracker);
+          return line_tracker * wordHeight;
+      }); 
   
   // wrapper
   function wrapText(selection) {
