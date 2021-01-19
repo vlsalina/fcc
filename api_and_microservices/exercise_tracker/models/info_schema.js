@@ -1,14 +1,14 @@
 var mongoose = require('mongoose');
 
-const infoSchema = new mongoose.Schema({
+const info_schema = new mongoose.Schema({
   username: { type: String, required: true },
   password: { type: String, required: true },
   question: { type: String, required: true }
 }, { collection: 'collection3' });
 
-const Mode = mongoose.model('Info', infoSchema);
+const Model = mongoose.model('Info', info_schema);
 
-module.exports = Mode;
+module.exports = Model;
 
 
 

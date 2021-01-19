@@ -1,4 +1,5 @@
-const Mode = require('../models/info'); 
+const Mode = require('../models/info_schema'); 
+const Ecer = require('../models/exercise_schema');
 
 const login_page = (req, res, next) => {
   res.render('login', { title: "Login Page" });
@@ -38,9 +39,33 @@ const login = (req, res, next) => {
 
 };
 
+const add_exercise = (req, res, next) => {
+  res.render('add_exercise', { title: "Add Exercise" });
+};
+
+const add = (req, res, next) => {
+  const exercise_data = new Ecer(req.body);
+
+  exercise_data.save()
+    .then((result) => {
+      res.render('index', { title: "Main page" });
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+
+};
+
+const logout = (req, res, next) => {
+  res.render('login', { title: "Login Page" });
+};
+
 module.exports = {
     login_page,
     registration_page,
     add_account,
-    login
+    login,
+    add_exercise,
+    add,
+    logout
 };
