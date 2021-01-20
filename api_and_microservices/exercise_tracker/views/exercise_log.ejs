@@ -1,0 +1,32 @@
+<html>
+<head></head>
+<body>
+  <h1><%= title %></h1>
+
+  <form action="/api/exercise/get_logs" method="GET"> 
+    <label for="from">From:</label>
+    <input type="text" id="from" name="from"><br><br>
+    <label for="To">To:</label>
+    <input type="text" id="To" name="To"><br><br>
+    <label for="limit">Limit:</label>
+    <input type="text" id="limit" name="limit"><br><br>
+
+    <input type="submit" value="Submit">
+  </form><br><br>
+
+    <ul>
+    <% if (exercises.length > 0) { %>
+      <% exercises.forEach((e) => { %>
+        <li>
+          <p><%= e.userId %></p>
+          <p><%= e.description %></p>
+          <p><%= e.date %></p><br>
+        </li>
+      <% }); %>
+    <% } else { %>
+      <h3>No exercises to display.</h3>
+    <% } %>
+    </ul>
+  
+</body>
+</html>
