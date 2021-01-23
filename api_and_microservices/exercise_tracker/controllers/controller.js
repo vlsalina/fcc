@@ -69,7 +69,9 @@ const log_page = (req, res, next) => {
   
   Ecer.find({ userId: process.env.CURR_USER }) 
     .then((result) => {
-      res.render('exercise_log', { title: "Exercise Logs", exercises: result });
+      let temp = result;
+      temp.push(result.length);
+      res.render('exercise_log', { title: "Exercise Logs", exercises: temp });
     })
     .catch((err) => {
       console.log(err);
@@ -82,7 +84,9 @@ const get_logs = (req, res, next) => {
   if (query_data.from == null && query_data.to == null) {
       Ecer.find({})
         .then((result) => {
-          res.render('exercise_log', { title: "Exercise Logs", exercises: result });
+          let temp = result;
+          temp.push(result.length);
+          res.render('exercise_log', { title: "Exercise Logs", exercises: temp });
         })
         .catch((err) => {
           console.log(err);
@@ -101,8 +105,10 @@ const get_logs = (req, res, next) => {
            }
          })
          .then((result) => {
-            console.log(result);
-           res.render('exercise_log', { title: "Exercise Logs", exercises: result });
+           let temp = result;
+           temp.push(query_data.limit);
+           console.log(temp);
+           res.render('exercise_log', { title: "Exercise Logs", exercises: temp });
          })
          .catch((err) => {
            console.log(err);
