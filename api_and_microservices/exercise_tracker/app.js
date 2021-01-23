@@ -13,6 +13,8 @@ var apiRouter = require('./routes/eRoutes');
 var app = express();
 app.listen(3000);
 
+process.env.CURR_USER=null;
+
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');

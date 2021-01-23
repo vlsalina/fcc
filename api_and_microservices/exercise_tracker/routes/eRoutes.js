@@ -10,6 +10,9 @@ router.post('/login', apiController.login);
 router.get('/add_exercise', apiController.add_exercise);
 router.post('/add', apiController.add);
 router.get('/logout', apiController.logout);
+router.get('/log_page', apiController.log_page);
+router.get('/get_logs', apiController.get_logs);
+
 
 module.exports = router;
 

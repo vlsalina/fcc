@@ -1,5 +1,6 @@
 const Mode = require('../models/info_schema'); 
 const Ecer = require('../models/exercise_schema');
+const Query = require('../models/query_schema');
 
 const login_page = (req, res, next) => {
   res.render('login', { title: "Login Page" });
@@ -26,6 +27,7 @@ const login = (req, res, next) => {
   
   Mode.findOne(credentials)
     .then((result) => {
+      process.env.CURR_USER=req.body.username;
       console.log(result);
       if (result != null) {
         res.render('index', { title: "Main page", exercises: Mode });
@@ -45,6 +47,8 @@ const add_exercise = (req, res, next) => {
 
 const add = (req, res, next) => {
   const exercise_data = new Ecer(req.body);
+  exercise_data.date = exercise_data.date.setHours(exercise_data.date.getHours()+24);
+  console.log(exercise_data);
 
   exercise_data.save()
     .then((result) => {
@@ -57,7 +61,54 @@ const add = (req, res, next) => {
 };
 
 const logout = (req, res, next) => {
+  process.env.CURR_USER=null;
   res.render('login', { title: "Login Page" });
+};
+
+const log_page = (req, res, next) => {
+  
+  Ecer.find({ userId: process.env.CURR_USER }) 
+    .then((result) => {
+      res.render('exercise_log', { title: "Exercise Logs", exercises: result });
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+};
+
+const get_logs = (req, res, next) => {
+  const query_data = new Query(req.query);
+
+  if (query_data.from == null && query_data.to == null) {
+      Ecer.find({})
+        .then((result) => {
+          res.render('exercise_log', { title: "Exercise Logs", exercises: result });
+        })
+        .catch((err) => {
+          console.log(err);
+        });         
+
+      } else {
+         const from = query_data.from.setHours(query_data.from.getHours()+24);
+         const to = query_data.to.setHours(query_data.to.getHours()+24);
+      
+
+         Ecer.find({
+           userId: process.env.CURR_USER,
+           date: {
+             $gte: from,
+             $lte: to
+           }
+         })
+         .then((result) => {
+            console.log(result);
+           res.render('exercise_log', { title: "Exercise Logs", exercises: result });
+         })
+         .catch((err) => {
+           console.log(err);
+         });
+
+  }
 };
 
 module.exports = {
@@ -67,5 +118,7 @@ module.exports = {
     login,
     add_exercise,
     add,
-    logout
+    logout,
+    log_page,
+    get_logs
 };
