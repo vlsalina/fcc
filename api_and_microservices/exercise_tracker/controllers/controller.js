@@ -14,7 +14,7 @@ const add_account = (req, res, next) => {
 
   new_account.save()
     .then((result) => {
-      res.redirect('/api/exercise/login'); 
+      res.redirect('/api/exercise/login_page'); 
     })
     .catch((err) => {
       console.log(err); 
