@@ -1,0 +1,18 @@
+<html>
+<head></head>
+<body>
+  <h1><%= title %></h1>
+
+  <br>
+  <form action="/upload" method="POST" enctype="multipart/form-data">
+    <label for="title">Title:</label><br>
+    <input type="text" id="title" name="title" value=""><br>
+    <label for="desc">Description:</label><br>
+    <input type="text" id="desc" name="desc" value=""><br>
+    <label for="file">Choose a file to upload:</label><br>
+    <input type="file" id="file" name="file" value=""><br><br>
+    <input type="submit" value="Submit">
+  </form> 
+
+</body>
+</html>
