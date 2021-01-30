@@ -3,6 +3,7 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
+var fs = require('fs');
 require('dotenv').config();
 
 const mongoose = require('mongoose');
@@ -10,12 +11,13 @@ const crypto = require('crypto');
 const bodyParser = require('body-parser');
 const multer = require('multer');
 const GridFsStorage = require('multer-gridfs-storage');
+const Grid = require('gridfs-stream');
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var uploadRouter = require('./routes/upload');
 
-mongoose.connect(process.env.dbURI, {
+const conn = mongoose.createConnection(process.env.dbURI, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
   useFindAndModify: false,
@@ -43,6 +45,13 @@ var storage = new GridFsStorage({
 });
 const upload = multer({ storage }); 
 
+conn.once('open', () => {
+  gfs = new mongoose.mongo.GridFSBucket(conn.db, {
+    bucketName: "uploads"
+  });
+});
+
+
 var app = express();
 app.listen(3000);
 
@@ -59,6 +68,11 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
+app.get('/download', (req, res, next) => {
+  console.log(req.query.id);
+  gfs.openDownloadStreamByName(req.query.id).pipe(fs.createWriteStream('./downloads/' + req.query.filename));
+  res.redirect('/');
+});
 app.post('/upload', upload.single('file'), (req, res, next) => {
   if (req.file) {
     console.log({ file: req.file });
@@ -67,6 +81,31 @@ app.post('/upload', upload.single('file'), (req, res, next) => {
     console.log('Check logs!');
     res.redirect('/');
   }
+});
+app.get('/delete', (req, res, next) => {
+  console.log(req.query.filename);
+  gfs.delete(new mongoose.Types.ObjectId(req.query.id), (err, data) => {
+    if (err) {
+      console.log(err);
+    }
+
+    res.redirect('/');
+  });
+});
+app.get('/find', (req, res, next) => {
+  gfs.find({ filename: req.query.filename })
+    .toArray((err, files) => {
+      if (!files[0] || files.length == 0) {
+        return res.status(200).json({
+          success: false,
+          message: 'No files found'
+        });
+      }
+      res.status(200).json({
+        success: true,
+        file: files[0]
+      });
+    });
 });
 
 

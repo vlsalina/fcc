@@ -4,15 +4,45 @@
   <h1><%= title %></h1>
 
   <br>
+  <h3>Choose a file to upload:</h3>
   <form action="/upload" method="POST" enctype="multipart/form-data">
     <label for="title">Title:</label><br>
     <input type="text" id="title" name="title" value=""><br>
     <label for="desc">Description:</label><br>
     <input type="text" id="desc" name="desc" value=""><br>
-    <label for="file">Choose a file to upload:</label><br>
+    <label for="file">Upload:</label><br>
     <input type="file" id="file" name="file" value=""><br><br>
     <input type="submit" value="Submit">
-  </form> 
+  </form><br><br>
+
+   <h3>Choose a file to download:</h3>
+   <form action="/download" method="GET">
+    <label for="id">file ID:</label><br>
+    <input type="text" id="id" name="id" value=""><br>
+    <label for="filename">file name:</label><br>
+    <input type="text" id="filename" name="filename" value=""><br>
+    <input type="submit" value="Submit">
+  </form><br><br>
+
+   <h3>Choose a file to delete:</h3>
+   <form action="/delete" method="GET">
+    <label for="id">file ID:</label><br>
+    <input type="text" id="id" name="id" value=""><br>
+    <label for="filename">file name:</label><br>
+    <input type="text" id="filename" name="filename" value=""><br>
+    <input type="submit" value="Submit">
+  </form><br><br>
+
+   <h3>Choose a file to find:</h3>
+   <form action="/find" method="GET">
+    <label for="id">file ID:</label><br>
+    <input type="text" id="id" name="id" value=""><br>
+    <label for="filename">file name:</label><br>
+    <input type="text" id="filename" name="filename" value=""><br>
+    <input type="submit" value="Submit">
+  </form><br><br>
+
+
 
 </body>
 </html>
