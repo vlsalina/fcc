@@ -69,8 +69,8 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.get('/download', (req, res, next) => {
-  console.log(req.query.id);
-  gfs.openDownloadStreamByName(req.query.id).pipe(fs.createWriteStream('./public/images/' + req.query.filename));
+  console.log(req.query.filename);
+  gfs.openDownloadStreamByName(req.query.filename).pipe(fs.createWriteStream('./public/images/' + req.query.filename));
   res.redirect('/');
 });
 app.post('/upload', upload.single('file'), (req, res, next) => {
