@@ -1,0 +1,17 @@
+ <% if (files.length > 0) { %>
+    <% files.forEach((file) => { %>
+      <img src="images/<%= file %>">
+    <% }); %>
+  <% } else { %>
+    <h2>No images to display.</h2>
+  <% } %>
+
+  fs.readdir('./public/images', (err, files) => {
+    if (err) {
+      console.log(err);
+    } else {
+      res.render('index', { title: "File Metadata Microservice", files: files });
+    }
+  });  
+
+

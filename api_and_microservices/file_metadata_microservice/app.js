@@ -14,7 +14,6 @@ const GridFsStorage = require('multer-gridfs-storage');
 const Grid = require('gridfs-stream');
 
 var indexRouter = require('./routes/index');
-var usersRouter = require('./routes/users');
 var uploadRouter = require('./routes/upload');
 
 const conn = mongoose.createConnection(process.env.dbURI, {
@@ -66,8 +65,14 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use('/', indexRouter);
-app.use('/users', usersRouter);
+app.get('/', (req, res, next) => {
+  gfs.find({})
+    .toArray((err, files) => {
+      if (err) console.log(err);
+      console.log(files);
+      res.render('index', { title: "File Metadata Microservice", data: files });
+    });
+});
 app.get('/download', (req, res, next) => {
   console.log(req.query.filename);
   gfs.openDownloadStreamByName(req.query.filename).pipe(fs.createWriteStream('./public/images/' + req.query.filename));
