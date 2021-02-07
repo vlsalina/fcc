@@ -40,6 +40,14 @@
     <input type="submit" value="Submit">
   </form><br><br>
 
+  <% if (files.length > 0) { %>
+    <% files.forEach((file) => { %>
+      <a href="/delete/<%= file._id %>"><%= file.filename %></a>
+    <% }); %>
+  <% } else { %>
+    <h2>No images to display.</h2>
+  <% } %>
+
 
 
 </body>

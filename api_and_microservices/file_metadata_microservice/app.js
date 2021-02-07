@@ -70,7 +70,7 @@ app.get('/', (req, res, next) => {
     .toArray((err, files) => {
       if (err) console.log(err);
       console.log(files);
-      res.render('index', { title: "File Metadata Microservice", data: files });
+      res.render('index', { title: "File Metadata Microservice", files: files });
     });
 });
 app.get('/download', (req, res, next) => {
@@ -87,13 +87,12 @@ app.post('/upload', upload.single('file'), (req, res, next) => {
     res.redirect('/');
   }
 });
-app.get('/delete', (req, res, next) => {
-  console.log(req.query.filename);
-  gfs.delete(new mongoose.Types.ObjectId(req.query.id), (err, data) => {
+app.get('/delete/:file', (req, res, next) => {
+  console.log(req.params.file);
+  gfs.delete(new mongoose.Types.ObjectId(req.params.file), (err, data) => {
     if (err) {
       console.log(err);
     }
-
     res.redirect('/');
   });
 });
