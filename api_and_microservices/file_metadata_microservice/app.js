@@ -73,9 +73,10 @@ app.get('/', (req, res, next) => {
       res.render('index', { title: "File Metadata Microservice", files: files });
     });
 });
-app.get('/download', (req, res, next) => {
-  console.log(req.query.filename);
-  gfs.openDownloadStreamByName(req.query.filename).pipe(fs.createWriteStream('./public/images/' + req.query.filename));
+app.get('/download/:file', (req, res, next) => {
+  //console.log(req.query.filename);
+  console.log(req.params.file);
+  gfs.openDownloadStreamByName(req.params.file).pipe(fs.createWriteStream('./public/images/' + req.params.file));
   res.redirect('/');
 });
 app.post('/upload', upload.array('files', 5), (req, res, next) => {
@@ -87,13 +88,16 @@ app.post('/upload', upload.array('files', 5), (req, res, next) => {
     res.redirect('/');
   }
 });
-app.get('/delete/:file', (req, res, next) => {
-  console.log(req.params.file);
-  gfs.delete(new mongoose.Types.ObjectId(req.params.file), (err, data) => {
+app.get('/delete/:id/:filename', (req, res, next) => {
+  console.log(req.params.filename);
+  gfs.delete(new mongoose.Types.ObjectId(req.params.id), (err, data) => {
     if (err) {
       console.log(err);
     }
-    res.redirect('/');
+    fs.unlink('./public/images/' + req.params.filename, (err) => { 
+      if (err) console.log(err);
+      res.redirect('/');
+    });
   });
 });
 app.get('/find', (req, res, next) => {

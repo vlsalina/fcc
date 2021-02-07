@@ -22,6 +22,7 @@
     <input type="submit" value="Submit">
   </form><br><br>
 
+   <!--
    <h3>Choose a file to delete:</h3>
    <form action="/delete" method="GET">
     <label for="id">file ID:</label><br>
@@ -30,6 +31,7 @@
     <input type="text" id="filename" name="filename" value=""><br>
     <input type="submit" value="Submit">
   </form><br><br>
+  -->
 
    <h3>Choose a file to find:</h3>
    <form action="/find" method="GET">
@@ -40,15 +42,16 @@
     <input type="submit" value="Submit">
   </form><br><br>
 
+  <h3>Files currently in database:</h3>
   <% if (files.length > 0) { %>
     <% files.forEach((file) => { %>
-      <a href="/delete/<%= file._id %>"><%= file.filename %></a><br>
+      <a href="/download/<%= file.filename %>"><%= file.filename %></a>
+      <a href="/delete/<%= file._id %>/<%= file.filename %>">Delete</a>
+      <br>
     <% }); %>
   <% } else { %>
-    <h2>No images to display.</h2>
+    <h2>No files uploaded.</h2>
   <% } %>
-
-
 
 </body>
 </html>
