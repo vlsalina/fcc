@@ -4,23 +4,20 @@
   <h1><%= title %></h1>
 
   <br>
-  <h3>Choose a file to upload:</h3>
+  <h3>Choose file(s) to upload:</h3>
   <form action="/upload" method="POST" enctype="multipart/form-data">
-    <label for="title">Title:</label><br>
-    <input type="text" id="title" name="title" value=""><br>
-    <label for="desc">Description:</label><br>
-    <input type="text" id="desc" name="desc" value=""><br>
-    <label for="files">Upload:</label><br>
     <input type="file" id="files" name="files" value="" multiple><br><br>
     <input type="submit" value="Submit">
   </form><br><br>
 
+   <!--
    <h3>Choose a file to download:</h3>
    <form action="/download" method="GET">
     <label for="filename">file name:</label><br>
     <input type="text" id="filename" name="filename" value=""><br>
     <input type="submit" value="Submit">
   </form><br><br>
+    -->
 
    <!--
    <h3>Choose a file to delete:</h3>
@@ -42,7 +39,7 @@
     <input type="submit" value="Submit">
   </form><br><br>
 
-  <h3>Files currently in database:</h3>
+  <h3>Files currently in database (click to download):</h3>
   <% if (files.length > 0) { %>
     <% files.forEach((file) => { %>
       <a href="/download/<%= file.filename %>"><%= file.filename %></a>

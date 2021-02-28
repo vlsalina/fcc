@@ -79,7 +79,7 @@ app.get('/download/:file', (req, res, next) => {
   gfs.openDownloadStreamByName(req.params.file).pipe(fs.createWriteStream('./public/images/' + req.params.file));
   res.redirect('/');
 });
-app.post('/upload', upload.array('files', 5), (req, res, next) => {
+app.post('/upload', upload.array('files', 100), (req, res, next) => {
   if (req.files) {
     console.log({ file: req.files });
     res.redirect('/');
