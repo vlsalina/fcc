@@ -1,0 +1,31 @@
+function addTogether() {
+
+  function checkNum(num) {
+    return (typeof num != 'number') ? undefined : true;
+  }
+
+  if (arguments.length == 2) {
+     if (checkNum(arguments[0]) && checkNum(arguments[1])) {
+        return arguments[0] + arguments[1];
+     } else {
+        return undefined;
+     }     
+  } else if (arguments.length == 1) {
+     if (checkNum(arguments[0])) {
+        let n = arguments[0]; 
+
+        return function(args) {
+          if (checkNum(args)) {
+            return n + args;
+          } else { 
+            return undefined;
+          }
+        }       
+     } else {
+        return undefined;
+     }
+  } 
+
+}
+
+addTogether(2)(3);

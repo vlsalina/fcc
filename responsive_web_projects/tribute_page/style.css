@@ -1,0 +1,49 @@
+* {
+  box-sizing: border-box;
+}
+
+#title { grid-area: header; }
+#img-div {grid-area: image; }
+#tribute-info {grid-area: info; }
+#conclusion { grid-area: conclusion; }
+#footer {grid-area: footer; }
+
+#main {
+  display: grid;
+  grid-template-areas:
+    'header header header header'
+    'image image image image'
+    '. info info .'
+    '. conclusion conclusion .'
+    'footer footer footer footer';
+  padding: 10px;
+  grid-template-columns: 25% 25% 25% 25%;
+}
+
+#main {
+  background-color: lightgrey;
+}
+
+#title, #img-div, #conclusion, #footer {
+  text-align: center;
+}
+
+#tribute-info #info ul li {
+  padding-bottom: 20px;
+  line-height: 20px;
+  
+}
+
+#tribute-info {
+  padding-top: 20px;
+}
+
+
+#img-div img {
+  background-color: white;
+  max-width: 100%;
+  height: auto;
+  display: block;
+  padding: 20px;
+}
+

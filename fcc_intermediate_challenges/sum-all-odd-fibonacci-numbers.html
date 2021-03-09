@@ -1,0 +1,35 @@
+function sumFibs(num) {
+ let ra =  [];
+ let sum = 0;  
+ let test = 0;
+ 
+ let first = 0;
+ let second = 1;
+
+ while (test <= num) {
+
+   if (second > num) {
+    break;
+   }
+
+   if (second % 2 != 0) {
+     ra.push(second);
+   }
+
+   
+
+   sum = first + second;
+   
+   first = second; 
+   second = sum;
+   
+   test = ra.reduce((sum,ele) => sum += ele, 0); 
+
+ }
+ 
+ let final_sum = ra.reduce((total, ele) => total += ele, 0);
+ 
+ return final_sum;
+}
+
+sumFibs(4);

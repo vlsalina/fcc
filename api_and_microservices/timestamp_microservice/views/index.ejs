@@ -1,0 +1,25 @@
+<html>
+<head>
+</head>
+<body>
+  <form action="/api/timestamp" method="POST" content-type="application/json">
+    <label for="year">Year: </label><br>
+    <input type="number" id="year" name="year" value="2015" required pattern="[0-9]{4}" min="1970"><br>
+    <label for="month">Month: </label><br>
+    <input type="number" id="month" name="month" value="12" required pattern="[0-9]{2}" min="1" max="12"><br>
+    <label for="day">Day: </label><br>
+    <input type="number" id="day" name="day" value="05" required pattern="[0-9]{2}" min="1" max="31"><br>
+    <label>HH-MM-SS: </label><br>
+    <input type="number" id="hh" name="hh" value="00" required pattern="[0-9]{2}" min="0" max="23">
+    <input type="number" id="mm" name="mm" value="00" required pattern="[0-9]{2}" min="0" max="59">
+    <input type="number" id="ss" name="ss" value="00" required pattern="[0-9]{2}" min="0" max="59">
+    <br><br>
+    <input type="submit" value="Submit"><br><br>
+
+    <div>
+      <p>unix: <%= unix %></p>
+      <p>utc: <%= utc %></p>
+    </div>
+  </form>
+</body>
+</html>

@@ -1,0 +1,238 @@
+<!doctype html>
+<html>
+<head>
+<style>
+  body {
+    width: 100%;
+    height: 100%;
+    background-color: steelblue;
+  }
+
+  svg {
+     background-color: pink;
+     position: absolute;
+     top: 50%;
+     left: 50%;
+     transform: translate(-50%,-50%);
+  }
+
+  .bar {
+    fill: steelblue;
+  }
+
+  .highlight {
+    fill: orange;
+  }
+
+  .recDisplay {
+    fill: white;
+    opacity: 0.4;
+  }
+
+</style>
+    <script src="https://d3js.org/d3.v4.min.js"></script>
+</head>
+<body>
+<script>
+
+  var margin = 200;
+  var svg_width = 1700;
+  var svg_height = 800;
+  var width = svg_width - 2 * margin;
+  var height = svg_height - 2 * margin;
+
+  var svg = d3.select("body")
+            .append("svg")
+            .attr("width", svg_width)
+            .attr("height", svg_height);
+
+  var g = svg.append("g")
+          .attr("transform", "translate(" + margin + "," + margin + ")");
+
+  var div = d3.select("body")
+            .append("div")
+            .style("opacity", 0);
+
+  //var title = d3.select("body")
+  //              .append("h1")
+  //              .html("Doping in Professional Bicycle Racing<br>35 Fastest times up Alpe d'Huez")
+  //              .style("text-align", "center"); 
+
+  g.append("text")
+    .attr("x", width/2)
+    .attr("y", "-2em")
+    .style("text-anchor", "middle")
+    .style("font-size", "2em")
+    .text("Doping in Professional Bicycle Racing");
+
+  g.append("text")
+    .attr("x", width/2)
+    .attr("y", "-1em")
+    .style("text-anchor", "middle")
+    .style("font-size", "1.5em")
+    .text("35 Fastest times up Alpe d'Huez");
+
+  let legend = g.append("g");
+  legend.attr("transform", "translate(" + (width-margin/10) + "," + height/4 + ")");
+
+  let doping = legend.append("g");
+  doping.append("rect")
+        .attr("transform", "translate(" + 5 + "," + 0 + ")")
+        .attr("x", 0)
+        .attr("y", 0)
+        .attr("width", 20)
+        .attr("height", 20)
+        .attr("fill", "red");
+  doping.append("text")
+        .attr("transform", "translate(" + 0 + "," + 20 + ")")
+        .attr("text-anchor", "end")
+        .text("Riders with doping allegations");
+
+  let nonDoping = legend.append("g")
+  nonDoping.append("rect")
+        .attr("transform", "translate(" + 5 + "," + 0 + ")")
+        .attr("x", 0)
+        .attr("y", 23)
+        .attr("width", 20)
+        .attr("height", 20)
+        .attr("fill", "blue");
+  nonDoping.append("text")
+        .attr("transform", "translate(" + 0 + "," + 40 + ")")
+        .attr("text-anchor", "end")
+        .text("No doping allegations");
+
+
+  d3.json("https://raw.githubusercontent.com/freeCodeCamp/ProjectReferenceData/master/cyclist-data.json", function(data) {
+  //console.log(data);
+  //var x = data.map(function(d,i) { return d.Year; });
+    var yValues = data.map(function(d,i) { 
+      var decimal = parseFloat(d.Time.slice(3,5) / 60);
+      return parseInt(d.Time) + decimal;
+    });
+    var years = data.map(function(d,i) {
+      return d.Year;
+    });
+    var times = data.map(function(d,i) {
+      return d.Time;
+    });
+    var crimes = data.map(function(d,i) {
+      return d.Doping;
+    });
+    var names = data.map(function(d,i) {
+      return d.Name;
+    });
+    var nationality = data.map(function(d,i) {
+      return d.Nationality;
+    });
+    console.log(times); 
+
+    // [ year, time(string), crime, time(float) ]
+    let dataset = [];
+    for (let i = 0; i < years.length; i++) {
+      dataset.push([years[i], times[i], crimes[i], yValues[i], names[i], nationality[i]]);
+    }
+
+
+  var formatter = function(d) {
+      let temp = Math.ceil((d % 1) * 60);
+      let seconds = (temp < 10) ? "0" + temp : temp;
+      let minutes = d - d%1;
+      return minutes + ":" + seconds; 
+  
+  };
+
+  var xScale = d3.scaleLinear().range([0, width]);
+      xScale.domain([1993,
+        d3.max(data.map(function(d) {
+        return d.Year;
+      }))]);
+      x = d3.scaleLinear().range([0, width]);
+
+  var yScale = d3.scaleLinear().range([0, height]);
+      yScale.domain([
+        d3.min(dataset.map(function(d,i) { return d[3]; })),
+        d3.max(dataset.map(function(d,i) { return d[3]; }))
+      ]);
+
+  // x axis 
+  g.append("g")
+    .attr("transform", "translate(" + 0 + "," + height + ")")
+    .call(d3.axisBottom(xScale).tickFormat(d3.format('d')));
+
+   g.append("text")
+    .text("Time")
+    .attr("transform", "rotate(-90)")
+    .attr("x", -height/2)
+    .attr("y", "-3.5em");
+
+
+  // y axis 
+  g.append("g")
+    .attr("transform", "translate(" + 0 + "," + 0 + ")")
+    .call(d3.axisLeft(yScale).tickFormat(formatter));
+
+  g.append("text")
+    .text("Year")
+    .attr("x", width/2)
+    .attr("y", height + 50);
+
+
+  // dots 
+  g.selectAll("circle")
+    .data(dataset)
+    .enter().append("circle")
+    .attr("class", "cir")
+    .attr("cx", function(d) { return xScale(d[0]); })
+    .attr("cy", function(d) { return yScale(d[3]); })
+    .attr("r", 5)
+    .attr("fill", function(d) {
+      if (d[2] === "") {
+        return "blue";
+      } else {
+        return "red";
+      }
+    })
+    .on("mouseover", onMouseOver)
+    .on("mouseout", onMouseOut); 
+
+  // onmouseover 
+  function onMouseOver(d, i) {
+
+
+    let x = d3.event.pageX;
+    let y = d3.event.pageY;
+
+    let str =  (d[2] !== "") ? d[4] + ": " + d[5] + "<br>" +
+               "Year: " + d[0] + ", " + "Time: " + d[1] + "<br><br>" +
+               d[2] : d[4] + ": " + d[5] + "<br>" +
+               "Year: " + d[0] + ", " + "Time: " + d[1]; 
+
+    div.style("background-color", "black");
+    div.html(str)
+       .style("opacity", 1)
+       .attr("class", "text")
+       .style("z-index", 1)
+       .style("color", "white")
+       .style("padding", "10px")
+       .style("position", "absolute")
+       .style("left", x + 20 + "px")
+       .style("top", y - 10 + "px")
+       .style("border-radius", "10px");
+  }
+
+
+  // onmouseout 
+  function onMouseOut(d,i) {
+     div.style("opacity", 0);
+    
+  }
+
+}
+);
+  
+ 
+
+
+</script>
+</body>
+</html>

@@ -1,0 +1,33 @@
+<html>
+<head></head>
+<body>
+  <h1><%= title %></h1>
+
+  <form action="/api/exercise/get_logs" method="GET"> 
+    <label for="from">From:</label>
+    <input type="Date" id="from" name="from"><br><br>
+    <label for="to">To:</label>
+    <input type="Date" id="to" name="to"><br><br>
+    <label for="limit">Limit:</label>
+    <input type="number" id="limit" name="limit"><br><br>
+
+    <input type="submit" value="Submit">
+  </form><br><br>
+
+    <ul>
+    <% if (exercises.length > 0) { %>
+      <% for (let i = 0; i < exercises[exercises.length - 1]; i++) { %>
+        <li>
+          <p><%= exercises[i].userId %></p>
+          <p><%= exercises[i].description %></p>
+          <p><%= exercises[i].duration %> mins</p>
+          <p><%= exercises[i].date %></p><br>
+        </li>
+      <% } %>
+    <% } else { %>
+      <h3>No exercises to display.</h3>
+    <% } %>
+    </ul>
+  
+</body>
+</html>

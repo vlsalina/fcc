@@ -1,0 +1,54 @@
+<html>
+<head></head>
+<body>
+  <h1><%= title %></h1>
+
+  <br>
+  <h3>Choose file(s) to upload:</h3>
+  <form action="/upload" method="POST" enctype="multipart/form-data">
+    <input type="file" id="files" name="files" value="" multiple><br><br>
+    <input type="submit" value="Submit">
+  </form><br><br>
+
+   <!--
+   <h3>Choose a file to download:</h3>
+   <form action="/download" method="GET">
+    <label for="filename">file name:</label><br>
+    <input type="text" id="filename" name="filename" value=""><br>
+    <input type="submit" value="Submit">
+  </form><br><br>
+    -->
+
+   <!--
+   <h3>Choose a file to delete:</h3>
+   <form action="/delete" method="GET">
+    <label for="id">file ID:</label><br>
+    <input type="text" id="id" name="id" value=""><br>
+    <label for="filename">file name:</label><br>
+    <input type="text" id="filename" name="filename" value=""><br>
+    <input type="submit" value="Submit">
+  </form><br><br>
+  -->
+
+   <h3>Choose a file to find:</h3>
+   <form action="/find" method="GET">
+    <label for="id">file ID:</label><br>
+    <input type="text" id="id" name="id" value=""><br>
+    <label for="filename">file name:</label><br>
+    <input type="text" id="filename" name="filename" value=""><br>
+    <input type="submit" value="Submit">
+  </form><br><br>
+
+  <h3>Files currently in database (click to download):</h3>
+  <% if (files.length > 0) { %>
+    <% files.forEach((file) => { %>
+      <a href="/download/<%= file.filename %>"><%= file.filename %></a>
+      <a href="/delete/<%= file._id %>/<%= file.filename %>">Delete</a>
+      <br>
+    <% }); %>
+  <% } else { %>
+    <h2>No files uploaded.</h2>
+  <% } %>
+
+</body>
+</html>
