@@ -11,10 +11,6 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 class Square extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {
-      value: ""
-    }
-  
     this.handleClick = this.handleClick.bind(this);
   }
 
@@ -176,13 +172,39 @@ class Game extends React.Component {
   } 
 
   render() {
+    let result = null;
+    result = determineWinner(this.state.array);
+  
     return (
       <div className="App">
+        <div className="status"><h1>{ (result.so_far) ? "And the winner is... " + result.winner + "!" : (this.state.xIsNext) ? "X is next" : "O is next" }</h1></div>
         <Board ra={this.state.array} update={this.handleClick} xIsNext={this.state.xIsNext} next={this.handleNext} history={this.state.history} uHistory={this.updateHistory} curr={this.state.current} uStep={this.updateStep} />
         <History data={this.state.history} returnToStep={this.returnToStep} sStep={this.setStep} />
       </div>
     );
   }
+}
+
+function determineWinner(arr) {
+  let frame = arr.slice()[arr.length - 1];
+  let win_patterns = [
+    [0, 1, 2],
+    [3, 4, 5],
+    [6, 7, 8],
+    [0, 3, 6],
+    [1, 4, 7],
+    [2, 5, 8],
+    [0, 4, 8],
+    [2, 4, 6]
+  ];
+
+  for (let i = 0; i < win_patterns.length; i++) {
+    if(arr[win_patterns[i][0]] && arr[win_patterns[i][0]] == arr[win_patterns[i][1]] && arr[win_patterns[i][1]] == arr[win_patterns[i][2]]) {
+      return {so_far: true, winner: arr[win_patterns[i][0]]};
+    }
+  }
+  return {so_far: false, winner: null};
+
 }
 
 export default Game;
